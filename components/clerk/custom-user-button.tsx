@@ -1,6 +1,7 @@
 "use client";
 
 import { useAuth, UserButton } from "@clerk/nextjs";
+import { Boxes, Gauge, Newspaper } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 
@@ -26,13 +27,23 @@ const CustomUserButton = () => {
                 },
             }}
         >
-            {/* <UserButton.MenuItems>
-                    <UserButton.Action
-                        label="Open chat"
-                        labelIcon={<DotIcon />}
-                        onClick={() => alert("init chat")}
-                    />
-                </UserButton.MenuItems> */}
+            <UserButton.MenuItems>
+                <UserButton.Link
+                    label="Dashboard"
+                    href="/dashboard"
+                    labelIcon={<Gauge className="w-4 h-4" />}
+                />
+                <UserButton.Link
+                    label="My Projects"
+                    href="/dashboard/projects"
+                    labelIcon={<Boxes className="w-4 h-4" />}
+                />
+                <UserButton.Link
+                    label="My Wikis"
+                    href="/dashboard/wikis"
+                    labelIcon={<Newspaper className="w-4 h-4" />}
+                />
+            </UserButton.MenuItems>
         </UserButton>
     );
 };

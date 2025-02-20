@@ -6,6 +6,13 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { SignInButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
@@ -14,15 +21,18 @@ import {
     Boxes,
     LayoutGrid,
     LogIn,
+    Menu,
     Newspaper,
     TrendingUp,
 } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import CustomUserButton from "../clerk/custom-user-button";
 import NotificationButton from "../notification/notification-button";
 import { ThemeToggle } from "../theme/theme-toggle";
 import { Button } from "../ui/button";
+import Anchor from "./anchor";
 
 const links: {
     label: string;
@@ -87,24 +97,55 @@ export async function Navbar() {
 
     return (
         <header className="flex justify-between items-center p-4 max-w-7xl mx-auto w-full">
-            <div>
-                <a href="/" className="flex items-center gap-2">
-                    <Image
-                        src="/images/logo.svg"
-                        className="size-8"
-                        alt="Logo"
-                        width={64}
-                        height={64}
-                    />
-                    <span className="text-2xl font-bold">Modders</span>
-                </a>
+            <div className="flex items-center gap-2 md:hidden">
+                <Sheet>
+                    <SheetTrigger>
+                        <Menu className="h-6 w-6" />
+                    </SheetTrigger>
+                    <SheetContent side="left">
+                        <SheetHeader>
+                            <SheetTitle asChild>
+                                <Logo />
+                            </SheetTitle>
+                            <div>
+                                {links.map((link) => (
+                                    <div key={link.label}>
+                                        <Anchor
+                                            className="w-full justify-start mt-2"
+                                            variant="ghost"
+                                            href={link.path}
+                                        >
+                                            {link.label}
+                                        </Anchor>
+                                        {link.subLinks?.map((subLink) => (
+                                            <Anchor
+                                                className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
+                                                variant="ghost"
+                                                href={subLink.path}
+                                            >
+                                                {subLink.icon}
+                                                {subLink.label}
+                                            </Anchor>
+                                        ))}
+                                    </div>
+                                ))}
+                            </div>
+                        </SheetHeader>
+                    </SheetContent>
+                </Sheet>
             </div>
-            <NavigationMenu>
+            <Logo />
+            <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
                     {links.map((link) => (
                         <NavigationMenuItem key={link.label}>
                             <NavigationMenuTrigger>
-                                {link.label}
+                                <Link
+                                    href={link.path}
+                                    className="text-base font-semibold"
+                                >
+                                    {link.label}
+                                </Link>
                             </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <ul className="grid gap-3 p-6 lg:grid-cols-[.75fr_1fr] text-nowrap">
@@ -176,3 +217,18 @@ const ListItem = React.forwardRef<
     );
 });
 ListItem.displayName = "ListItem";
+
+const Logo = () => {
+    return (
+        <Link href="/" className="flex items-center gap-2">
+            <Image
+                src="/images/logo.svg"
+                className="size-8"
+                alt="Logo"
+                width={64}
+                height={64}
+            />
+            <span className="text-2xl font-bold">Modders</span>
+        </Link>
+    );
+};
