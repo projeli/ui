@@ -1,3 +1,4 @@
+import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 if (process.env.NODE_ENV === "development") {
@@ -43,7 +44,7 @@ const nextConfig: NextConfig = {
                 hostname: "cdn.modrinth.com",
                 port: "",
                 pathname: "/data/**",
-            }
+            },
         ],
     },
     experimental: {
@@ -53,4 +54,8 @@ const nextConfig: NextConfig = {
     },
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+    // Add markdown plugins here, as desired
+});
+
+export default withMDX(nextConfig);

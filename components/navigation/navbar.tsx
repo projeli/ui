@@ -19,16 +19,16 @@ import { auth } from "@clerk/nextjs/server";
 import {
     BadgePlus,
     Boxes,
-    LayoutGrid,
+    CalendarSync,
     LogIn,
     Menu,
     Newspaper,
     TrendingUp,
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import CustomUserButton from "../clerk/custom-user-button";
+import ProjeliLogo from "../logo/projeli-logo";
 import NotificationButton from "../notification/notification-button";
 import { ThemeToggle } from "../theme/theme-toggle";
 import { Button } from "../ui/button";
@@ -53,19 +53,14 @@ const links: {
                 icon: <Boxes className="w-5 h-5" />,
             },
             {
-                label: "Popular Projects",
-                path: "/projects?order=popularity",
-                icon: <TrendingUp className="w-5 h-5" />,
+                label: "Updated Projects",
+                path: "/projects?order=updated",
+                icon: <CalendarSync className="w-5 h-5" />,
             },
             {
                 label: "New Projects",
-                path: "/projects?order=new",
+                path: "/projects?order=published",
                 icon: <BadgePlus className="w-5 h-5" />,
-            },
-            {
-                label: "Project Categories",
-                path: "/projects/categories",
-                icon: <LayoutGrid className="w-5 h-5" />,
             },
         ],
     },
@@ -105,11 +100,11 @@ export async function Navbar() {
                     <SheetContent side="left">
                         <SheetHeader>
                             <SheetTitle asChild>
-                                <Logo />
+                                <ProjeliLogo />
                             </SheetTitle>
                             <div>
-                                {links.map((link) => (
-                                    <div key={link.label}>
+                                {links.map((link, i) => (
+                                    <div key={i}>
                                         <Anchor
                                             className="w-full justify-start mt-2"
                                             variant="ghost"
@@ -117,8 +112,9 @@ export async function Navbar() {
                                         >
                                             {link.label}
                                         </Anchor>
-                                        {link.subLinks?.map((subLink) => (
+                                        {link.subLinks?.map((subLink, j) => (
                                             <Anchor
+                                                key={j}
                                                 className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
                                                 variant="ghost"
                                                 href={subLink.path}
@@ -134,7 +130,7 @@ export async function Navbar() {
                     </SheetContent>
                 </Sheet>
             </div>
-            <Logo />
+            <ProjeliLogo />
             <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
                     {links.map((link) => (
@@ -217,18 +213,3 @@ const ListItem = React.forwardRef<
     );
 });
 ListItem.displayName = "ListItem";
-
-const Logo = () => {
-    return (
-        <Link href="/" className="flex items-center gap-2">
-            <Image
-                src="/images/logo.svg"
-                className="size-8"
-                alt="Logo"
-                width={64}
-                height={64}
-            />
-            <span className="text-2xl font-bold">Modders</span>
-        </Link>
-    );
-};

@@ -1,4 +1,5 @@
 import { Navbar } from "@/components/navigation/navbar";
+import FooterSection from "@/components/sections/footer/default";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
@@ -20,9 +21,9 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-    title: "Modders",
+    title: "Projeli",
     description:
-        "Modders is a platform for modders to share their projects and wiki pages.",
+        "Projeli is a platform for all creators to share their projects and wiki pages.",
 };
 
 export default function RootLayout({
@@ -40,7 +41,7 @@ export default function RootLayout({
         >
             <html lang="en" suppressHydrationWarning>
                 <body
-                    className={`${poppins.style.fontFamily} ${montserrat.style.fontFamily} antialiased`}
+                    className={`${poppins.style.fontFamily} ${montserrat.style.fontFamily} antialiased flex flex-col min-h-screen`}
                 >
                     <ThemeProvider
                         attribute="class"
@@ -49,7 +50,10 @@ export default function RootLayout({
                         disableTransitionOnChange
                     >
                         <Navbar />
-                        {children}
+                        <main className="flex flex-grow flex-col">
+                            {children}
+                        </main>
+                        <FooterSection />
                     </ThemeProvider>
                 </body>
             </html>

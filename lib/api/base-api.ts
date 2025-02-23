@@ -20,7 +20,7 @@ export class BaseApi {
         if (!headers) {
             const { getToken } = await auth();
             const token = await getToken();
-        
+
             config = {
                 ...config,
                 headers: {
@@ -34,5 +34,38 @@ export class BaseApi {
             `${process.env.NEXT_PUBLIC_GATEWAY_URL}/api/${this.service}${url}`,
             config
         );
+    }
+
+    createPathWithQueryParams(
+        path: string,
+        searchParams:
+            | Record<string, string | string[] | number | undefined>
+            | undefined
+    ) {
+        if (!searchParams) {
+            return path;
+        }
+
+        if (Object.keys(searchParams).length === 0) {
+            return path;
+        }
+        const individualSearchParams = Object.entries(searchParams).map(
+            ([key, value]) => {
+                if (value === undefined) {
+                    return "";
+                }
+                if (Array.isArray(value)) {
+                    return value
+                        .filter((x) => x !== undefined)
+                        .map((val) => `${key}=${val}`)
+                        .join("&");
+                }
+                return `${key}=${value}`;
+            }
+        );
+        const searchParamsString = individualSearchParams
+            .filter(Boolean)
+            .join("&");
+        return `${path}?${searchParamsString}`;
     }
 }
