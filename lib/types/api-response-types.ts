@@ -13,7 +13,7 @@ export type PagedApiResponse<T> = {
     message: string;
     errors: Errors;
     page: number;
-    page_size: number;
-    total_count: number;
-    total_pages: number;
+    pageSize: number;
+    totalCount: number;
+    totalPages: number;
 };

@@ -12,11 +12,7 @@ export const createProjectAction: ServerAction = async (
         name: formData.get("name") as string,
         slug: formData.get("slug") as string,
         summary: formData.get("summary") as string,
-        content: formData.get("content") as string,
         category: formData.get("category") as string,
-        tags: formData.getAll("tags") as string[],
-        imageUrl: formData.get("imageUrl") as string,
-        isPublished: formData.get("isPublished") === "on",
     });
 
     if (response.success) {
@@ -24,6 +20,7 @@ export const createProjectAction: ServerAction = async (
     }
 
     return {
+        success: false,
         message: response.message,
         errors: response.errors,
     };

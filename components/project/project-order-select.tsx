@@ -13,11 +13,7 @@ import { CalendarArrowUp, CalendarSync, Target } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 
-export function ProjectOrderSelect({
-  order
-}: {
-  order: string;
-}) {
+export function ProjectOrderSelect({ order }: { order: string }) {
     const name = "order";
 
     const searchParams = useSearchParams();
@@ -35,7 +31,7 @@ export function ProjectOrderSelect({
 
     return (
         <Select defaultValue={order} onValueChange={updateUrl}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="min-w-[180px]">
                 <SelectValue placeholder="Select an order" />
             </SelectTrigger>
             <SelectContent>

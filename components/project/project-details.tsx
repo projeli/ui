@@ -11,7 +11,7 @@ const ProjectDetails = ({ project }: { project: Project }) => {
             <div className="grid mt-4">
                 <div className="flex gap-2">
                     <p className="font-medium">Published:</p>
-                    {project.isPublished ? (
+                    {project.status === "Published" ? (
                         <p className="text-card-foreground/80">
                             {moment(project.publishedAt).format("MMM D, YYYY")}
                         </p>

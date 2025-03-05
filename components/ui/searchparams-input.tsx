@@ -22,7 +22,9 @@ const SearchparamsInput = ({ name, ...props }: SearchparamsInputProps) => {
             } else {
                 params.delete(name);
             }
-            router.push(`${pathname}?${params.toString()}`);
+            router.push(`${pathname}?${params.toString()}`, {
+                scroll: false,
+            });
         }, 500),
         [searchParams, pathname, router]
     );

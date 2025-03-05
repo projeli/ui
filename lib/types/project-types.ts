@@ -7,7 +7,7 @@ export type Project = {
     imageUrl: string;
     category: ProjectCategory;
     tags: ProjectTag[];
-    isPublished: boolean;
+    status: ProjectStatus;
     members: ProjectMember[];
     links: ProjectLink[];
     createdAt: string;
@@ -40,6 +40,8 @@ export type ProjectTag = {
     id: string;
     name: string;
 };
+
+export type ProjectStatus = (typeof projectStatuses)[number];
 
 export const projectCategories: string[] = [
     "Adventure",
@@ -88,4 +90,11 @@ export const projectLinkTypes: string[] = [
     "Documentation",
     "IssueTracker",
     "Social",
+];
+
+export const projectStatuses: string[] = [
+    "Draft",
+    "Review",
+    "Published",
+    "Archived",
 ];

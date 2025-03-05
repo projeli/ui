@@ -22,9 +22,9 @@ const ProjectClearFilters = () => {
 
         // If there are no other params, push just the pathname
         if (params.toString()) {
-            router.push(`${pathname}?${params.toString()}`);
+            router.push(`${pathname}?${params.toString()}`, { scroll: false });
         } else {
-            router.push(pathname);
+            router.push(pathname, { scroll: false });
         }
     };
 

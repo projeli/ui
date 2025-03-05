@@ -1,4 +1,3 @@
-import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 if (process.env.NODE_ENV === "development") {
@@ -51,11 +50,8 @@ const nextConfig: NextConfig = {
         serverActions: {
             bodySizeLimit: "5mb",
         },
+        authInterrupts: true,
     },
 };
 
-const withMDX = createMDX({
-    // Add markdown plugins here, as desired
-});
-
-export default withMDX(nextConfig);
+export default nextConfig;

@@ -1,12 +1,31 @@
 import { Project } from "@/lib/types/project-types";
+import { cn } from "@/lib/utils";
 import { FileQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-const ProjectImage = ({ project }: { project: Project }) => {
+type ProjectImageProps = {
+    project: Project;
+    href: string;
+    size?: "sm" | "md" | "lg";
+};
+
+const ProjectImage = ({ project, href, size = "lg" }: ProjectImageProps) => {
+    const sizeClasses = {
+        sm: "size-12 rounded-sm",
+        md: "size-16 rounded-md",
+        lg: "size-24 rounded-lg",
+    };
+
+    const halfSizeClasses = {
+        sm: "size-6",
+        md: "size-8",
+        lg: "size-12",
+    };
+
     return (
-        <div className="size-24 rounded-lg overflow-hidden">
-            <Link href={`/projects/${project.slug}`}>
+        <div className={cn("overflow-hidden", sizeClasses[size])}>
+            <Link href={`${href}/${project.slug}`}>
                 {project.imageUrl && isValidURL(project.imageUrl) ? (
                     <Image
                         src={project.imageUrl}
@@ -15,8 +34,18 @@ const ProjectImage = ({ project }: { project: Project }) => {
                         height={96}
                     />
                 ) : (
-                    <div className="size-24 bg-muted flex items-center justify-center">
-                        <FileQuestion className="size-12 text-muted-foreground" />
+                    <div
+                        className={cn(
+                            "bg-muted flex items-center justify-center",
+                            sizeClasses[size]
+                        )}
+                    >
+                        <FileQuestion
+                            className={cn(
+                                "text-muted-foreground",
+                                halfSizeClasses[size]
+                            )}
+                        />
                     </div>
                 )}
             </Link>

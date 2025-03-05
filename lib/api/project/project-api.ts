@@ -1,4 +1,4 @@
-import { ApiResponse } from "@/lib/types/api-response-types";
+import { ApiResponse, PagedApiResponse } from "@/lib/types/api-response-types";
 import { Project } from "@/lib/types/project-types";
 import { BaseApi } from "../base-api";
 
@@ -15,12 +15,10 @@ export class ProjectApi extends BaseApi {
         page?: string;
         pageSize?: string;
         userId?: string;
-    }): Promise<Project[]> {
+    }): Promise<PagedApiResponse<Project>> {
         return this.fetchService(
             this.createPathWithQueryParams("/v1/projects", searchParams)
-        )
-            .then((res) => res.json())
-            .then((res) => res.data);
+        ).then((res) => res.json());
     }
 
     async getById(id: string): Promise<Project> {
@@ -38,12 +36,8 @@ export class ProjectApi extends BaseApi {
     async create(data: {
         name: string;
         slug: string;
-        summary?: string;
-        content?: string;
+        summary: string;
         category: string;
-        tags?: string[];
-        imageUrl?: string;
-        isPublished: boolean;
     }): Promise<ApiResponse<Project>> {
         return this.fetchService("/v1/projects", {
             method: "POST",
@@ -53,11 +47,45 @@ export class ProjectApi extends BaseApi {
             .catch((error) => error.json());
     }
 
-    async updateProject(id: string, data: { name: string }) {
-        return this.fetchService(`/v1/projects/${id}`, {
+    async updateDetails(
+        id: string,
+        data: {
+            name: string;
+            slug: string;
+            summary?: string;
+            category: string;
+        }
+    ): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/details`, {
             method: "PUT",
             body: JSON.stringify(data),
-        });
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
+    }
+
+    async updateDescription(
+        id: string,
+        content: string
+    ): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/content`, {
+            method: "PUT",
+            body: JSON.stringify({ content }),
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
+    }
+
+    async updateTags(
+        id: string,
+        tags: string[]
+    ): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/tags`, {
+            method: "PUT",
+            body: JSON.stringify({ tags }),
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
     }
 
     async deleteProject(id: string) {

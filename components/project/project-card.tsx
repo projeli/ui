@@ -1,5 +1,6 @@
 import { Project } from "@/lib/types/project-types";
 import Link from "next/link";
+import NotPublishedBanner from "../banner/not-published-banner";
 import { Card } from "../ui/card";
 import ProjectImage from "./project-image";
 import ProjectTags from "./project-tags";
@@ -7,16 +8,17 @@ import ProjectTags from "./project-tags";
 type ProjectCardProps = {
     project: Project;
     layout: "grid" | "list";
+    href: string;
 };
 
-const ProjectCard = ({ project, layout }: ProjectCardProps) => {
+const ProjectCard = ({ project, layout, href }: ProjectCardProps) => {
     if (layout === "grid") {
         return (
             <Card className="flex flex-col overflow-hidden justify-between">
                 <div className="p-6 flex flex-col gap-2">
                     <div className="grid grid-cols-[96px,minmax(0,1fr)] gap-2">
-                        <ProjectImage project={project} />
-                        <Link href={`/projects/${project.slug}`}>
+                        <ProjectImage project={project} href={href} />
+                        <Link href={`${href}/${project.slug}`}>
                             <h3 className="text-xl font-semibold hover:underline break-words">
                                 {project.name}
                             </h3>
@@ -27,11 +29,11 @@ const ProjectCard = ({ project, layout }: ProjectCardProps) => {
                     </div>
                     <ProjectTags project={project} />
                 </div>
-                {!project.isPublished && (
-                    <div className="bg-destructive text-destructive-foreground px-6 py-2 text-xs font-semibold">
-                        Only visible to members (unpublished)
-                    </div>
-                )}
+                <NotPublishedBanner
+                    predicate={!(project.status === "Published")}
+                    title="Only visible to members (unpublished)"
+                    size="sm"
+                />
             </Card>
         );
     }
@@ -40,9 +42,9 @@ const ProjectCard = ({ project, layout }: ProjectCardProps) => {
     return (
         <Card className="flex flex-col overflow-hidden">
             <div className="flex p-4 gap-4">
-                <ProjectImage project={project} />
+                <ProjectImage project={project} href={href} />
                 <div className="flex-1 flex flex-col gap-2">
-                    <Link href={`/projects/${project.slug}`}>
+                    <Link href={`${href}/${project.slug}`}>
                         <h3 className="text-xl font-semibold hover:underline break-words">
                             {project.name}
                         </h3>
@@ -53,11 +55,11 @@ const ProjectCard = ({ project, layout }: ProjectCardProps) => {
                     <ProjectTags project={project} />
                 </div>
             </div>
-            {!project.isPublished && (
-                <div className="bg-destructive text-destructive-foreground px-4 py-2 text-xs font-semibold">
-                    Only visible to members (unpublished)
-                </div>
-            )}
+            <NotPublishedBanner
+                predicate={!(project.status === "Published")}
+                title="Only visible to members (unpublished)"
+                size="sm"
+            />
         </Card>
     );
 };

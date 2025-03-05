@@ -1,111 +1,17 @@
-pre code.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 2em;
+.markdown-body * {
+    @apply text-foreground/80 dark:text-foreground/70;
 }
-code.hljs {
-    padding: 3px 5px;
+
+.markdown-body strong {
+    @apply !text-foreground;
 }
-.hljs {
-    color: #adbac7;
-    background: #232b46;
-    border-radius: var(--radius);
-    border: 2px solid oklch(var(--bc) / 0.2);
+
+.markdown-body ul {
+    list-style-type: disc;
 }
-.hljs-doctag,
-.hljs-keyword,
-.hljs-meta .hljs-keyword,
-.hljs-template-tag,
-.hljs-template-variable,
-.hljs-type,
-.hljs-variable.language_ {
-    /* prettylights-syntax-keyword */
-    color: #f47067;
-}
-.hljs-title,
-.hljs-title.class_,
-.hljs-title.class_.inherited__,
-.hljs-title.function_ {
-    /* prettylights-syntax-entity */
-    color: #dcbdfb;
-}
-.hljs-attr,
-.hljs-attribute,
-.hljs-literal,
-.hljs-meta,
-.hljs-number,
-.hljs-operator,
-.hljs-variable,
-.hljs-selector-attr,
-.hljs-selector-class,
-.hljs-selector-id {
-    /* prettylights-syntax-constant */
-    color: #6cb6ff;
-}
-.hljs-regexp,
-.hljs-string,
-.hljs-meta .hljs-string {
-    /* prettylights-syntax-string */
-    color: #96d0ff;
-}
-.hljs-built_in,
-.hljs-symbol {
-    /* prettylights-syntax-variable */
-    color: #f69d50;
-}
-.hljs-comment,
-.hljs-code,
-.hljs-formula {
-    /* prettylights-syntax-comment */
-    color: #768390;
-}
-.hljs-name,
-.hljs-quote,
-.hljs-selector-tag,
-.hljs-selector-pseudo {
-    /* prettylights-syntax-entity-tag */
-    color: #8ddb8c;
-}
-.hljs-subst {
-    /* prettylights-syntax-storage-modifier-import */
-    color: #adbac7;
-}
-.hljs-section {
-    /* prettylights-syntax-markup-heading */
-    color: #316dca;
-    font-weight: bold;
-}
-.hljs-bullet {
-    /* prettylights-syntax-markup-list */
-    color: #eac55f;
-}
-.hljs-emphasis {
-    /* prettylights-syntax-markup-italic */
-    color: #adbac7;
-    font-style: italic;
-}
-.hljs-strong {
-    /* prettylights-syntax-markup-bold */
-    color: #adbac7;
-    font-weight: bold;
-}
-.hljs-addition {
-    /* prettylights-syntax-markup-inserted */
-    color: #b4f1b4;
-    background-color: #1b4721;
-}
-.hljs-deletion {
-    /* prettylights-syntax-markup-deleted */
-    color: #ffd8d3;
-    background-color: #78191b;
-}
-.hljs-char.escape_,
-.hljs-link,
-.hljs-params,
-.hljs-property,
-.hljs-punctuation,
-.hljs-tag {
-    /* purposely ignored */
+
+.markdown-body ol {
+    list-style-type: decimal;
 }
 
 .markdown-body .octicon {
@@ -175,11 +81,6 @@ code.hljs {
     border-bottom: 1px solid hsl(var(--border));
 }
 
-.markdown-body mark {
-    background-color: #fff8c5;
-    color: #24292f;
-}
-
 .markdown-body small {
     font-size: 90%;
 }
@@ -212,10 +113,6 @@ code.hljs {
 .markdown-body samp {
     font-family: monospace;
     font-size: 1em;
-}
-
-.markdown-body figure {
-    margin: 1em 40px;
 }
 
 .markdown-body hr {
@@ -293,10 +190,7 @@ code.hljs {
 
 .markdown-body table {
     border-spacing: 0;
-    display: block;
-    width: max-content;
-    max-width: 100%;
-    overflow: auto;
+    overflow: hidden;
     border-collapse: separate;
     border: 1px solid hsl(var(--border));
     border-radius: var(--radius);
@@ -374,14 +268,22 @@ code.hljs {
     margin-bottom: 4px;
     font-weight: 600;
     line-height: 1.25;
-    color: var(--selected-text-color);
+    @apply !text-foreground;
+}
+
+.markdown-body h1 a,
+.markdown-body h2 a,
+.markdown-body h3 a,
+.markdown-body h4 a,
+.markdown-body h5 a,
+.markdown-body h6 a {
+    @apply !text-foreground hover:no-underline hover:after:content-['_#'];
 }
 
 .markdown-body h2 {
     font-weight: 600;
     padding-bottom: 0.3em;
     font-size: 1.5em;
-    border-bottom: 1px solid hsl(var(--border));
 }
 
 .markdown-body h3 {
@@ -408,7 +310,6 @@ code.hljs {
 .markdown-body p {
     margin-top: 0;
     margin-bottom: 10px;
-    @apply text-foreground/80;
 }
 
 .markdown-body blockquote {
@@ -453,7 +354,7 @@ code.hljs {
     margin-bottom: 0;
     font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
         Liberation Mono, monospace;
-    font-size: 12px;
+    font-size: 14px;
     word-wrap: normal;
 }
 
@@ -516,7 +417,6 @@ code.hljs {
 .markdown-body ol,
 .markdown-body dl,
 .markdown-body table,
-.markdown-body pre,
 .markdown-body details {
     margin-top: 0;
     margin-bottom: 16px;
@@ -668,12 +568,12 @@ code.hljs {
 }
 
 .markdown-body table tr {
-    background-color: #ffffff;
+    @apply bg-card;
     border-top: 1px solid hsl(var(--border));
 }
 
 .markdown-body table tr:nth-child(2n) {
-    background-color: #f6f8fa;
+    @apply bg-accent dark:bg-background;
 }
 
 .markdown-body table img {
@@ -789,7 +689,6 @@ code.hljs {
     white-space: break-spaces;
     background-color: rgba(175, 184, 193, 0.2);
     border-radius: var(--radius);
-    color: var(--selected-text-color);
 }
 
 .markdown-body del code {
@@ -1073,4 +972,86 @@ code.hljs {
 
 .markdown-body > p > img {
     border-radius: var(--radius);
+}
+
+.markdown-body {
+    @apply max-w-full overflow-hidden;
+}
+
+.markdown-body code:not([data-theme]) {
+    @apply rounded-[0.5rem] whitespace-break-spaces mr-[1px] text-sm bg-accent px-2 py-1;
+}
+
+.markdown-body pre code {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--background)) hsl(var(--accent));
+    @apply text-base py-6 overflow-x-auto w-full bg-accent;
+}
+
+.markdown-body pre:has(code) {
+    overflow: hidden;
+}
+
+.markdown-body pre [data-line] {
+    padding: 0 2rem;
+    @apply text-nowrap;
+}
+
+.markdown-body code[data-line-numbers] {
+    counter-reset: line; /* Initialize the counter named "line" */
+}
+
+.markdown-body code[data-line-numbers] > [data-line]::before {
+    counter-increment: line; /* Increment the counter for each line */
+    content: counter(line); /* Display the current counter value */
+    @apply inline-block w-4 mr-4 text-right text-gray-500;
+}
+
+.markdown-body pre [data-line] {
+    @apply px-4 border-l-4 border-l-transparent;
+}
+
+.markdown-body [data-highlighted-line] {
+    @apply bg-secondary/20 !border-l-secondary;
+}
+
+.markdown-body [data-highlighted-chars] {
+    @apply bg-secondary/20 rounded;
+    box-shadow: 0 0 0 3px hsl(var(--secondary) / 0.2);
+}
+
+.markdown-body [data-chars-id] {
+    @apply shadow-none p-1 border-b-2;
+}
+
+.markdown-body [data-chars-id] span {
+    @apply !text-inherit;
+}
+
+.markdown-body [data-chars-id="v"] {
+    @apply !text-pink-300 bg-rose-800/50 border-b-pink-600 font-bold;
+}
+
+.markdown-body [data-chars-id="s"] {
+    @apply !text-yellow-300 bg-yellow-800/50 border-b-yellow-600 font-bold;
+}
+
+.markdown-body [data-chars-id="i"] {
+    @apply !text-purple-200 bg-purple-800/50 border-b-purple-600 font-bold;
+}
+
+.markdown-body [data-rehype-pretty-code-title] {
+    @apply bg-card text-zinc-200 py-2 px-3 font-semibold text-sm;
+}
+
+.markdown-body figure {
+    @apply mb-6 mt-1 rounded-lg overflow-hidden border border-border shadow-sm;
+}
+
+.markdown-body figure figcaption {
+    @apply !text-card-foreground;
+}
+
+.markdown-body figure > pre > code > span {
+    @apply saturate-[1.3];
 }

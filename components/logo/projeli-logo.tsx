@@ -13,10 +13,12 @@ const ProjeliLogo = () => {
             />
             <span className="text-2xl font-bold">
                 Projeli
-                <span className="text-sm text-primary">.com</span>
+                <span className="text-sm text-primary hidden sm:inline">
+                    .com
+                </span>
             </span>
         </Link>
     );
-}
+};
 
 export default ProjeliLogo;

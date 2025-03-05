@@ -31,7 +31,7 @@ export function ProjectPageSizeSelect({ pageSize }: { pageSize: string }) {
 
     return (
         <Select defaultValue={pageSize} onValueChange={updateUrl}>
-            <SelectTrigger className="w-[90px]">
+            <SelectTrigger className="min-w-[90px]">
                 <SelectValue placeholder="Select an order" />
             </SelectTrigger>
             <SelectContent>

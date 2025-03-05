@@ -1,58 +1,88 @@
 "use client";
 
 import { projectCategories } from "@/lib/types/project-types";
-import { cn } from "@/lib/utils";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "../ui/accordion";
-import { Card } from "../ui/card";
+import { Button } from "../ui/button";
 import SearchparamsCheckbox from "../ui/searchparams-checkbox";
 import ProjectCategory from "./project-category";
 
 type ProjectCategoriesProps = React.ComponentProps<"div"> & {
-    categories: string[];
+    defaultOpen?: boolean;
 };
 
 const ProjectCategories = ({
-    categories: initialCategories,
-    className,
+    defaultOpen = false,
     ...props
 }: ProjectCategoriesProps) => {
     const searchParams = useSearchParams();
-    const [selectedCategories, setSelectedCategories] =
-        useState<string[]>(initialCategories);
+    const [isOpen, setIsOpen] = useState(
+        defaultOpen || !!searchParams.get("categories")
+    );
+    const [isFirstRender, setIsFirstRender] = useState(true);
 
+    // Track first render
     useEffect(() => {
-        const categoriesFromParams =
-            searchParams.get("categories")?.split(",") || [];
-        setSelectedCategories(categoriesFromParams);
-    }, [searchParams]);
+        setIsFirstRender(false);
+    }, []);
 
-    const handleCheckboxChange = (category: string, checked: boolean) => {
-        const newCategories = checked
-            ? [...selectedCategories, category]
-            : selectedCategories.filter((c) => c !== category);
-        setSelectedCategories(newCategories);
+    const toggleCategories = () => {
+        setIsOpen(!isOpen);
+    };
+
+    const variants = {
+        open: {
+            opacity: 1,
+            height: "auto",
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+            },
+        },
+        closed: {
+            opacity: 0,
+            height: 0,
+            transition: {
+                duration: 0.3,
+                ease: "easeInOut",
+            },
+        },
     };
 
     return (
-        <Card className={cn("p-6", className)} {...props}>
-            <Accordion
-                type="single"
-                collapsible
-                className="w-full"
-                defaultValue="categories"
-            >
-                <AccordionItem value="categories" className="border-b-0">
-                    <AccordionTrigger className="text-xl font-semibold p-0">
-                        Categories
-                    </AccordionTrigger>
-                    <AccordionContent>
+        <div {...props}>
+            <div className="flex items-center justify-between">
+                <h2 className="text-lg font-semibold">Categories</h2>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={toggleCategories}
+                    className="flex items-center gap-2"
+                >
+                    {isOpen ? (
+                        <>
+                            Hide <ChevronUp className="h-4 w-4" />
+                        </>
+                    ) : (
+                        <>
+                            View all <ChevronDown className="h-4 w-4" />
+                        </>
+                    )}
+                </Button>
+            </div>
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div
+                        variants={variants}
+                        initial={
+                            defaultOpen && isFirstRender ? "open" : "closed"
+                        }
+                        animate="open"
+                        exit="closed"
+                        className="overflow-hidden"
+                    >
                         <div className="grid gap-2 mt-2">
                             {projectCategories.map((category) => (
                                 <SearchparamsCheckbox
@@ -65,22 +95,16 @@ const ProjectCategories = ({
                                     }
                                     name="categories"
                                     value={category}
-                                    checked={selectedCategories.includes(
-                                        category
-                                    )}
-                                    onCheckedChange={(checked) =>
-                                        handleCheckboxChange(
-                                            category,
-                                            checked as boolean
-                                        )
-                                    }
+                                    checked={searchParams
+                                        .getAll("categories")
+                                        .includes(category)}
                                 />
                             ))}
                         </div>
-                    </AccordionContent>
-                </AccordionItem>
-            </Accordion>
-        </Card>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
     );
 };
 

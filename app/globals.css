@@ -24,15 +24,17 @@ body {
         --popover: 0 0% 100%;
         --popover-foreground: 222.2 84% 4.9%;
         --primary: 221 90% 44%;
-        --primary-foreground: 210 40% 98%;
+        --primary-foreground: 0 0% 100%;
         --secondary: 191 90% 44%;
         --secondary-foreground: 210 40% 98%;
         --muted: 240 5.9% 90%;
         --muted-foreground: 215.4 16.3% 46.9%;
         --accent: 240 4.8% 95.9%;
         --accent-foreground: 222.2 47.4% 11.2%;
-        --destructive: 0 84.2% 60.2%;
+        --destructive: 0 75% 50%;
         --destructive-foreground: 0 0% 100%;
+        --success: 118 65% 40%;
+        --success-foreground: 0 0% 100%;
         --border: 240 5.9% 90%;
         --input: 240 5.9% 90%;
         --ring: 221 90% 44%;
@@ -59,8 +61,10 @@ body {
         --muted-foreground: 215 20.2% 65.1%;
         --accent: 226 33% 21%;
         --accent-foreground: 210 40% 98%;
-        --destructive: 0 62.8% 30.6%;
-        --destructive-foreground: 210 40% 98%;
+        --destructive: 0 74% 33%;
+        --destructive-foreground: 0 20% 90%;
+        --success: 127 66% 25%;
+        --success-foreground: 170 20% 85%;
         --border: 226 33% 21%;
         --input: 226 33% 21%;
         --ring: 224.3 76.3% 48%;
@@ -198,7 +202,7 @@ button[data-localization-key="userProfile.start.dangerSection.deleteAccountButto
 .cl-profileSectionPrimaryButton,
 .cl-accordionTriggerButton,
 .cl-navbarButton {
-    @apply hover:bg-muted text-accent-foreground hover:text-accent-foreground
+    @apply hover:bg-muted text-accent-foreground hover:text-accent-foreground;
 }
 
 .cl-card {

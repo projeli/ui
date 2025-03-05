@@ -30,7 +30,9 @@ const SearchparamsCheckbox = ({
             } else {
                 params.delete(name, value as string);
             }
-            router.push(`${pathname}?${params.toString()}`);
+            router.push(`${pathname}?${params.toString()}`, {
+                scroll: false,
+            });
         },
         [searchParams, pathname, router]
     );
