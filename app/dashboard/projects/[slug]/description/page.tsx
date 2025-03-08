@@ -5,7 +5,7 @@ import {
     Breadcrumbs,
     withDashboardProject,
 } from "@/components/notification/breadcrumbs";
-import ProjectUpdateDescriptionForm from "@/components/project/project-update-description-form";
+import ProjectUpdateDescriptionForm from "@/components/project/project-update-content-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, unauthorized } from "next/navigation";

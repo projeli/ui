@@ -49,9 +49,7 @@ const DashboardNavigation = ({ titleClassName }: DashboardNavigationProps) => {
                     href="/dashboard/projects"
                     className="justify-start"
                     variant={
-                        pathname === "/dashboard/projects"
-                            ? "default"
-                            : "ghost"
+                        pathname === "/dashboard/projects" ? "default" : "ghost"
                     }
                 >
                     <Boxes className="size-4" />

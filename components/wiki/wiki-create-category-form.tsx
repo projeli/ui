@@ -2,41 +2,38 @@
 
 import { createWikiCategoryAction } from "@/actions/wiki/create-wiki-category";
 import { Plus } from "lucide-react";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 import { z } from "zod";
 import SmartForm from "../form/smart-form";
 
 type WikiCreateCategoryFormProps = {
-    projectSlug: string;
     wikiId: string;
+    redirectUrl: string;
 };
 
 const WikiCreateCategoryForm = ({
-    projectSlug,
     wikiId,
+    redirectUrl,
 }: WikiCreateCategoryFormProps) => {
     return (
         <SmartForm
             action={createWikiCategoryAction}
+            onSuccess={() => {
+                redirect(redirectUrl, RedirectType.push);
+            }}
             formSchema={z.object({
-                projectSlug: z.string(),
                 wikiId: z.string(),
                 name: z.string().min(3).max(32),
                 slug: z.string().min(3).max(32),
                 description: z.string(),
             })}
             defaultValues={{
-                projectSlug,
                 wikiId,
                 name: "",
                 slug: "",
                 description: "",
             }}
             inputs={[
-                {
-                    name: "projectSlug",
-                    label: "Project Slug",
-                    type: "hidden",
-                },
                 {
                     name: "wikiId",
                     label: "Wiki ID",
@@ -51,7 +48,7 @@ const WikiCreateCategoryForm = ({
                     name: "slug",
                     label: "URL",
                     type: "prefixed_text",
-                    prefix: `${projectSlug}/wiki/categories/`,
+                    prefix: `categories/`,
                 },
                 {
                     name: "description",

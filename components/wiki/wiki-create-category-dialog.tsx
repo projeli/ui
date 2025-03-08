@@ -13,13 +13,13 @@ import {
 import WikiCreateCategoryForm from "./wiki-create-category-form";
 
 type WikiCreateCategoryDialogProps = {
-    projectSlug: string;
     wikiId: string;
+    redirectUrl: string;
 };
 
 const WikiCreateCategoryDialog = ({
-    projectSlug,
     wikiId,
+    redirectUrl
 }: WikiCreateCategoryDialogProps) => {
     return (
         <Dialog>
@@ -37,8 +37,8 @@ const WikiCreateCategoryDialog = ({
                     </DialogDescription>
                 </DialogHeader>
                 <WikiCreateCategoryForm
-                    projectSlug={projectSlug}
                     wikiId={wikiId}
+                    redirectUrl={redirectUrl}
                 />
             </DialogContent>
         </Dialog>

@@ -28,9 +28,11 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import FormAlert from "./form-alert";
+import { useEffect } from "react";
 
 type SmartFormProps = {
     action: ServerAction;
+    onSuccess?: () => void;
     formSchema: any;
     defaultValues: any;
     inputs: FormElement[];
@@ -43,6 +45,7 @@ type SmartFormProps = {
 
 const SmartForm = ({
     action,
+    onSuccess,
     formSchema,
     defaultValues,
     inputs,
@@ -53,6 +56,12 @@ const SmartForm = ({
         formSchema,
         defaultValues
     );
+
+    useEffect(() => {
+        if (formState.success && onSuccess) {
+            onSuccess();
+        }
+    }, [formState]);
 
     return (
         <Form {...form}>

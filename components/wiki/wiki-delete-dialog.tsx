@@ -69,7 +69,7 @@ const WikiDeleteDialog = ({ project, wiki }: WikiDeleteDialogProps) => {
                             variant="outline"
                             className="grow"
                         >
-                            {isLoading ? <LoadingSpinner /> : <X />}
+                            <X />
                             Cancel
                         </Button>
                     </DialogClose>

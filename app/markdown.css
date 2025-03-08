@@ -573,7 +573,7 @@
 }
 
 .markdown-body table tr:nth-child(2n) {
-    @apply bg-accent dark:bg-background;
+    @apply bg-muted/25;
 }
 
 .markdown-body table img {
@@ -979,13 +979,13 @@
 }
 
 .markdown-body code:not([data-theme]) {
-    @apply rounded-[0.5rem] whitespace-break-spaces mr-[1px] text-sm bg-accent px-2 py-1;
+    @apply rounded-[0.5rem] whitespace-break-spaces mr-[1px] text-sm bg-muted px-2 py-1;
 }
 
 .markdown-body pre code {
     scrollbar-width: thin;
-    scrollbar-color: hsl(var(--background)) hsl(var(--accent));
-    @apply text-base py-6 overflow-x-auto w-full bg-accent;
+    scrollbar-color: hsl(var(--secondary) / 50%) transparent;
+    @apply text-base py-6 overflow-x-auto w-full bg-muted/40 dark:bg-muted;
 }
 
 .markdown-body pre:has(code) {

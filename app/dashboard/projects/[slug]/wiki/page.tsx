@@ -25,18 +25,15 @@ export default async function Page({
     const { slug } = await params;
 
     const { userId } = await auth();
-
     if (!userId) return unauthorized();
 
-    const project = await projectApi.getBySlug(slug);
+    const [project, wiki] = await Promise.all([
+        projectApi.getBySlug(slug),
+        wikiApi.getByProjectSlug(slug),
+    ]);
 
     if (!project) return notFound();
-
-    const wiki = await wikiApi.getByProjectId(project.id);
-
     if (!wiki) return notFound();
-
-    console.log(wiki);
 
     return (
         <PageContainer className="grid gap-6 mt-8">
@@ -60,69 +57,75 @@ export default async function Page({
                             />
                         </Card>
                         {match(wiki)
-                            .with({ status: P.union("Published", "Draft") }, () => (
-                                <>
-                                    <Card className="p-6 h-max grid gap-4">
-                                        <h2 className="text-xl font-semibold pb-4 border-b border-border">
-                                            Recent Activity
-                                        </h2>
-                                    </Card>
-                                    <Card className="p-6 h-max grid gap-4">
-                                        <h2 className="text-xl font-semibold pb-4 border-b border-border">
-                                            Statistics
-                                        </h2>
-                                        <div className="bg-accent rounded-lg p-4 border">
-                                            {project.members.length > 1 ? (
-                                                <>
-                                                    <p className="text-xl font-semibold">
-                                                        {project.members.length}
-                                                    </p>
-                                                    <p className="text-base flex items-center gap-2 opacity-80">
-                                                        Members
-                                                    </p>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <p className="text-xl font-semibold">
-                                                        1
-                                                    </p>
-                                                    <p className="text-base flex items-center gap-2 opacity-80">
-                                                        Member
-                                                    </p>
-                                                </>
-                                            )}
-                                        </div>
-                                        <div className="bg-accent rounded-lg p-4 border">
-                                            {1000 > 1 ? (
-                                                <>
-                                                    <p className="text-xl font-semibold">
-                                                        1000
-                                                    </p>
-                                                    <p className="text-base flex items-center gap-2 opacity-80">
-                                                        Wiki Pages
-                                                    </p>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <p className="text-xl font-semibold">
-                                                        1
-                                                    </p>
-                                                    <p className="text-base flex items-center gap-2 opacity-80">
-                                                        Wiki Page
-                                                    </p>
-                                                </>
-                                            )}
-                                        </div>
-                                        <Anchor
-                                            href={`/dashboard/projects/${project.slug}/analytics`}
-                                            variant="outline"
-                                            className="w-full"
-                                        >
-                                            View analytics
-                                        </Anchor>
-                                    </Card>
-                                </>
-                            ))
+                            .with(
+                                { status: P.union("Published", "Draft") },
+                                () => (
+                                    <>
+                                        <Card className="p-6 h-max grid gap-4">
+                                            <h2 className="text-xl font-semibold pb-4 border-b border-border">
+                                                Recent Activity
+                                            </h2>
+                                        </Card>
+                                        <Card className="p-6 h-max grid gap-4">
+                                            <h2 className="text-xl font-semibold pb-4 border-b border-border">
+                                                Statistics
+                                            </h2>
+                                            <div className="bg-muted rounded-lg p-4 border">
+                                                {project.members.length > 1 ? (
+                                                    <>
+                                                        <p className="text-xl font-semibold">
+                                                            {
+                                                                project.members
+                                                                    .length
+                                                            }
+                                                        </p>
+                                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
+                                                            Members
+                                                        </p>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <p className="text-xl font-semibold">
+                                                            1
+                                                        </p>
+                                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
+                                                            Member
+                                                        </p>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <div className="bg-muted rounded-lg p-4 border">
+                                                {1000 > 1 ? (
+                                                    <>
+                                                        <p className="text-xl font-semibold">
+                                                            1000
+                                                        </p>
+                                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
+                                                            Wiki Pages
+                                                        </p>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <p className="text-xl font-semibold">
+                                                            1
+                                                        </p>
+                                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
+                                                            Wiki Page
+                                                        </p>
+                                                    </>
+                                                )}
+                                            </div>
+                                            <Anchor
+                                                href={`/dashboard/projects/${project.slug}/analytics`}
+                                                variant="outline"
+                                                className="w-full"
+                                            >
+                                                View analytics
+                                            </Anchor>
+                                        </Card>
+                                    </>
+                                )
+                            )
                             .with({ status: "Uncreated" }, () => (
                                 <WikiCreateForm
                                     projectName={project.name}

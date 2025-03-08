@@ -71,7 +71,7 @@ export default async function Page({ params }: Props) {
                     links={withProject(project, [{ label: "Wiki" }])}
                 />
                 <NotPublishedBanner
-                    predicate={!wiki.isPublished}
+                    predicate={wiki.status === "Draft"}
                     title="This wiki is not published and can only be viewed by its members."
                     href={`/dashboard/projects/${project.slug}/wiki`}
                     buttonLabel="Publish Wiki"

@@ -89,7 +89,7 @@ const ProjectCategories = ({
                                     key={category}
                                     label={
                                         <ProjectCategory
-                                            className="text-card-foreground/80"
+                                            className="text-muted-foreground"
                                             category={category}
                                         />
                                     }

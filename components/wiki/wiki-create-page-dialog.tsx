@@ -10,6 +10,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
+import WikiCreatePageForm from "./wiki-create-page-form";
 
 type WikiCreatePageDialogProps = {
     projectSlug: string;
@@ -35,6 +36,10 @@ const WikiCreatePageDialog = ({
                         Create a new page by filling out the form below.
                     </DialogDescription>
                 </DialogHeader>
+                <WikiCreatePageForm
+                    projectSlug={projectSlug}
+                    wikiId={wikiId}
+                />
             </DialogContent>
         </Dialog>
     );

@@ -2,14 +2,11 @@
 
 import { wikiCategoryApi } from "@/lib/api/wiki/wiki-category-api";
 import { FormState, ServerAction } from "@/lib/types/form-types";
-import { redirect } from "next/navigation";
 
 export const createWikiCategoryAction: ServerAction = async (
     currentState: FormState,
     formData: FormData
 ) => {
-    console.log("formData", formData);
-
     const response = await wikiCategoryApi.create(
         formData.get("wikiId") as string,
         {
@@ -19,12 +16,11 @@ export const createWikiCategoryAction: ServerAction = async (
         }
     );
 
-    console.log(response);
-
     if (response.success) {
-        throw redirect(
-            `/dashboard/projects/${formData.get("projectSlug")}/wiki/categories`
-        );
+        return {
+            success: true,
+            message: "Category created successfully.",
+        }
     }
 
     return {

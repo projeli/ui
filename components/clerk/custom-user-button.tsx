@@ -7,10 +7,10 @@ import { Skeleton } from "../ui/skeleton";
 const CustomUserButton = () => {
     return (
         <UserButton
-            fallback={<Skeleton className="h-8 w-8 rounded-full" />}
+            fallback={<Skeleton className="size-8 rounded-full" />}
             appearance={{
                 elements: {
-                    userButtonAvatarBox: "w-8 h-8 rounded-full",
+                    userButtonAvatarBox: "size-8 rounded-full",
                 },
             }}
         >
@@ -19,14 +19,14 @@ const CustomUserButton = () => {
                     label="Dashboard"
                     href="/dashboard"
                     labelIcon={
-                        <Gauge className="w-4 h-4 text-muted-foreground" />
+                        <Gauge className="size-4 text-muted-foreground" />
                     }
                 />
                 <UserButton.Link
                     label="My Projects"
                     href="/dashboard/projects"
                     labelIcon={
-                        <Boxes className="w-4 h-4 text-muted-foreground" />
+                        <Boxes className="size-4 text-muted-foreground" />
                     }
                 />
             </UserButton.MenuItems>

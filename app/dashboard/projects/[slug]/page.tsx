@@ -58,13 +58,13 @@ export default async function Page({
                             <h2 className="text-xl font-semibold pb-4 border-b border-border">
                                 Statistics
                             </h2>
-                            <div className="bg-accent rounded-lg p-4 border">
+                            <div className="bg-muted rounded-lg p-4 border">
                                 {project.members.length > 1 ? (
                                     <>
                                         <p className="text-xl font-semibold">
                                             {project.members.length}
                                         </p>
-                                        <p className="text-base flex items-center gap-2 opacity-80">
+                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
                                             Members
                                         </p>
                                     </>
@@ -73,19 +73,19 @@ export default async function Page({
                                         <p className="text-xl font-semibold">
                                             1
                                         </p>
-                                        <p className="text-base flex items-center gap-2 opacity-80">
+                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
                                             Member
                                         </p>
                                     </>
                                 )}
                             </div>
-                            <div className="bg-accent rounded-lg p-4 border">
+                            <div className="bg-muted rounded-lg p-4 border">
                                 {1000 > 1 ? (
                                     <>
                                         <p className="text-xl font-semibold">
                                             1000
                                         </p>
-                                        <p className="text-base flex items-center gap-2 opacity-80">
+                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
                                             Wiki Pages
                                         </p>
                                     </>
@@ -94,7 +94,7 @@ export default async function Page({
                                         <p className="text-xl font-semibold">
                                             1
                                         </p>
-                                        <p className="text-base flex items-center gap-2 opacity-80">
+                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
                                             Wiki Page
                                         </p>
                                     </>

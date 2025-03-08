@@ -8,8 +8,6 @@ export const updateWikiCategoryAction: ServerAction = async (
     currentState: FormState,
     formData: FormData
 ) => {
-    console.log("formData", formData);
-
     const response = await wikiCategoryApi.update(
         formData.get("wikiId") as string,
         formData.get("id") as string,
@@ -19,8 +17,6 @@ export const updateWikiCategoryAction: ServerAction = async (
             description: formData.get("description") as string,
         }
     );
-
-    console.log(response);
 
     if (response.success) {
         throw redirect(

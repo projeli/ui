@@ -12,17 +12,17 @@ const ProjectDetails = ({ project }: { project: Project }) => {
                 <div className="flex gap-2">
                     <p className="font-medium">Published:</p>
                     {project.status === "Published" ? (
-                        <p className="text-card-foreground/80">
+                        <p className="text-muted-foreground">
                             {moment(project.publishedAt).format("MMM D, YYYY")}
                         </p>
                     ) : (
-                        <p className="text-card-foreground/80">Never</p>
+                        <p className="text-muted-foreground">Never</p>
                     )}
                 </div>
                 {project.updatedAt && (
                     <div className="flex gap-2">
                         <p className="font-medium">Last Updated:</p>
-                        <p className="text-card-foreground/80">
+                        <p className="text-muted-foreground">
                             {moment(project.updatedAt).format("MMM D, YYYY")}
                         </p>
                     </div>

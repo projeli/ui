@@ -45,14 +45,14 @@ export default async function Page({
                         <h2 className="text-xl font-semibold">
                             Project Details
                         </h2>
-                        <p className="opacity-80">
+                        <p className="text-muted-foreground">
                             Update your project details here.
                         </p>
                         <ProjectUpdateDetailsForm project={project} />
                     </Card>
                     <Card className="h-max p-6">
                         <h2 className="text-xl font-semibold">Danger Zone</h2>
-                        <p className="opacity-80">
+                        <p className="text-muted-foreground">
                             Be careful! This action is irreversible.
                         </p>
                         <div className="mt-4">

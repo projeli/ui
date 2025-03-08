@@ -52,7 +52,7 @@ const ProjectsPagination = async ({
     if (projects?.length === 0) {
         return (
             <div className="flex flex-col items-center p-4 gap-2">
-                <p className="opacity-80">No projects found.</p>
+                <p className="text-muted-foreground">No projects found.</p>
                 {page > "1" && (
                     <Anchor href={href} variant="outline" size="sm">
                         Go back

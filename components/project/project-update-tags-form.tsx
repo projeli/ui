@@ -31,13 +31,13 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
                 <Card className="p-6 grid gap-4">
                     <div>
                         <h2 className="text-xl font-semibold">Project Tags</h2>
-                        <p className="opacity-80 text-sm">
+                        <p className="text-muted-foreground text-sm">
                             Tags help you categorize and organize your projects.
                             It's a good idea to add tags that describe the
                             project's purpose, technologies used, and other
                             relevant information.
                         </p>
-                        <p className="opacity-80 text-sm mt-2">
+                        <p className="text-muted-foreground text-sm mt-2">
                             You can add up to 5 tags. Separate tags with commas,
                             spaces or using Enter.
                         </p>

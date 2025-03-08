@@ -14,7 +14,7 @@ const DashboardProjectHeader = ({
     wiki,
 }: DashboardProjectHeaderProps) => {
     return (
-        <div className="flex flex-col gap-2 bg-accent -m-6 p-6 mb-0">
+        <div className="flex flex-col gap-2 bg-muted -m-6 p-6 mb-0">
             <div className="flex gap-2 items-start">
                 <ProjectImage
                     project={project}

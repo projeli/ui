@@ -9,8 +9,10 @@ import {
 import { Card } from "@/components/ui/card";
 import WikiArchiveDialog from "@/components/wiki/wiki-archive-dialog";
 import WikiDeleteDialog from "@/components/wiki/wiki-delete-dialog";
+import WikiUpdateSidebarForm from "@/components/wiki/wiki-update-sidebar-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
+import { wikiPageApi } from "@/lib/api/wiki/wiki-pages-api";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, unauthorized } from "next/navigation";
 
@@ -24,15 +26,15 @@ export default async function Page({
     const { slug } = await params;
 
     const { userId } = await auth();
-
     if (!userId) return unauthorized();
 
-    const project = await projectApi.getBySlug(slug);
+    const [project, wiki, pages] = await Promise.all([
+        projectApi.getBySlug(slug),
+        wikiApi.getByProjectSlug(slug),
+        wikiPageApi.getByProjectSlug(slug),
+    ]);
 
     if (!project) return notFound();
-
-    const wiki = await wikiApi.getByProjectId(project.id);
-
     if (!wiki || !["Published", "Draft"].includes(wiki.status))
         return notFound();
 
@@ -49,22 +51,10 @@ export default async function Page({
                     <DashboardWikiSettingsNavbar projectSlug={project.slug} />
                     <Card className="p-6 h-max grid gap-4">
                         <h2 className="text-xl font-semibold pb-4 border-b">
-                            Settings
+                            Wiki Settings
                         </h2>
                         <div className="grid gap-4">
-                            <div className="grid gap-2">
-                                <div>
-                                    <h3 className="text-lg font-semibold">
-                                        Sidebar
-                                    </h3>
-                                    <p className="text-sm opacity-80">
-                                        Customize the sidebar of this wiki.
-                                    </p>
-                                </div>
-                                <div className="text-secondary font-black">
-                                    Moet nog gemaakt worden.
-                                </div>
-                            </div>
+                            <WikiUpdateSidebarForm wiki={wiki} pages={pages} />
                         </div>
                     </Card>
                     <Card className="p-6 h-max grid gap-4 border-destructive">
@@ -77,7 +67,7 @@ export default async function Page({
                                     <h3 className="text-lg font-semibold">
                                         Archive Wiki
                                     </h3>
-                                    <p className="text-sm opacity-80">
+                                    <p className="text-sm text-muted-foreground">
                                         Archive this wiki to remove it from the
                                         public view.
                                     </p>
@@ -95,7 +85,7 @@ export default async function Page({
                                 <h3 className="text-lg font-semibold">
                                     Delete Wiki
                                 </h3>
-                                <p className="text-sm opacity-80">
+                                <p className="text-sm text-muted-foreground">
                                     Permanently delete this wiki.
                                 </p>
                             </div>

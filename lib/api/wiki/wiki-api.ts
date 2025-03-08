@@ -1,5 +1,5 @@
 import { ApiResponse } from "@/lib/types/api-response-types";
-import { Wiki, WikiStatus } from "@/lib/types/wiki-types";
+import { Wiki, WikiSidebar, WikiStatus } from "@/lib/types/wiki-types";
 import { BaseApi } from "../base-api";
 
 export class WikiApi extends BaseApi {
@@ -9,6 +9,12 @@ export class WikiApi extends BaseApi {
 
     async getByProjectId(projectId: string): Promise<Wiki> {
         return this.fetchService(`/v1/wikis/project/${projectId}`)
+            .then((res) => res.json())
+            .then((res) => res.data);
+    }
+
+    async getByProjectSlug(projectSlug: string): Promise<Wiki> {
+        return this.fetchService(`/v1/wikis/project/${projectSlug}`)
             .then((res) => res.json())
             .then((res) => res.data);
     }
@@ -41,6 +47,16 @@ export class WikiApi extends BaseApi {
                 console.error("error", error);
                 return error.json();
             });
+    }
+
+    async updateSidebar(
+        id: string,
+        sidebar: WikiSidebar
+    ): Promise<ApiResponse<Wiki>> {
+        return this.fetchService(`/v1/wikis/${id}/sidebar`, {
+            method: "PUT",
+            body: JSON.stringify({ sidebar }),
+        }).then((res) => res.json());
     }
 
     async delete(id: string): Promise<ApiResponse<Wiki>> {

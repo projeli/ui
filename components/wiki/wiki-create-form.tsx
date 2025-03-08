@@ -28,11 +28,11 @@ const WikiCreateForm = ({ projectName, wikiId }: WikiCreateFormProps) => {
                 <h2 className="text-xl font-semibold pb-4 border-b border-border">
                     Would you like to start a wiki for {projectName}?
                 </h2>
-                <p className="text-base opacity-80">
+                <p className="text-base text-muted-foreground">
                     A wiki is a collection of pages that your members can edit.
                     It’s a great way to document your project.
                 </p>
-                <p className="text-base opacity-80">
+                <p className="text-base text-muted-foreground">
                     The wiki will show up on the left side of the project page
                     once it is published.
                 </p>

@@ -2,7 +2,7 @@
 
 import { updateWikiCategoryAction } from "@/actions/wiki/update-wiki-category";
 import { WikiCategory } from "@/lib/types/wiki-types";
-import { Plus } from "lucide-react";
+import { Edit, Plus, Save } from "lucide-react";
 import { z } from "zod";
 import SmartForm from "../form/smart-form";
 
@@ -70,8 +70,8 @@ const WikiUpdateCategoryForm = ({
                 },
             ]}
             submitButton={{
-                icon: <Plus />,
-                label: "Edit Category",
+                icon: <Save />,
+                label: "Save Changes",
             }}
         />
     );

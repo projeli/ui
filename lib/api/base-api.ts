@@ -8,7 +8,7 @@ export class BaseApi {
     }
 
     async fetch(url: string, config?: RequestInit) {
-        if (process.env.NODE_ENV === "development") {
+        if (process.env.NODE_ENV === "development" || true) {
             console.log("making request to: ", url);
         }
         return fetch(url, config);
@@ -31,7 +31,7 @@ export class BaseApi {
         }
 
         return this.fetch(
-            `${process.env.NEXT_PUBLIC_GATEWAY_URL}/api/${this.service}${url}`,
+            `${process.env.GATEWAY_URL}/api/${this.service}${url}`,
             config
         );
     }

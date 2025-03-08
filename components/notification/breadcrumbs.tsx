@@ -143,4 +143,9 @@ export const withDashboardWikiSettings = (
     links: readonly Link[]
 ): Link[] => withDashboardWiki(project, [{ label: "Settings", href: `/dashboard/projects/${project.slug}/wiki/settings` }, ...links]);
 
+export const withDashboardWikiPages = (
+    project: { name: string; slug: string },
+    links: readonly Link[]
+): Link[] => withDashboardWiki(project, [{ label: "Pages", href: `/dashboard/projects/${project.slug}/wiki/pages` }, ...links]);
+
 Breadcrumbs.displayName = "Breadcrumbs";

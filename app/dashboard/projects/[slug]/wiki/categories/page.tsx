@@ -13,7 +13,6 @@ import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { wikiCategoryApi } from "@/lib/api/wiki/wiki-category-api";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, unauthorized } from "next/navigation";
-import { Suspense } from "react";
 
 export default async function Page({
     params,
@@ -25,19 +24,17 @@ export default async function Page({
     const { slug } = await params;
 
     const { userId } = await auth();
-
     if (!userId) return unauthorized();
 
-    const project = await projectApi.getBySlug(slug);
+    const [project, wiki, categories] = await Promise.all([
+        projectApi.getBySlug(slug),
+        wikiApi.getByProjectSlug(slug),
+        wikiCategoryApi.getByProjectSlug(slug),
+    ]);
 
     if (!project) return notFound();
-
-    const wiki = await wikiApi.getByProjectId(project.id);
-
     if (!wiki || !["Published", "Draft"].includes(wiki.status))
         return notFound();
-
-    const categories = await wikiCategoryApi.getByWikiId(wiki.id);
 
     return (
         <PageContainer className="grid gap-6 mt-8">
@@ -55,7 +52,7 @@ export default async function Page({
                                 <h2 className="text-xl font-semibold">
                                     Categories
                                 </h2>
-                                <p className="text-sm opacity-80 max-w-xl">
+                                <p className="text-sm text-muted-foreground max-w-xl">
                                     Create and manage categories to organize
                                     your wiki pages. And make them easier to
                                     find and navigate.
@@ -63,8 +60,8 @@ export default async function Page({
                             </div>
                             <div>
                                 <WikiCreateCategoryDialog
-                                    projectSlug={project.slug}
                                     wikiId={wiki.id}
+                                    redirectUrl={`/dashboard/projects/${slug}/wiki/categories`}
                                 />
                             </div>
                         </div>

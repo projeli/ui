@@ -13,6 +13,18 @@ export class WikiCategoryApi extends BaseApi {
             .then((res) => res.data);
     }
 
+    async getByProjectId(projectId: string): Promise<WikiCategory[]> {
+        return this.fetchService(`/v1/wikis/${projectId}/categories/project`)
+            .then((res) => res.json())
+            .then((res) => res.data);
+    }
+
+    async getByProjectSlug(projectSlug: string): Promise<WikiCategory[]> {
+        return this.fetchService(`/v1/wikis/${projectSlug}/categories/project`)
+            .then((res) => res.json())
+            .then((res) => res.data);
+    }
+
     async create(
         wikiId: string,
         data: {

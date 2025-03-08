@@ -52,6 +52,7 @@ const nextConfig: NextConfig = {
         },
         authInterrupts: true,
     },
+    output: "standalone",
 };
 
 export default nextConfig;

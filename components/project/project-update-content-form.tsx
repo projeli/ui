@@ -1,39 +1,36 @@
 "use client";
 
-import { updateProjectDescriptionAction } from "@/actions/project/update-project-description";
+import { updateProjectContentAction } from "@/actions/project/update-project-content";
 import { Project } from "@/lib/types/project-types";
+import { debounce } from "lodash";
 import { Save } from "lucide-react";
 import { useActionState, useEffect, useRef } from "react";
 import FormAlert from "../form/form-alert";
 import MarkdownEditor from "../markdown/markdown-editor";
 import { Button } from "../ui/button";
 import LoadingSpinner from "../ui/loading-spinner";
-import { debounce } from "lodash"; // Add lodash import
 
-type ProjectDescriptionFormProps = {
+type ProjectContentFormProps = {
     project: Project;
 };
 
-const ProjectUpdateDescriptionForm = ({
-    project,
-}: ProjectDescriptionFormProps) => {
+const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
     const [formState, formAction, isLoading] = useActionState(
-        updateProjectDescriptionAction,
+        updateProjectContentAction,
         {}
     );
 
     const submitBtnRef = useRef<HTMLButtonElement>(null);
 
-    // Debounced function to trigger form submission
     const debouncedSubmit = debounce(() => {
         submitBtnRef.current?.click();
-    }, 1000); // 1000ms = 1 second debounce delay
+    }, 1000);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
             if (event.ctrlKey && event.key === "s") {
                 event.preventDefault();
-                if (!isLoading) { // Only trigger if not already loading
+                if (!isLoading) {
                     debouncedSubmit();
                 }
             }
@@ -41,12 +38,11 @@ const ProjectUpdateDescriptionForm = ({
 
         window.addEventListener("keydown", handleKeyDown);
 
-        // Cleanup: remove event listener and cancel pending debounced calls
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
             debouncedSubmit.cancel();
         };
-    }, [isLoading]); // Add isLoading to dependencies
+    }, [isLoading]);
 
     return (
         <div className="grid gap-4">
@@ -60,7 +56,11 @@ const ProjectUpdateDescriptionForm = ({
                     <MarkdownEditor content={project.content} />
                 </div>
                 <div>
-                    <Button variant="default" disabled={isLoading} ref={submitBtnRef}>
+                    <Button
+                        variant="default"
+                        disabled={isLoading}
+                        ref={submitBtnRef}
+                    >
                         {isLoading ? <LoadingSpinner /> : <Save />}
                         Save Changes
                     </Button>

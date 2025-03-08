@@ -1,13 +1,13 @@
 "use server";
 
-import { wikiApi } from "@/lib/api/wiki/wiki-api";
+import { projectApi } from "@/lib/api/project/project-api";
 import { FormState, ServerAction } from "@/lib/types/form-types";
 
-export const updateWikiDescriptionAction: ServerAction = async (
+export const updateProjectContentAction: ServerAction = async (
     currentState: FormState,
     formData: FormData
 ) => {
-    const response = await wikiApi.updateDescription(
+    const response = await projectApi.updateDescription(
         formData.get("id") as string,
         formData.get("content") as string
     );

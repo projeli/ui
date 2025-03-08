@@ -1,21 +1,24 @@
 "use server";
 
-import { projectApi } from "@/lib/api/project/project-api";
+import { wikiPageApi } from "@/lib/api/wiki/wiki-pages-api";
 import { FormState, ServerAction } from "@/lib/types/form-types";
 
-export const updateProjectDescriptionAction: ServerAction = async (
+export const updateWikiPageCategoriesAction: ServerAction = async (
     currentState: FormState,
     formData: FormData
 ) => {
-    const response = await projectApi.updateDescription(
+    const response = await wikiPageApi.updateCategories(
+        formData.get("wikiId") as string,
         formData.get("id") as string,
-        formData.get("content") as string
+        formData.getAll("categories") as string[]
     );
+
+    console.log(response);
 
     if (response.success) {
         return {
             success: true,
-            message: "Description updated successfully",
+            message: "Categories updated successfully",
             errors: {},
         };
     }

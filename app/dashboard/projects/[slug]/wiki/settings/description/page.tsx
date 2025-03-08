@@ -22,16 +22,16 @@ export default async function Page({
     const { slug } = await params;
 
     const { userId } = await auth();
-
     if (!userId) return unauthorized();
 
-    const project = await projectApi.getBySlug(slug);
+    const [project, wiki] = await Promise.all([
+        projectApi.getBySlug(slug),
+        wikiApi.getByProjectSlug(slug),
+    ]);
 
     if (!project) return notFound();
-
-    const wiki = await wikiApi.getByProjectId(project.id);
-
-    if (!wiki || !["Published", "Draft"].includes(wiki.status)) return notFound();
+    if (!wiki || !["Published", "Draft"].includes(wiki.status))
+        return notFound();
 
     return (
         <PageContainer className="grid gap-6 mt-8">

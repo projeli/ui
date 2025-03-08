@@ -12,17 +12,17 @@ const WikiDetails = ({ wiki }: { wiki: Wiki }) => {
                 <div className="flex gap-2">
                     <p className="font-medium">Published:</p>
                     {wiki.status === "Published" ? (
-                        <p className="text-card-foreground/80">
+                        <p className="text-muted-foreground">
                             {moment(wiki.publishedAt).format("MMM D, YYYY")}
                         </p>
                     ) : (
-                        <p className="text-card-foreground/80">Never</p>
+                        <p className="text-muted-foreground">Never</p>
                     )}
                 </div>
                 {wiki.updatedAt && (
                     <div className="flex gap-2">
                         <p className="font-medium">Last Updated:</p>
-                        <p className="text-card-foreground/80">
+                        <p className="text-muted-foreground">
                             {moment(wiki.updatedAt).format("MMM D, YYYY")}
                         </p>
                     </div>

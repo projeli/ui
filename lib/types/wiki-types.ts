@@ -20,13 +20,13 @@ export type WikiConfig = {
 };
 
 export type WikiSidebar = {
-    title: string;
     items: WikiSidebarItem[];
 };
 
 export type WikiSidebarItem = {
+    index: string;
     title: string;
-    href?: string;
+    slug?: string;
     category?: WikiSidebarItem[];
 };
 
@@ -60,7 +60,7 @@ export type WikiPage = {
     title: string;
     slug: string;
     content: string;
-    isPublished: boolean;
+    status: WikiPageStatus;
     createdAt: string;
     updatedAt: string;
     publishedAt: string;
@@ -95,3 +95,7 @@ export const wikiStatuses: string[] = [
     "Published",
     "Archived",
 ];
+
+export type WikiPageStatus = (typeof wikiPageStatuses)[number];
+
+export const wikiPageStatuses: string[] = ["Draft", "Published", "Archived"];

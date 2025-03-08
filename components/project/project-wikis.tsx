@@ -29,7 +29,7 @@ const ProjectWikis = async ({
         return null;
     }
 
-    if (!wiki.isCreated) {
+    if (wiki.status === "Uncreated") {
         const { userId } = await auth();
 
         if (wiki.members.some((member) => member.userId === userId)) {
@@ -55,12 +55,12 @@ const ProjectWikis = async ({
                     <Header projectId={projectId} wiki={wiki} />
                     <div className="grid mt-4">
                         <ul className="grid">
-                            <Item wiki={wiki} title={"Home"} href={""} />
+                            <Item wiki={wiki} title={"Home"} slug={""} />
                         </ul>
                     </div>
                 </div>
                 <NotPublishedBanner
-                    predicate={!wiki.isPublished}
+                    predicate={wiki.status === "Draft"}
                     title="Only visible to members (unpublished)"
                     size="sm"
                 />
@@ -79,7 +79,7 @@ const ProjectWikis = async ({
                                 key={i}
                                 wiki={wiki}
                                 title={item.title}
-                                href={item.href}
+                                slug={item.slug}
                                 category={item.category}
                             />
                         ))}
@@ -87,7 +87,7 @@ const ProjectWikis = async ({
                 </div>
             </div>
             <NotPublishedBanner
-                predicate={!wiki.isPublished}
+                predicate={wiki.status === "Draft"}
                 title="Only visible to members (unpublished)"
                 size="sm"
             />
@@ -95,12 +95,14 @@ const ProjectWikis = async ({
     );
 };
 
-const ListItem = ({
-    wiki,
-    title,
-    href,
-    category,
-}: { wiki: Wiki } & WikiSidebarItem) => {
+type WikiSidebarItemProps = {
+    wiki: Wiki;
+    title: string;
+    slug?: string;
+    category?: WikiSidebarItem[];
+};
+
+const ListItem = ({ wiki, title, slug, category }: WikiSidebarItemProps) => {
     if (category && category.length > 0) {
         return (
             <li className="ml-4">
@@ -113,7 +115,7 @@ const ListItem = ({
                             key={i}
                             wiki={wiki}
                             title={item.title}
-                            href={item.href}
+                            slug={item.slug!}
                         />
                     ))}
                 </ul>
@@ -121,20 +123,26 @@ const ListItem = ({
         );
     }
 
-    if (href) {
-        return <Item wiki={wiki} title={title} href={href} />;
+    if (slug) {
+        return <Item wiki={wiki} title={title} slug={slug} />;
     }
 
     return null;
 };
 
-const Item = ({ wiki, title, href }: { wiki: Wiki } & WikiSidebarItem) => {
+type ItemProps = {
+    wiki: Wiki;
+    title: string;
+    slug: string;
+};
+
+const Item = ({ wiki, title, slug }: ItemProps) => {
     return (
         <li>
             <Anchor
                 variant="ghost"
                 className="w-full justify-start"
-                href={`/projects/${wiki.projectSlug}/wiki/${href}`}
+                href={`/projects/${wiki.projectSlug}/wiki/${slug}`}
             >
                 {title}
             </Anchor>

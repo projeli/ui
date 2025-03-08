@@ -32,18 +32,13 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { WikiCategory } from "@/lib/types/wiki-types";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
+import Anchor from "../navigation/anchor";
 import WikiCategoriesTableActions from "./wiki-categories-table-actions";
 
 export const getColumns = (
     projectSlug: string,
     wikiId: string
 ): ColumnDef<WikiCategory>[] => [
-    {
-        accessorKey: "id",
-        enableHiding: false,
-    },
     {
         accessorKey: "name",
         header: ({ column }) => {
@@ -60,14 +55,16 @@ export const getColumns = (
             );
         },
         cell: ({ row }) => (
-            <Link
+            <Anchor
                 href={`/projects/${projectSlug}/wiki/categories/${row.getValue(
                     "slug"
                 )}`}
-                className="text-base ml-4 hover:underline"
+                className="w-full justify-start pl-4"
+                variant="ghost"
+                size="sm"
             >
                 {row.getValue("name")}
-            </Link>
+            </Anchor>
         ),
     },
     {
@@ -86,7 +83,9 @@ export const getColumns = (
             );
         },
         cell: ({ row }) => (
-            <div className="ml-4 opacity-80">{row.getValue("slug")}</div>
+            <div className="ml-4 text-muted-foreground">
+                {row.getValue("slug")}
+            </div>
         ),
     },
     {
@@ -196,7 +195,7 @@ export function WikiCategoriesTable({
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className="rounded-md border">
+            <div className="rounded-md border overflow-hidden">
                 <Table>
                     <TableHeader>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -220,17 +219,11 @@ export function WikiCategoriesTable({
                     <TableBody>
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row, i) => (
-                                <TableRow
-                                    key={row.id}
-                                    className={cn(
-                                        i % 2 === 0 &&
-                                            "bg-accent dark:bg-background"
-                                    )}
-                                >
+                                <TableRow key={row.id} itemID={i.toString()}>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell
                                             key={cell.id}
-                                            className="py-2"
+                                            className="py-1"
                                         >
                                             {flexRender(
                                                 cell.column.columnDef.cell,
@@ -243,7 +236,9 @@ export function WikiCategoriesTable({
                         ) : (
                             <TableRow>
                                 <TableCell
-                                    colSpan={getColumns(projectSlug, wikiId).length}
+                                    colSpan={
+                                        getColumns(projectSlug, wikiId).length
+                                    }
                                     className="h-24 text-center"
                                 >
                                     No results.

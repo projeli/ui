@@ -1,6 +1,6 @@
 "use client";
 
-import { updateWikiDescriptionAction } from "@/actions/wiki/update-wiki-description";
+import { updateWikiContentAction } from "@/actions/wiki/update-wiki-content";
 import { Project } from "@/lib/types/project-types";
 import { Wiki } from "@/lib/types/wiki-types";
 import { debounce } from "lodash";
@@ -21,7 +21,7 @@ const WikiUpdateDescriptionForm = ({
     wiki,
 }: WikiUpdateDescriptionFormProps) => {
     const [formState, formAction, isLoading] = useActionState(
-        updateWikiDescriptionAction,
+        updateWikiContentAction,
         {}
     );
 

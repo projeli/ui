@@ -41,7 +41,7 @@ const ProjectHeader = ({
                             {project.name}
                         </Link>
                     </h1>
-                    <p className="col-span-2 sm:col-span-1 text-card-foreground/80 line-clamp-2 sm:line-clamp-none text-sm sm:text-base">
+                    <p className="col-span-2 sm:col-span-1 text-muted-foreground line-clamp-2 sm:line-clamp-none text-sm sm:text-base">
                         {project.summary}
                     </p>
                 </div>
@@ -67,7 +67,7 @@ const ProjectHeader = ({
                 </div>
                 <h1 className="text-3xl font-bold">{project.name}</h1>
                 <div className="col-span-2 sm:col-span-1 mt-2 sm:mt-0">
-                    <p className="text-card-foreground/80 line-clamp-2 sm:line-clamp-none text-sm sm:text-base">
+                    <p className="text-muted-foreground line-clamp-2 sm:line-clamp-none text-sm sm:text-base">
                         {project.summary}
                     </p>
                 </div>
