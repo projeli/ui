@@ -32,6 +32,8 @@ ENV CLERK_SECRET_KEY=${CLERK_SECRET_KEY}
 ARG GATEWAY_URL
 ENV GATEWAY_URL=${GATEWAY_URL}
 
+RUN echo "NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}"
+
 RUN \
   if [ -f yarn.lock ]; then yarn run build; \
   elif [ -f package-lock.json ]; then npm run build; \
