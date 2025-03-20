@@ -25,10 +25,7 @@ jobs:
               with:
                   username: daqem
                   password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-
-            - name: Echo secret
-              run: echo ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-
+                  
             - name: Build and push
               uses: docker/build-push-action@v6
               with:
