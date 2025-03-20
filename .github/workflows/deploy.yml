@@ -1,38 +1,37 @@
 name: Test & Deploy
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    push:
+        branches: ["main"]
+    pull_request:
+        branches: ["main"]
 
 permissions:
-  contents: read
-  actions: read
-  checks: write
+    contents: read
+    actions: read
+    checks: write
 
 jobs:
-  deploy:
-    name: Deploy Docker Images
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    
-    steps:
-      - uses: actions/checkout@v3
+    deploy:
+        name: Deploy Docker Images
+        runs-on: ubuntu-latest
+        timeout-minutes: 20
 
-      - name: Log into Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: daqem
-          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+        steps:
+            - uses: actions/checkout@v3
 
-      - name: Echo secret
-        run: echo ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+            - name: Log into Docker Hub
+              uses: docker/login-action@v2
+              with:
+                  username: daqem
+                  password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          push: true
-          secret-envs: |
-            NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
-          tags: daqem/projeli:ui
+            - name: Echo secret
+              run: echo ${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+
+            - name: Build and push
+              uses: docker/build-push-action@v6
+              with:
+                  push: true
+                  build-args: NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
+                  tags: daqem/projeli:ui
