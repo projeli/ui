@@ -59,7 +59,7 @@ const ProjectCategories = ({
                     variant="ghost"
                     size="sm"
                     onClick={toggleCategories}
-                    className="flex items-center gap-2"
+                    className="flex items-center gap-2 text-muted-foreground"
                 >
                     {isOpen ? (
                         <>

@@ -1,5 +1,10 @@
 import { ApiResponse } from "@/lib/types/api-response-types";
-import { Wiki, WikiSidebar, WikiStatus } from "@/lib/types/wiki-types";
+import {
+    Wiki,
+    WikiSidebar,
+    WikiStatistics,
+    WikiStatus,
+} from "@/lib/types/wiki-types";
 import { BaseApi } from "../base-api";
 
 export class WikiApi extends BaseApi {
@@ -15,6 +20,12 @@ export class WikiApi extends BaseApi {
 
     async getByProjectSlug(projectSlug: string): Promise<Wiki> {
         return this.fetchService(`/v1/wikis/project/${projectSlug}`)
+            .then((res) => res.json())
+            .then((res) => res.data);
+    }
+
+    async getStatistics(wikiId: string): Promise<WikiStatistics> {
+        return this.fetchService(`/v1/wikis/${wikiId}/statistics`)
             .then((res) => res.json())
             .then((res) => res.data);
     }

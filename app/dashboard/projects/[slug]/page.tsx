@@ -8,9 +8,11 @@ import {
 } from "@/components/notification/breadcrumbs";
 import ProjectHeader from "@/components/project/project-header";
 import { Card } from "@/components/ui/card";
+import WikiStatistics from "@/components/wiki/wiki-statistics";
 import { projectApi } from "@/lib/api/project/project-api";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, unauthorized } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function Page({
     params,
@@ -54,60 +56,11 @@ export default async function Page({
                                 Recent Activity
                             </h2>
                         </Card>
-                        <Card className="p-6 h-max grid gap-4">
-                            <h2 className="text-xl font-semibold pb-4 border-b border-border">
-                                Statistics
-                            </h2>
-                            <div className="bg-muted rounded-lg p-4 border">
-                                {project.members.length > 1 ? (
-                                    <>
-                                        <p className="text-xl font-semibold">
-                                            {project.members.length}
-                                        </p>
-                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
-                                            Members
-                                        </p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <p className="text-xl font-semibold">
-                                            1
-                                        </p>
-                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
-                                            Member
-                                        </p>
-                                    </>
-                                )}
-                            </div>
-                            <div className="bg-muted rounded-lg p-4 border">
-                                {1000 > 1 ? (
-                                    <>
-                                        <p className="text-xl font-semibold">
-                                            1000
-                                        </p>
-                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
-                                            Wiki Pages
-                                        </p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <p className="text-xl font-semibold">
-                                            1
-                                        </p>
-                                        <p className="text-base flex items-center gap-2 text-muted-foreground">
-                                            Wiki Page
-                                        </p>
-                                    </>
-                                )}
-                            </div>
-                            <Anchor
-                                href={`/dashboard/projects/${project.slug}/analytics`}
-                                variant="outline"
-                                className="w-full"
-                            >
-                                View analytics
-                            </Anchor>
-                        </Card>
+                        <Suspense fallback={null}>
+                            <WikiStatistics
+                                projectSlug={slug}
+                            />
+                        </Suspense>
                     </DashboardGrid>
                 </div>
             </DashboardGrid>

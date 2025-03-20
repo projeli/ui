@@ -87,6 +87,13 @@ export type WikiPageVersion = {
     editors: WikiMember[];
 };
 
+export type WikiStatistics = {
+    wikiId: string;
+    pageCount: number;
+    categoryCount: number;
+    memberCount: number;
+}
+
 export type WikiStatus = (typeof wikiStatuses)[number];
 
 export const wikiStatuses: string[] = [

@@ -6,6 +6,7 @@ type NotPublishedBannerProps = {
     predicate: boolean;
     title: string;
     href?: string;
+    button?: React.ReactNode;
     buttonLabel?: string;
     size?: "sm" | "default";
 };
@@ -14,6 +15,7 @@ const NotPublishedBanner = ({
     predicate,
     title,
     href,
+    button,
     buttonLabel,
     size = "default",
 }: NotPublishedBannerProps) => {
@@ -36,6 +38,7 @@ const NotPublishedBanner = ({
                     {buttonLabel}
                 </Anchor>
             )}
+            <div>{button}</div>
         </Card>
     );
 };

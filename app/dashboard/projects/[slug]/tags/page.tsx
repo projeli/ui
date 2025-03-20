@@ -30,7 +30,7 @@ export default async function Page({
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs
-                links={withDashboardProject(project, [{ label: "Edit Tags" }])}
+                links={withDashboardProject(project, [{ label: "Tags" }])}
             />
             <DashboardGrid>
                 <div className="grid gap-6 h-max">

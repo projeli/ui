@@ -1,5 +1,4 @@
 import "@/app/markdown.css";
-import NotPublishedBanner from "@/components/banner/not-published-banner";
 import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
@@ -11,6 +10,7 @@ import ProjectHeader from "@/components/project/project-header";
 import ProjectLinks from "@/components/project/project-links";
 import ProjectWikis from "@/components/project/project-wikis";
 import WikiDetails from "@/components/wiki/wiki-details";
+import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import WikiMembers from "@/components/wiki/wiki-members";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
@@ -70,12 +70,7 @@ export default async function Page({ params }: Props) {
                 <Breadcrumbs
                     links={withProject(project, [{ label: "Wiki" }])}
                 />
-                <NotPublishedBanner
-                    predicate={wiki.status === "Draft"}
-                    title="This wiki is not published and can only be viewed by its members."
-                    href={`/dashboard/projects/${project.slug}/wiki`}
-                    buttonLabel="Publish Wiki"
-                />
+                <WikiInfoBanner wiki={wiki} project={project} />
                 <ProjectHeader
                     project={project}
                     button={{

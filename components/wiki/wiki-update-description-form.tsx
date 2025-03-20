@@ -53,16 +53,11 @@ const WikiUpdateDescriptionForm = ({
     }, [isLoading]); // Add isLoading to dependencies
 
     return (
-        <div className="grid grid-rows-[max-content,minmax(0,1fr)]">
-            <div className="h-max">
-                <FormAlert formState={formState} className="mb-4" />
-            </div>
-            <form
-                action={formAction}
-                className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
-            >
+        <div className="flex flex-col h-full grow">
+            <FormAlert formState={formState} className="mb-4" />
+            <form action={formAction} className="flex flex-col gap-4 grow">
                 <input type="hidden" name="id" value={wiki.id} />
-                <div className="border border-border rounded-lg overflow-hidden">
+                <div className="border border-border rounded-lg overflow-hidden grow">
                     <MarkdownEditor content={wiki.content} />
                 </div>
                 <div>

@@ -9,6 +9,7 @@ import {
 import { Card } from "@/components/ui/card";
 import WikiArchiveDialog from "@/components/wiki/wiki-archive-dialog";
 import WikiDeleteDialog from "@/components/wiki/wiki-delete-dialog";
+import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import WikiUpdateSidebarForm from "@/components/wiki/wiki-update-sidebar-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
@@ -35,8 +36,7 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki || !["Published", "Draft"].includes(wiki.status))
-        return notFound();
+    if (!wiki || wiki.status === "Uncreated") return notFound();
 
     return (
         <PageContainer className="grid gap-6 mt-8">
@@ -47,7 +47,8 @@ export default async function Page({
                 <div className="grid gap-6 h-max">
                     <DashboardWikiNavigation project={project} wiki={wiki} />
                 </div>
-                <div className="grid gap-6 h-max">
+                <div className="flex flex-col gap-4">
+                    <WikiInfoBanner wiki={wiki} project={project} />
                     <DashboardWikiSettingsNavbar projectSlug={project.slug} />
                     <Card className="p-6 h-max grid gap-4">
                         <h2 className="text-xl font-semibold pb-4 border-b">

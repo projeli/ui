@@ -37,8 +37,7 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki || !["Published", "Draft"].includes(wiki.status))
-        return notFound();
+    if (!wiki || wiki.status === "Uncreated") return notFound();
     if (!page) return notFound();
 
     console.log(page);

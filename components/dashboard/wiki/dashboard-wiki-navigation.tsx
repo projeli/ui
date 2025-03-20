@@ -37,7 +37,7 @@ const DashboardWikiNavigation = ({
                     <BookOpen />
                     Overview
                 </Anchor>
-                {["Published", "Draft"].includes(wiki.status) && (
+                {wiki.status !== "Uncreated" && (
                     <>
                         <Anchor
                             href={`/dashboard/projects/${project.slug}/wiki/pages`}

@@ -1,3 +1,4 @@
+import NotPublishedBanner from "@/components/banner/not-published-banner";
 import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import DashboardWikiNavigation from "@/components/dashboard/wiki/dashboard-wiki-navigation";
 import DashboardWikiSettingsNavbar from "@/components/dashboard/wiki/dashboard-wiki-settings-navbar";
@@ -6,6 +7,8 @@ import {
     Breadcrumbs,
     withDashboardWikiSettings,
 } from "@/components/notification/breadcrumbs";
+import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
+import WikiPublishDialog from "@/components/wiki/wiki-publish-dialog";
 import WikiUpdateDescriptionForm from "@/components/wiki/wiki-update-description-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
@@ -30,8 +33,7 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki || !["Published", "Draft"].includes(wiki.status))
-        return notFound();
+    if (!wiki || wiki.status === "Uncreated") return notFound();
 
     return (
         <PageContainer className="grid gap-6 mt-8">
@@ -44,7 +46,8 @@ export default async function Page({
                 <div className="grid gap-6 h-max">
                     <DashboardWikiNavigation project={project} wiki={wiki} />
                 </div>
-                <div className="grid gap-6 h-full grid-rows-[max-content,1fr]">
+                <div className="flex flex-col gap-4">
+                    <WikiInfoBanner wiki={wiki} project={project} />
                     <DashboardWikiSettingsNavbar projectSlug={project.slug} />
                     <WikiUpdateDescriptionForm project={project} wiki={wiki} />
                 </div>

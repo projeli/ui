@@ -81,8 +81,8 @@ export default async function Page({ params }: Props) {
                     project={project}
                     button={{
                         icon: <Cog />,
-                        label: "Edit Project",
-                        href: `/dashboard/projects/${project.slug}/details`,
+                        label: "Open Dashboard",
+                        href: `/dashboard/projects/${project.slug}`,
                     }}
                 />
                 <div className="grid lg:grid-cols-[1fr,18rem] gap-6">

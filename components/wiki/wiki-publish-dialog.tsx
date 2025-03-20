@@ -1,9 +1,9 @@
 "use client";
 
-import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
+import { updateWikiPageStatusAction } from "@/actions/wiki/update-wiki-page-status";
 import { Project } from "@/lib/types/project-types";
-import { Wiki } from "@/lib/types/wiki-types";
-import { Archive, X } from "lucide-react";
+import { Wiki, WikiPage } from "@/lib/types/wiki-types";
+import { Rocket, X } from "lucide-react";
 import { startTransition, useActionState } from "react";
 import FormAlert from "../form/form-alert";
 import { Button } from "../ui/button";
@@ -18,23 +18,27 @@ import {
     DialogTrigger,
 } from "../ui/dialog";
 import LoadingSpinner from "../ui/loading-spinner";
+import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
 
-type WikiArchiveDialogProps = {
-    project: Project;
+type WikiPublishDialogProps = {
     wiki: Wiki;
+    project: Project;
 };
 
-const WikiArchiveDialog = ({ project, wiki }: WikiArchiveDialogProps) => {
+const WikiPublishDialog = ({
+    wiki,
+    project,
+}: WikiPublishDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
         updateWikiStatusAction,
         {}
     );
 
-    const handleDelete = async () => {
+    const handlePublish = async () => {
         startTransition(() => {
             const formData = new FormData();
             formData.append("id", wiki.id);
-            formData.append("status", "Archived");
+            formData.append("status", "Published");
             formAction(formData);
         });
     };
@@ -42,18 +46,18 @@ const WikiArchiveDialog = ({ project, wiki }: WikiArchiveDialogProps) => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="destructive" className="w-full">
-                    <Archive />
-                    Archive Wiki
+                <Button variant="outline" className="w-full">
+                    <Rocket />
+                    Publish Wiki
                 </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-sm border-destructive">
+            <DialogContent className="max-w-sm">
                 <FormAlert formState={formState} />
                 <DialogHeader>
-                    <DialogTitle>Archive Wiki</DialogTitle>
+                    <DialogTitle>Publish Wiki</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to archive the wiki for{" "}
-                        {project.name}?
+                        Are you sure you want to publish wiki for the{" "}
+                        {project.name} project?
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -69,13 +73,13 @@ const WikiArchiveDialog = ({ project, wiki }: WikiArchiveDialogProps) => {
                         </Button>
                     </DialogClose>
                     <Button
-                        onClick={handleDelete}
+                        onClick={handlePublish}
                         disabled={isLoading}
                         type="submit"
-                        variant="destructive"
+                        variant="default"
                         className="grow"
                     >
-                        {isLoading ? <LoadingSpinner /> : <Archive />}
+                        {isLoading ? <LoadingSpinner /> : <Rocket />}
                         Confirm
                     </Button>
                 </DialogFooter>
@@ -84,4 +88,4 @@ const WikiArchiveDialog = ({ project, wiki }: WikiArchiveDialogProps) => {
     );
 };
 
-export default WikiArchiveDialog;
+export default WikiPublishDialog;
