@@ -30,6 +30,6 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          secrets: |
+          secret-envs: |
             NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY }}
           tags: daqem/projeli:ui
