@@ -4,19 +4,19 @@ import { projectApi } from "@/lib/api/project/project-api";
 import { FormState, ServerAction } from "@/lib/types/form-types";
 import { redirect } from "next/navigation";
 
-export const createProjectAction: ServerAction = async (
+export const updateProjectStatusAction: ServerAction = async (
     currentState: FormState,
     formData: FormData
 ) => {
-    const response = await projectApi.create({
-        name: formData.get("name") as string,
-        slug: formData.get("slug") as string,
-        summary: formData.get("summary") as string,
-        category: formData.get("category") as string,
-    });
+    const response = await projectApi.updateStatus(
+        formData.get("id") as string,
+        formData.get("status") as string
+    );
 
     if (response.success) {
-        throw redirect(`/dashboard/projects/${response.data?.slug}`);
+        throw redirect(
+            `/dashboard/projects/${response.data?.slug}`
+        );
     }
 
     return {

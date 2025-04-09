@@ -13,8 +13,6 @@ export const updateWikiPageCategoriesAction: ServerAction = async (
         formData.getAll("categories") as string[]
     );
 
-    console.log(response);
-
     if (response.success) {
         return {
             success: true,

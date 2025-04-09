@@ -221,7 +221,6 @@ const WikiUpdateSidebarForm = ({
     };
 
     const onSave = () => {
-        console.log("items", items);
         startTransition(() => {
             const formData = new FormData();
             formData.append("id", wiki.id);
@@ -479,13 +478,7 @@ const SidebarTree = ({ items, onDelete }: SidebarTreeProps) => {
                 canDragAndDrop={true}
                 canDropOnFolder={true}
                 canReorderItems={true}
-                canDropAt={(items, target) => {
-                    console.log("items", items);
-                    console.log("target", target);
-                    if (items.some((item) => item.isFolder) && target.depth > 0)
-                        return false;
-                    return true;
-                }}
+                canDropAt={(items, target) => !(items.some((item) => item.isFolder) && target.depth > 0)}
             >
                 <Tree
                     treeId="sidebar-layout"

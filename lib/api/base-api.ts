@@ -9,7 +9,9 @@ export class BaseApi {
 
     async fetch(url: string, config?: RequestInit) {
         if (process.env.NODE_ENV === "development" || true) {
-            console.log("making request to: ", url);
+            const headers = config?.headers as any;
+            const token = headers["Authorization"]?.split(" ")[1];
+            console.log("making request to: ", url, token ? `with token: ${token}` : "without token");
         }
         return fetch(url, config);
     }

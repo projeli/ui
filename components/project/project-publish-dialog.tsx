@@ -1,8 +1,6 @@
 "use client";
 
-import { updateWikiPageStatusAction } from "@/actions/wiki/update-wiki-page-status";
 import { Project } from "@/lib/types/project-types";
-import { Wiki, WikiPage } from "@/lib/types/wiki-types";
 import { Rocket, X } from "lucide-react";
 import { startTransition, useActionState } from "react";
 import FormAlert from "../form/form-alert";
@@ -18,26 +16,22 @@ import {
     DialogTrigger,
 } from "../ui/dialog";
 import LoadingSpinner from "../ui/loading-spinner";
-import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
+import { updateProjectStatusAction } from "@/actions/project/update-project-status";
 
-type WikiPublishDialogProps = {
-    wiki: Wiki;
+type ProjectPublishDialogProps = {
     project: Project;
 };
 
-const WikiPublishDialog = ({
-    wiki,
-    project,
-}: WikiPublishDialogProps) => {
+const ProjectPublishDialog = ({ project }: ProjectPublishDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
-        updateWikiStatusAction,
+        updateProjectStatusAction,
         {}
     );
 
     const handlePublish = async () => {
         startTransition(() => {
             const formData = new FormData();
-            formData.append("id", wiki.id);
+            formData.append("id", project.id);
             formData.append("status", "Published");
             formAction(formData);
         });
@@ -48,15 +42,15 @@ const WikiPublishDialog = ({
             <DialogTrigger asChild>
                 <Button variant="outline" className="w-full">
                     <Rocket />
-                    Publish Wiki
+                    Publish Project
                 </Button>
             </DialogTrigger>
             <DialogContent className="max-w-sm">
                 <FormAlert formState={formState} />
                 <DialogHeader>
-                    <DialogTitle>Publish Wiki</DialogTitle>
+                    <DialogTitle>Publish Project</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to publish the wiki for the{" "}
+                        Are you sure you want to publish the{" "}
                         {project.name} project?
                     </DialogDescription>
                 </DialogHeader>
@@ -88,4 +82,4 @@ const WikiPublishDialog = ({
     );
 };
 
-export default WikiPublishDialog;
+export default ProjectPublishDialog;

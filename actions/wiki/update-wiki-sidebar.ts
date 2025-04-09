@@ -13,11 +13,7 @@ export const updateWikiSidebarAction: ServerAction = async (
         formData.get("sidebar") as string
     ) as WikiSidebar;
 
-    console.log("sidebar", JSON.stringify(sidebar, null, 2));
-
     const response = await wikiApi.updateSidebar(id, sidebar);
-
-    console.log("response", response);
 
     if (response.success) {
         return {

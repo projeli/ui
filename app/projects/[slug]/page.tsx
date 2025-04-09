@@ -1,5 +1,4 @@
 import "@/app/markdown.css";
-import NotPublishedBanner from "@/components/banner/not-published-banner";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
 import {
@@ -8,6 +7,7 @@ import {
 } from "@/components/notification/breadcrumbs";
 import ProjectDetails from "@/components/project/project-details";
 import ProjectHeader from "@/components/project/project-header";
+import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectLinks from "@/components/project/project-links";
 import ProjectMembers from "@/components/project/project-members";
 import ProjectWikis from "@/components/project/project-wikis";
@@ -65,18 +65,11 @@ export default async function Page({ params }: Props) {
 
     if (!project) return notFound();
 
-    console.log(project);
-
     return (
         <PageContainer>
             <div className="grid mt-8 gap-6">
                 <Breadcrumbs links={withProjects([{ label: project.name }])} />
-                <NotPublishedBanner
-                    predicate={!(project.status === "Published")}
-                    title="This project is not published and can only be viewed by its members."
-                    href={`/dashboard/projects/${project.slug}`}
-                    buttonLabel="Publish Project"
-                />
+                <ProjectInfoBanner project={project} />
                 <ProjectHeader
                     project={project}
                     button={{

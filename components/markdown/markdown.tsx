@@ -20,7 +20,6 @@ const Markdown = async ({ content }: { content: string }) => {
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[
                     () => (tree) => {
-                        console.log(JSON.stringify(tree, null, 2));
                         return visit(tree, "element", (node) => {
                             if (node.tagName === "code" && node.data?.meta) {
                                 node.type = "ignore";
@@ -34,7 +33,6 @@ const Markdown = async ({ content }: { content: string }) => {
                         } as RawOptions,
                     ],
                     () => (tree) => {
-                        console.log(JSON.stringify(tree, null, 2));
                         return visit(tree, "ignore", (node) => {
                             node.type = "element";
                         });

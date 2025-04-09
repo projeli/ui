@@ -88,11 +88,25 @@ export class ProjectApi extends BaseApi {
             .catch((error) => error.json());
     }
 
-    async deleteProject(id: string) {
-        return this.fetchService(`/v1/projects/${id}`, {
-            method: "DELETE",
-        });
+    async updateStatus(
+        id: string,
+        status: string
+    ): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/status`, {
+            method: "PUT",
+            body: JSON.stringify({ status }),
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
     }
+
+    async delete(id: string): Promise<ApiResponse<Project>> {
+            return this.fetchService(`/v1/projects/${id}`, {
+                method: "DELETE",
+            })
+                .then((res) => res.json())
+                .catch((error) => error.json());
+        }
 }
 
 export const projectApi = new ProjectApi();

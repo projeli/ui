@@ -51,7 +51,6 @@ export class WikiApi extends BaseApi {
             body: JSON.stringify({ content }),
         })
             .then((res) => {
-                console.log("res", res);
                 return res.json();
             })
             .catch((error) => {

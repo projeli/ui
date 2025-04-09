@@ -40,8 +40,6 @@ export default async function Page({
     if (!wiki || wiki.status === "Uncreated") return notFound();
     if (!page) return notFound();
 
-    console.log(page);
-
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs

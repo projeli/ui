@@ -5,6 +5,7 @@ import {
     Breadcrumbs,
     withDashboardProject,
 } from "@/components/notification/breadcrumbs";
+import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectUpdateDescriptionForm from "@/components/project/project-update-content-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { auth } from "@clerk/nextjs/server";
@@ -38,7 +39,10 @@ export default async function Page({
                 <div className="grid gap-6 h-max">
                     <DashboardProjectNavigation project={project} />
                 </div>
-                <ProjectUpdateDescriptionForm project={project} />
+                <div className="grid grid-rows-[max-content,1fr] gap-4">
+                    <ProjectInfoBanner project={project} />
+                    <ProjectUpdateDescriptionForm project={project} />
+                </div>
             </DashboardGrid>
         </PageContainer>
     );

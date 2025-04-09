@@ -23,14 +23,14 @@ const NotPublishedBanner = ({
 
     if (size === "sm") {
         return (
-            <div className="bg-destructive text-destructive-foreground px-6 py-2 text-xs font-semibold">
+            <div className="bg-destructive text-destructive-foreground px-6 py-2 text-xs font-semibold h-max">
                 {title}
             </div>
         );
     }
 
     return (
-        <Card className="px-6 py-4 bg-destructive flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+        <Card className="px-6 py-4 bg-destructive flex flex-col sm:flex-row justify-between sm:items-center gap-4 h-max">
             <p className="text-sm text-destructive-foreground">{title}</p>
             {href && (
                 <Anchor href={href} variant="outline">
@@ -38,7 +38,7 @@ const NotPublishedBanner = ({
                     {buttonLabel}
                 </Anchor>
             )}
-            <div>{button}</div>
+            {button && <div>{button}</div>}
         </Card>
     );
 };
