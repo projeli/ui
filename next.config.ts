@@ -10,39 +10,9 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "cdn.modders.gg",
-                port: "",
-                pathname: "/avatars/**",
-            },
-            {
-                protocol: "https",
-                hostname: "cdn.modders.gg",
-                port: "",
-                pathname: "/user_banners/**",
-            },
-            {
-                protocol: "https",
-                hostname: "cdn.modders.gg",
-                port: "",
-                pathname: "/organizations/**",
-            },
-            {
-                protocol: "https",
-                hostname: "cdn.modders.gg",
+                hostname: "cdn.projeli.com",
                 port: "",
                 pathname: "/projects/**",
-            },
-            {
-                protocol: "https",
-                hostname: "media.forgecdn.net",
-                port: "",
-                pathname: "/avatars/**",
-            },
-            {
-                protocol: "https",
-                hostname: "cdn.modrinth.com",
-                port: "",
-                pathname: "/data/**",
             },
         ],
     },

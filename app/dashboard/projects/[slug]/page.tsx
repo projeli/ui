@@ -31,6 +31,8 @@ export default async function Page({
 
     if (!project) return notFound();
 
+    console.log("Project", project);
+
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs

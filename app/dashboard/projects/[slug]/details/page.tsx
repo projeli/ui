@@ -7,9 +7,10 @@ import {
 } from "@/components/notification/breadcrumbs";
 import ProjectArchiveDialog from "@/components/project/project-archive-dialog";
 import ProjectDeleteDialog from "@/components/project/project-delete-dialog";
+import ProjectImage from "@/components/project/project-image";
+import ProjectImageForm from "@/components/project/project-image-form";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectUpdateDetailsForm from "@/components/project/project-update-details-form";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { projectApi } from "@/lib/api/project/project-api";
 import { auth } from "@clerk/nextjs/server";
@@ -44,6 +45,14 @@ export default async function Page({
                 <div className="grid gap-4 h-max">
                     <ProjectInfoBanner project={project} />
                     <Card className="h-max p-6">
+                        <ProjectImageForm
+                            projectId={project.id}
+                            projectImageComponent={
+                                <ProjectImage project={project} />
+                            }
+                        />
+                    </Card>
+                    <Card className="h-max p-6">
                         <h2 className="text-xl font-semibold">
                             Project Details
                         </h2>
@@ -68,9 +77,7 @@ export default async function Page({
                                     </p>
                                 </div>
                                 <div className="flex w-full sm:w-max">
-                                    <ProjectArchiveDialog
-                                        project={project}
-                                    />
+                                    <ProjectArchiveDialog project={project} />
                                 </div>
                             </div>
                         )}
@@ -80,13 +87,12 @@ export default async function Page({
                                     Delete Project
                                 </h3>
                                 <p className="text-sm text-muted-foreground">
-                                    Permanently delete this project and its wikis.
+                                    Permanently delete this project and its
+                                    wikis.
                                 </p>
                             </div>
                             <div className="flex w-full sm:w-max">
-                                <ProjectDeleteDialog
-                                    project={project}
-                                />
+                                <ProjectDeleteDialog project={project} />
                             </div>
                         </div>
                     </Card>

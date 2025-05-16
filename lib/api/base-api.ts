@@ -9,9 +9,7 @@ export class BaseApi {
 
     async fetch(url: string, config?: RequestInit) {
         if (process.env.NODE_ENV === "development" || true) {
-            const headers = config?.headers as any;
-            const token = headers["Authorization"]?.split(" ")[1];
-            console.log("making request to: ", url, token ? `with token: ${token}` : "without token");
+            console.log("making request to: ", url);
         }
         return fetch(url, config);
     }
@@ -19,15 +17,23 @@ export class BaseApi {
     async fetchService(url: string, config?: RequestInit) {
         const headers = config?.headers as HeadersInit;
 
-        if (!headers) {
-            const { getToken } = await auth();
-            const token = await getToken();
+        const { getToken } = await auth();
+        const token = await getToken();
 
+        if (!headers) {
             config = {
                 ...config,
                 headers: {
                     Authorization: `Bearer ${token}`,
                     "Content-Type": "application/json",
+                },
+            };
+        } else {
+            config = {
+                ...config,
+                headers: {
+                    ...headers,
+                    Authorization: `Bearer ${token}`,
                 },
             };
         }

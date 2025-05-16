@@ -17,6 +17,17 @@ const ProjectCreateForm = () => {
                 category: z
                     .string()
                     .refine((value) => projectCategories.includes(value)),
+                image: z.instanceof(File).refine((file) => {
+                    return (
+                        file.size <= 2 * 1024 * 1024 &&
+                        [
+                            "image/png",
+                            "image/jpeg",
+                            "image/gif",
+                            "image/webp",
+                        ].includes(file.type)
+                    );
+                }),
             })}
             defaultValues={{
                 name: "",
@@ -49,6 +60,12 @@ const ProjectCreateForm = () => {
                         label: category,
                         value: category,
                     })),
+                },
+                {
+                    name: "image",
+                    label: "Project Image",
+                    type: "file",
+                    accept: "image/png, image/jpeg, image/gif, image/webp",
                 },
             ]}
             submitButton={{

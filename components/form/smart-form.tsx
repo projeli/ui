@@ -175,6 +175,22 @@ const SmartForm = ({
                                                     </InputBase>
                                                 </ControlGroupItem>
                                             </ControlGroup>
+                                        ) : input.type === "file" ? (
+                                            <Input
+                                                type="file"
+                                                accept={input.accept}
+                                                multiple={input.multiple}
+                                                onChange={(e) =>
+                                                    field.onChange(
+                                                        input.multiple
+                                                            ? Array.from(
+                                                                  e.target.files!
+                                                              )
+                                                            : e.target.files![0]
+                                                    )
+                                                }
+                                                ref={field.ref}
+                                            />
                                         ) : null}
                                     </FormControl>
                                     <FormMessage />
@@ -245,7 +261,6 @@ interface SelectProps extends BaseFormElement {
     size?: number;
 }
 
-// For other common input types
 interface CheckboxProps extends BaseFormElement {
     type: "checkbox";
     checked?: boolean;
@@ -270,6 +285,12 @@ interface HiddenInputProps extends BaseFormElement {
     type: "hidden";
 }
 
+interface FileInputProps extends BaseFormElement {
+    type: "file";
+    accept?: string;
+    multiple?: boolean;
+}
+
 export type FormElement =
     | TextInputProps
     | TextareaProps
@@ -277,4 +298,5 @@ export type FormElement =
     | CheckboxProps
     | RadioProps
     | PrefixedInputProps
-    | HiddenInputProps;
+    | HiddenInputProps
+    | FileInputProps;

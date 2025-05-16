@@ -1,7 +1,6 @@
 import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import DashboardWikiNavigation from "@/components/dashboard/wiki/dashboard-wiki-navigation";
 import PageContainer from "@/components/layout/page-container";
-import Anchor from "@/components/navigation/anchor";
 import {
     Breadcrumbs,
     withDashboardProject,
@@ -69,7 +68,10 @@ export default async function Page({
                                         </h2>
                                     </Card>
                                     <Suspense fallback={null}>
-                                        <WikiStatistics projectSlug={slug} wikiId={wiki.id} />
+                                        <WikiStatistics
+                                            projectSlug={slug}
+                                            wikiId={wiki.id}
+                                        />
                                     </Suspense>
                                 </>
                             ))

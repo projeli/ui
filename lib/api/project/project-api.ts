@@ -3,6 +3,7 @@ import { Project } from "@/lib/types/project-types";
 import { BaseApi } from "../base-api";
 
 export class ProjectApi extends BaseApi {
+    
     constructor() {
         super("projects");
     }
@@ -33,18 +34,42 @@ export class ProjectApi extends BaseApi {
             .then((res) => res.data);
     }
 
-    async create(data: {
-        name: string;
-        slug: string;
-        summary: string;
-        category: string;
-    }): Promise<ApiResponse<Project>> {
+    async create(
+        name: string,
+        slug: string,
+        summary: string,
+        category: string,
+        image: File,
+    ): Promise<ApiResponse<Project>> {
+        const formData = new FormData();
+
+        formData.append("Name", name);
+        formData.append("Slug", slug);
+        formData.append("Summary", summary);
+        formData.append("Category", category);
+        formData.append("Image", image);
+
         return this.fetchService("/v1/projects", {
             method: "POST",
-            body: JSON.stringify(data),
+            body: formData,
+            headers: {},
         })
-            .then((res) => res.json())
-            .catch((error) => error.json());
+            .then((res) => {
+                const contentType = res.headers.get("Content-Type") || "";
+            
+                const jsonContentTypeRegex = /^application\/(.*\+)?json(;.*)?$/i;
+            
+                if (jsonContentTypeRegex.test(contentType)) {
+                    return res.json();
+                }
+
+                console.error("Invalid response while creating project", res);
+                return {
+                    success: false,
+                    message: "Invalid response",
+                    data: null,
+                };
+            });
     }
 
     async updateDetails(
@@ -100,6 +125,37 @@ export class ProjectApi extends BaseApi {
             .catch((error) => error.json());
     }
 
+    async updateImage(
+        id: string,
+        image: File
+    ): Promise<ApiResponse<Project>> {
+        const formData = new FormData();
+
+        formData.append("Image", image);
+
+        return this.fetchService(`/v1/projects/${id}/image`, {
+            method: "PUT",
+            body: formData,
+            headers: {},
+        })
+            .then((res) => {
+                const contentType = res.headers.get("Content-Type") || "";
+            
+                const jsonContentTypeRegex = /^application\/(.*\+)?json(;.*)?$/i;
+            
+                if (jsonContentTypeRegex.test(contentType)) {
+                    return res.json();
+                }
+
+                console.error("Invalid response while updating project image", res);
+                return {
+                    success: false,
+                    message: "Invalid response",
+                    data: null,
+                };
+            });
+    }
+
     async delete(id: string): Promise<ApiResponse<Project>> {
             return this.fetchService(`/v1/projects/${id}`, {
                 method: "DELETE",
@@ -107,6 +163,14 @@ export class ProjectApi extends BaseApi {
                 .then((res) => res.json())
                 .catch((error) => error.json());
         }
+
+    async deleteImage(id: string): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/image`, {
+            method: "DELETE",
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
+    }
 }
 
 export const projectApi = new ProjectApi();

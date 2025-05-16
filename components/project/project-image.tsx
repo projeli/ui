@@ -4,51 +4,61 @@ import { FileQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+type Size = "sm" | "md" | "lg";
+
 type ProjectImageProps = {
     project: Project;
-    href: string;
-    size?: "sm" | "md" | "lg";
+    href?: string;
+    size?: Size;
+};
+
+const sizeClasses = {
+    sm: "size-12 rounded-sm",
+    md: "size-16 rounded-md",
+    lg: "size-24 rounded-lg",
+};
+
+const halfSizeClasses = {
+    sm: "size-6",
+    md: "size-8",
+    lg: "size-12",
 };
 
 const ProjectImage = ({ project, href, size = "lg" }: ProjectImageProps) => {
-    const sizeClasses = {
-        sm: "size-12 rounded-sm",
-        md: "size-16 rounded-md",
-        lg: "size-24 rounded-lg",
-    };
-
-    const halfSizeClasses = {
-        sm: "size-6",
-        md: "size-8",
-        lg: "size-12",
-    };
-
     return (
         <div className={cn("overflow-hidden", sizeClasses[size])}>
-            <Link href={`${href}/${project.slug}`}>
-                {project.imageUrl && isValidURL(project.imageUrl) ? (
-                    <Image
-                        src={project.imageUrl}
-                        alt={project.name}
-                        width={96}
-                        height={96}
-                    />
-                ) : (
-                    <div
-                        className={cn(
-                            "bg-muted flex items-center justify-center",
-                            sizeClasses[size]
-                        )}
-                    >
-                        <FileQuestion
-                            className={cn(
-                                "text-muted-foreground",
-                                halfSizeClasses[size]
-                            )}
-                        />
-                    </div>
-                )}
-            </Link>
+            {href ? (
+                <Link href={`${href}/${project.slug}`}>
+                    <ImageComponent project={project} size={size} />
+                </Link>
+            ) : (
+                <ImageComponent project={project} size={size} />
+            )}
+        </div>
+    );
+};
+
+const ImageComponent = ({
+    project,
+    size,
+}: {
+    project: Project;
+    size: Size;
+}) => {
+    const imageUrl = "https://cdn.projeli.com/" + project.imageUrl;
+
+    return project.imageUrl && isValidURL(imageUrl) ? (
+        <Image src={imageUrl} alt={project.name} width={96} height={96} />
+    ) : (
+        <div
+            className={cn(
+                "bg-muted flex items-center justify-center",
+                sizeClasses[size]
+            )}
+        >
+            <FileQuestion
+                className={cn("text-muted-foreground", halfSizeClasses[size])}
+            />
         </div>
     );
 };
