@@ -11,6 +11,7 @@ import ProjectImage from "@/components/project/project-image";
 import ProjectImageForm from "@/components/project/project-image-form";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectUpdateDetailsForm from "@/components/project/project-update-details-form";
+import ProjectUpdateTagsForm from "@/components/project/project-update-tags-form";
 import { Card } from "@/components/ui/card";
 import { projectApi } from "@/lib/api/project/project-api";
 import { auth } from "@clerk/nextjs/server";
@@ -53,14 +54,13 @@ export default async function Page({
                         />
                     </Card>
                     <Card className="h-max p-6">
-                        <h2 className="text-xl font-semibold">
-                            Project Details
-                        </h2>
-                        <p className="text-muted-foreground">
+                        <h2 className="text-xl font-semibold">Details</h2>
+                        <p className="text-muted-foreground text-sm mb-6">
                             Update your project details here.
                         </p>
                         <ProjectUpdateDetailsForm project={project} />
                     </Card>
+                    <ProjectUpdateTagsForm project={project} />
                     <Card className="p-6 h-max grid gap-4 border-destructive">
                         <h2 className="text-xl font-semibold pb-4 border-b border-destructive">
                             Danger Zone

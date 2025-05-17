@@ -43,6 +43,26 @@ export type ProjectTag = {
 
 export type ProjectStatus = (typeof projectStatuses)[number];
 
+export const ProjectMemberPermissions = {
+    None: 0n,
+    EditProject: 1n << 0n,
+    PublishProject: 1n << 1n,
+    ManageLinks: 1n << 2n,
+    // Reserved (3 - 10) for future project-level permissions
+
+    AddProjectMembers: 1n << 11n,
+    EditProjectMemberRoles: 1n << 12n,
+    EditProjectMemberPermissions: 1n << 13n,
+    // Reserved (14 - 19) for future member-level permissions
+
+    DeleteProjectMembers: 1n << 20n,
+
+    DeleteProject: 1n << 63n,
+    All: (1n << 64n) - 1n
+} as const;
+
+export type ProjectMemberPermissions = bigint;
+
 export const projectCategories: string[] = [
     "Adventure",
     "Animation",

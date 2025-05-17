@@ -1,3 +1,4 @@
+import { ApiResponse } from "@/lib/types/api-response-types";
 import { ProjeliUser } from "@/lib/types/user-types";
 import { BaseApi } from "../base-api";
 
@@ -12,6 +13,15 @@ export class UserApi extends BaseApi {
         )
             .then((res) => res.json())
             .then((res) => res.data);
+    }
+
+    async searchByUsername(
+        username: string
+    ): Promise<ApiResponse<ProjeliUser[]>> {
+        return this.fetchService(
+            this.createPathWithQueryParams("/v1/users", { username })
+        )
+            .then((res) => res.json());
     }
 }
 

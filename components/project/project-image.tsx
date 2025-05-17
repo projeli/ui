@@ -1,5 +1,6 @@
 import { Project } from "@/lib/types/project-types";
-import { cn } from "@/lib/utils";
+import { cn, getCdnUrl } from "@/lib/utils";
+import { get } from "lodash";
 import { FileQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +46,7 @@ const ImageComponent = ({
     project: Project;
     size: Size;
 }) => {
-    const imageUrl = "https://cdn.projeli.com/" + project.imageUrl;
+    const imageUrl = getCdnUrl(project.imageUrl);
 
     return project.imageUrl && isValidURL(imageUrl) ? (
         <Image src={imageUrl} alt={project.name} width={96} height={96} />

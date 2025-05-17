@@ -54,8 +54,6 @@ export const createProjectAction: ServerAction = async (
         name, slug, summary, category, image,
     );
 
-    console.log("Create project response", response);
-
     if (response.success) {
         throw redirect(`/dashboard/projects/${response.data?.slug}`);
     }

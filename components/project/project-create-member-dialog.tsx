@@ -1,5 +1,6 @@
+import { Project } from "@/lib/types/project-types";
 import { VariantProps } from "class-variance-authority";
-import { Plus } from "lucide-react";
+import { UserPlus } from "lucide-react";
 import { Button, buttonVariants } from "../ui/button";
 import {
     Dialog,
@@ -9,12 +10,14 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import ProjectCreateForm from "./project-create-form";
+import ProjectCreateMemberForm from "./project-create-member-form";
 
-const ProjectCreateDialog = ({
+const ProjectCreateMemberDialog = ({
+    project,
     variant = "default",
     buttonClass = "",
 }: {
+    project: Project;
     variant?: VariantProps<typeof buttonVariants>["variant"];
     buttonClass?: string;
 }) => {
@@ -22,18 +25,19 @@ const ProjectCreateDialog = ({
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant={variant} className={buttonClass}>
-                    <Plus />
-                    New Project
+                    <UserPlus />
+                    New Member
                 </Button>
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>New Project</DialogTitle>
+                    <DialogTitle>New Project Member</DialogTitle>
                     <DialogDescription>
-                        Create a new project by filling out the form below.
+                        Add a new member to the project by filling out the form
+                        below.
                     </DialogDescription>
                     <div>
-                        <ProjectCreateForm />
+                        <ProjectCreateMemberForm project={project} />
                     </div>
                 </DialogHeader>
             </DialogContent>
@@ -41,4 +45,4 @@ const ProjectCreateDialog = ({
     );
 };
 
-export default ProjectCreateDialog;
+export default ProjectCreateMemberDialog;

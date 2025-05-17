@@ -16,27 +16,30 @@ import {
 import { cn } from "@/lib/utils";
 import { SignInButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
+import { SiDiscord, SiGithub } from "@icons-pack/react-simple-icons";
 import {
     BadgePlus,
     Boxes,
     CalendarSync,
+    ChevronDown,
     LogIn,
     Menu,
-    Newspaper,
-    TrendingUp,
 } from "lucide-react";
-import Link from "next/link";
 import React from "react";
 import CustomUserButton from "../clerk/custom-user-button";
 import ProjeliLogo from "../logo/projeli-logo";
 import NotificationButton from "../notification/notification-button";
 import { ThemeToggle } from "../theme/theme-toggle";
 import { Button } from "../ui/button";
-import Anchor from "./anchor";
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from "../ui/collapsible";
 
 const links: {
     label: string;
-    path: string;
+    defaultOpen?: boolean;
     subLinks?: {
         label: string;
         path: string;
@@ -44,8 +47,8 @@ const links: {
     }[];
 }[] = [
     {
-        label: "Projects",
-        path: "/projects",
+        label: "Browse",
+        defaultOpen: true,
         subLinks: [
             {
                 label: "All Projects",
@@ -65,23 +68,17 @@ const links: {
         ],
     },
     {
-        label: "Wikis",
-        path: "/wikis",
+        label: "Contact",
         subLinks: [
             {
-                label: "All Wikis",
-                path: "/wikis",
-                icon: <Newspaper className="w-5 h-5" />,
+                label: "GitHub",
+                path: "https://github.com/projeli",
+                icon: <SiGithub className="w-5 h-5" />,
             },
             {
-                label: "Popular Wikis",
-                path: "/wikis?order=popularity",
-                icon: <TrendingUp className="w-5 h-5" />,
-            },
-            {
-                label: "New Wikis",
-                path: "/wikis?order=new",
-                icon: <BadgePlus className="w-5 h-5" />,
+                label: "Discord",
+                path: "/discord",
+                icon: <SiDiscord className="w-5 h-5" />,
             },
         ],
     },
@@ -104,26 +101,75 @@ export async function Navbar() {
                             </SheetTitle>
                             <div>
                                 {links.map((link, i) => (
-                                    <div key={i}>
-                                        <Anchor
-                                            className="w-full justify-start mt-2"
-                                            variant="ghost"
-                                            href={link.path}
-                                        >
-                                            {link.label}
-                                        </Anchor>
-                                        {link.subLinks?.map((subLink, j) => (
-                                            <Anchor
-                                                key={j}
-                                                className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
+                                    <Collapsible
+                                        key={i}
+                                        defaultOpen={link.defaultOpen}
+                                    >
+                                        <CollapsibleTrigger className="w-full">
+                                            <Button
                                                 variant="ghost"
-                                                href={subLink.path}
+                                                className="w-full justify-start text-base font-semibold mt-2"
                                             >
-                                                {subLink.icon}
-                                                {subLink.label}
-                                            </Anchor>
-                                        ))}
-                                    </div>
+                                                {link.label}
+                                                <ChevronDown className="w-4 h-4 ml-auto" />
+                                            </Button>
+                                        </CollapsibleTrigger>
+                                        <CollapsibleContent>
+                                            <div className="grid gap-2 mt-2">
+                                                {link.subLinks?.map(
+                                                    (subLink, j) => (
+                                                        <Button
+                                                            key={j}
+                                                            variant="ghost"
+                                                            className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
+                                                            asChild
+                                                        >
+                                                            <a
+                                                                href={
+                                                                    subLink.path
+                                                                }
+                                                            >
+                                                                <div className="flex items-center gap-2">
+                                                                    {
+                                                                        subLink.icon
+                                                                    }
+                                                                    {
+                                                                        subLink.label
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        </Button>
+                                                    )
+                                                )}
+                                            </div>
+                                        </CollapsibleContent>
+                                    </Collapsible>
+                                    // <div key={i}>
+                                    //     {link.path ? (
+                                    //         <Anchor
+                                    //             className="w-full justify-start mt-2"
+                                    //             variant="ghost"
+                                    //             href={link.path}
+                                    //         >
+                                    //             {link.label}
+                                    //         </Anchor>
+                                    //     ) : (
+                                    //         <div className="w-full justify-start mt-2">
+                                    //             {link.label}
+                                    //         </div>
+                                    //     )}
+                                    //     {link.subLinks?.map((subLink, j) => (
+                                    //         <Anchor
+                                    //             key={j}
+                                    //             className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
+                                    //             variant="ghost"
+                                    //             href={subLink.path}
+                                    //         >
+                                    //             {subLink.icon}
+                                    //             {subLink.label}
+                                    //         </Anchor>
+                                    //     ))}
+                                    // </div>
                                 ))}
                             </div>
                         </SheetHeader>
@@ -136,12 +182,9 @@ export async function Navbar() {
                     {links.map((link) => (
                         <NavigationMenuItem key={link.label}>
                             <NavigationMenuTrigger>
-                                <Link
-                                    href={link.path}
-                                    className="text-base font-semibold"
-                                >
+                                <div className="text-base font-semibold">
                                     {link.label}
-                                </Link>
+                                </div>
                             </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <ul className="grid gap-3 p-6 lg:grid-cols-[.75fr_1fr] text-nowrap">

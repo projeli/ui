@@ -25,12 +25,11 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
 
     return (
         <div className="grid gap-4 h-max">
-            <FormAlert formState={formState} />
             <form action={formAction} className="grid grid-cols-1 gap-4">
                 <input type="hidden" name="id" value={project.id} />
-                <Card className="p-6 grid gap-4">
+                <Card className="p-6 grid gap-6">
                     <div>
-                        <h2 className="text-xl font-semibold">Project Tags</h2>
+                        <h2 className="text-xl font-semibold">Tags</h2>
                         <p className="text-muted-foreground text-sm">
                             Tags help you categorize and organize your projects.
                             It's a good idea to add tags that describe the
@@ -42,6 +41,7 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
                             spaces or using Enter.
                         </p>
                     </div>
+                    <FormAlert formState={formState} />
                     <div>
                         <LabeledTagsInput
                             className="max-w-sm"

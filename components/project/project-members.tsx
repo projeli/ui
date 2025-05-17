@@ -1,10 +1,9 @@
-import Anchor from "@/components/navigation/anchor";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card } from "@/components/ui/card";
 import { userApi } from "@/lib/api/user/user-api";
 import { Project } from "@/lib/types/project-types";
-import { Crown, FileQuestion } from "lucide-react";
 import { cache } from "react";
+import Anchor from "../navigation/anchor";
+import ProjectMember from "./project-member";
 
 const getMembers = cache(async (userIds: string[]) => {
     return await userApi.getByIds(userIds);
@@ -30,32 +29,9 @@ export default async function ProjectMembers({
                         key={member.id}
                         href={`/users/${member.userName}`}
                         variant="ghost"
-                        className="flex gap-2 justify-start h-14 relative"
+                        className="justify-start h-14"
                     >
-                        <Avatar>
-                            <AvatarImage
-                                src={member.imageUrl}
-                                alt={member.userName}
-                            />
-                            <AvatarFallback>
-                                <FileQuestion />
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="flex flex-col justify-center">
-                            <h3 className="text-base font-semibold leading-4">
-                                <span className="flex gap-1 items-center">
-                                    {member.firstName} {member.lastName}{" "}
-                                    {project.members.find(
-                                        (m) => m.userId === member.id
-                                    )?.isOwner && (
-                                        <Crown className="!size-3 text-orange-400" />
-                                    )}
-                                </span>
-                            </h3>
-                            <p className="text-xs text-card-foreground/50">
-                                @{member.userName}
-                            </p>
-                        </div>
+                        <ProjectMember project={project} member={member} />
                     </Anchor>
                 ))}
             </div>

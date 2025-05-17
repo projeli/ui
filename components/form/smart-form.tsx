@@ -1,6 +1,8 @@
 import useFormActionState from "@/lib/hooks/form-hook";
 import { ServerAction } from "@/lib/types/form-types";
-import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+import { useEffect } from "react";
+import { Button, buttonVariants } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
 import { ControlGroup, ControlGroupItem } from "../ui/control-group";
 import {
@@ -28,7 +30,7 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import FormAlert from "./form-alert";
-import { useEffect } from "react";
+import { VariantProps } from "class-variance-authority";
 
 type SmartFormProps = {
     action: ServerAction;
@@ -40,7 +42,10 @@ type SmartFormProps = {
         icon?: React.ReactNode;
         label: string;
         className?: string;
+        variant?: VariantProps<typeof buttonVariants>["variant"];
+        disabled?: boolean;
     };
+    values?: Record<string, any>;
 };
 
 const SmartForm = ({
@@ -50,12 +55,19 @@ const SmartForm = ({
     defaultValues,
     inputs,
     submitButton,
+    values,
 }: SmartFormProps) => {
     const [form, handleSubmit, formState, isLoading] = useFormActionState(
         action,
         formSchema,
         defaultValues
     );
+
+    useEffect(() => {
+        if (values) {
+            form.reset(values);
+        }
+    }, [values, form]);
 
     useEffect(() => {
         if (formState.success && onSuccess) {
@@ -184,7 +196,8 @@ const SmartForm = ({
                                                     field.onChange(
                                                         input.multiple
                                                             ? Array.from(
-                                                                  e.target.files!
+                                                                  e.target
+                                                                      .files!
                                                               )
                                                             : e.target.files![0]
                                                     )
@@ -200,7 +213,12 @@ const SmartForm = ({
                     )
                 )}
                 {submitButton && (
-                    <Button type="submit" className="btn-primary">
+                    <Button
+                        type="submit"
+                        className={cn("btn-primary", submitButton.className)}
+                        disabled={isLoading || submitButton.disabled}
+                        variant={submitButton.variant || "default"}
+                    >
                         {submitButton.icon ? (
                             isLoading ? (
                                 <LoadingSpinner />

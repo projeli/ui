@@ -1,5 +1,5 @@
 import { ApiResponse, PagedApiResponse } from "@/lib/types/api-response-types";
-import { Project } from "@/lib/types/project-types";
+import { Project, ProjectMember } from "@/lib/types/project-types";
 import { BaseApi } from "../base-api";
 
 export class ProjectApi extends BaseApi {
@@ -156,6 +156,18 @@ export class ProjectApi extends BaseApi {
             });
     }
 
+    async updateOwnership(
+        id: string,
+        userId: string
+    ): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/ownership`, {
+            method: "PUT",
+            body: JSON.stringify({ userId }),
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
+    }
+
     async delete(id: string): Promise<ApiResponse<Project>> {
             return this.fetchService(`/v1/projects/${id}`, {
                 method: "DELETE",
@@ -170,6 +182,27 @@ export class ProjectApi extends BaseApi {
         })
             .then((res) => res.json())
             .catch((error) => error.json());
+    }
+
+    async addMember(
+        id: string,
+        userId: string
+    ): Promise<ApiResponse<ProjectMember>> {
+        return this.fetchService(`/v1/projects/${id}/members`, {
+            method: "POST",
+            body: JSON.stringify({ userId }),
+        })
+            .then((res) => res.json());
+    }
+
+    async deleteMember(
+        id: string,
+        userId: string
+    ): Promise<ApiResponse<ProjectMember>> {
+        return this.fetchService(`/v1/projects/${id}/members/${userId}`, {
+            method: "DELETE",
+        })
+            .then((res) => res.json());
     }
 }
 

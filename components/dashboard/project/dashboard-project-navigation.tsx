@@ -1,12 +1,12 @@
 "use client";
 
-import { Project } from "@/lib/types/project-types";
-import { BookOpen, Box, ChartLine, List, Menu, Tag, Users } from "lucide-react";
-import { usePathname } from "next/navigation";
-import DashboardProjectHeader from "./dashboard-project-header";
-import { Card } from "@/components/ui/card";
 import Anchor from "@/components/navigation/anchor";
+import { Card } from "@/components/ui/card";
+import { Project } from "@/lib/types/project-types";
+import { BookOpen, Box, ChartLine, List, Menu, Users } from "lucide-react";
+import { usePathname } from "next/navigation";
 import DashboardNavigation from "../dashboard-navigation";
+import DashboardProjectHeader from "./dashboard-project-header";
 
 type DashboardNavigationProps = {
     project: Project;
@@ -75,18 +75,6 @@ const Navigation = ({ project }: { project: Project }) => {
                     Description
                 </Anchor>
                 <Anchor
-                    href={`/dashboard/projects/${project.slug}/tags`}
-                    className="justify-start"
-                    variant={
-                        pathname === `/dashboard/projects/${project.slug}/tags`
-                            ? "default"
-                            : "ghost"
-                    }
-                >
-                    <Tag />
-                    Tags
-                </Anchor>
-                <Anchor
                     href={`/dashboard/projects/${project.slug}/members`}
                     className="justify-start"
                     variant={
@@ -98,19 +86,6 @@ const Navigation = ({ project }: { project: Project }) => {
                 >
                     <Users />
                     Members
-                </Anchor>
-                <Anchor
-                    href={`/dashboard/projects/${project.slug}/analytics`}
-                    className="justify-start"
-                    variant={
-                        pathname ===
-                        `/dashboard/projects/${project.slug}/analytics`
-                            ? "default"
-                            : "ghost"
-                    }
-                >
-                    <ChartLine />
-                    Analytics
                 </Anchor>
                 <Anchor
                     href={`/dashboard/projects/${project.slug}/wiki`}
