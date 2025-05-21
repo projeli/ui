@@ -8,7 +8,6 @@ import { useActionState, useEffect, useRef } from "react";
 import FormAlert from "../form/form-alert";
 import MarkdownEditor from "../markdown/markdown-editor";
 import { Button } from "../ui/button";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type WikiUpdatePageContentFormProps = {
     pageSlug: string;
@@ -68,10 +67,10 @@ const WikiUpdatePageContentForm = ({
                 <div>
                     <Button
                         variant="default"
-                        disabled={isLoading}
                         ref={submitBtnRef}
+                        loading={isLoading}
+                        icon={<Save />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Save />}
                         Save Changes
                     </Button>
                 </div>

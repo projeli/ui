@@ -17,7 +17,6 @@ import FormAlert from "../form/form-alert";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type WikiUpdateSidebarFormProps = {
     wiki: Wiki;
@@ -305,9 +304,9 @@ const WikiUpdateSidebarForm = ({
                         variant="default"
                         className="w-full md:w-max"
                         onClick={onSave}
-                        disabled={isLoading}
+                        loading={isLoading}
+                        icon={<Save />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Save />}
                         Save Changes
                     </Button>
                 </div>
@@ -478,7 +477,9 @@ const SidebarTree = ({ items, onDelete }: SidebarTreeProps) => {
                 canDragAndDrop={true}
                 canDropOnFolder={true}
                 canReorderItems={true}
-                canDropAt={(items, target) => !(items.some((item) => item.isFolder) && target.depth > 0)}
+                canDropAt={(items, target) =>
+                    !(items.some((item) => item.isFolder) && target.depth > 0)
+                }
             >
                 <Tree
                     treeId="sidebar-layout"

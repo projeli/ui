@@ -209,7 +209,7 @@ export async function Navbar() {
                     <CustomUserButton />
                 ) : (
                     <Button asChild className="cursor-pointer">
-                        <SignInButton>
+                        <SignInButton mode="modal">
                             <div>
                                 <LogIn className="h-6 w-6" />
                                 Sign in

@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import { projectApi } from "@/lib/api/project/project-api";
 import { userApi } from "@/lib/api/user/user-api";
+import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, unauthorized } from "next/navigation";
 import { Suspense } from "react";
@@ -28,7 +29,10 @@ export default async function Page({
 
     if (!userId) return unauthorized();
 
-    const project = await projectApi.getBySlug(slug);
+    const [project, wiki] = await Promise.all([
+        projectApi.getBySlug(slug),
+        wikiApi.getByProjectSlug(slug),
+    ]);
 
     if (!project) return notFound();
 
@@ -58,6 +62,7 @@ export default async function Page({
                         >
                             <ProjectMembersDashboard
                                 project={project}
+                                wiki={wiki}
                                 members={members.sort((a, b) =>
                                     a.userName.localeCompare(b.userName)
                                 )}

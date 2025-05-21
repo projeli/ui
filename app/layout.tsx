@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navigation/navbar";
 import FooterSection from "@/components/sections/footer/default";
 import { ThemeProvider } from "@/components/theme/theme-provider";
-import { ToastProvider } from "@/components/toast/toast-context";
+import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Montserrat, Poppins } from "next/font/google";
@@ -50,13 +50,12 @@ export default function RootLayout({
                         enableSystem
                         disableTransitionOnChange
                     >
-                        <ToastProvider>
-                            <Navbar />
-                            <main className="flex flex-grow flex-col">
-                                {children}
-                            </main>
-                            <FooterSection />
-                        </ToastProvider>
+                        <Navbar />
+                        <main className="flex flex-grow flex-col">
+                            {children}
+                        </main>
+                        <FooterSection />
+                        <Toaster />
                     </ThemeProvider>
                 </body>
             </html>

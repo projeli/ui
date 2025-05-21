@@ -5,8 +5,6 @@ import {
     Breadcrumbs,
     withDashboard,
 } from "@/components/notification/breadcrumbs";
-import ProjectCategories from "@/components/project/project-categories";
-import ProjectClearFilters from "@/components/project/project-clear-filters";
 import ProjectFilters from "@/components/project/project-filters";
 import ProjectSearchHeader from "@/components/project/project-search-header";
 import ProjectsPagination from "@/components/project/projects-pagination";

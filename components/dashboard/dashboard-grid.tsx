@@ -6,7 +6,11 @@ type DashboardGridProps = {
     className?: string;
 };
 
-const DashboardGrid = ({ children, reverse, className }: DashboardGridProps) => (
+const DashboardGrid = ({
+    children,
+    reverse,
+    className,
+}: DashboardGridProps) => (
     <div
         className={cn(
             "grid grid-cols-1  gap-6",

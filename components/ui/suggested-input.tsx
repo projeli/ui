@@ -4,9 +4,10 @@ import { X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "./button";
 import { Card } from "./card";
+import { Input } from "./input";
 
 export type Suggestion = {
-    id: string;
+    userId: string;
     name: string;
     image?: string;
 };
@@ -76,9 +77,9 @@ const SuggestedInput = ({
 
     return (
         <div className="relative">
-            <input
+            <Input
                 type="text"
-                className="border border-gray-300 rounded-md p-2 w-full peer"
+                className="peer"
                 onChange={(e) => {
                     const value = e.target.value;
                     if (value.length >= minLength) {

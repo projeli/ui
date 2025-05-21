@@ -1,5 +1,6 @@
 "use client";
 
+import { updateProjectStatusAction } from "@/actions/project/update-project-status";
 import { Project } from "@/lib/types/project-types";
 import { Rocket, X } from "lucide-react";
 import { startTransition, useActionState } from "react";
@@ -15,8 +16,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
-import { updateProjectStatusAction } from "@/actions/project/update-project-status";
 
 type ProjectPublishDialogProps = {
     project: Project;
@@ -50,30 +49,30 @@ const ProjectPublishDialog = ({ project }: ProjectPublishDialogProps) => {
                 <DialogHeader>
                     <DialogTitle>Publish Project</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to publish the{" "}
-                        {project.name} project?
+                        Are you sure you want to publish the {project.name}{" "}
+                        project?
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handlePublish}
-                        disabled={isLoading}
                         type="submit"
                         variant="default"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Rocket />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Rocket />}
                         Confirm
                     </Button>
                 </DialogFooter>

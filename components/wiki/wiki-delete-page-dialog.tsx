@@ -1,8 +1,8 @@
 "use client";
 
-import { deleteWikiAction } from "@/actions/wiki/delete-wiki";
+import { deleteWikiPageAction } from "@/actions/wiki/delete-wiki-page";
 import { Project } from "@/lib/types/project-types";
-import { Wiki, WikiPage } from "@/lib/types/wiki-types";
+import { WikiPage } from "@/lib/types/wiki-types";
 import { Trash, X } from "lucide-react";
 import { startTransition, useActionState } from "react";
 import FormAlert from "../form/form-alert";
@@ -17,8 +17,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
-import { deleteWikiPageAction } from "@/actions/wiki/delete-wiki-page";
 
 type WikiDeletePageDialogProps = {
     page: WikiPage;
@@ -26,7 +24,11 @@ type WikiDeletePageDialogProps = {
     wikiId: string;
 };
 
-const WikiDeletePageDialog = ({ page, project, wikiId }: WikiDeletePageDialogProps) => {
+const WikiDeletePageDialog = ({
+    page,
+    project,
+    wikiId,
+}: WikiDeletePageDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
         deleteWikiPageAction,
         {}
@@ -68,23 +70,23 @@ const WikiDeletePageDialog = ({ page, project, wikiId }: WikiDeletePageDialogPro
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handleDelete}
-                        disabled={isLoading}
                         type="submit"
                         variant="destructive"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Trash />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Trash />}
                         Confirm
                     </Button>
                 </DialogFooter>

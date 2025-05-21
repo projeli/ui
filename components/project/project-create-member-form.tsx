@@ -16,7 +16,7 @@ const ProjectCreateMemberForm = ({ project }: { project: Project }) => {
             <UserSearchAndSelect
                 excludedUsers={project.members.map((member) => member.userId)}
                 onUserSelect={(user) => {
-                    setUserId(user.id);
+                    setUserId(user.userId);
                 }}
                 onUserDeselect={() => {
                     setUserId("");

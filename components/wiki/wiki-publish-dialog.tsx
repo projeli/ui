@@ -1,8 +1,8 @@
 "use client";
 
-import { updateWikiPageStatusAction } from "@/actions/wiki/update-wiki-page-status";
+import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
 import { Project } from "@/lib/types/project-types";
-import { Wiki, WikiPage } from "@/lib/types/wiki-types";
+import { Wiki } from "@/lib/types/wiki-types";
 import { Rocket, X } from "lucide-react";
 import { startTransition, useActionState } from "react";
 import FormAlert from "../form/form-alert";
@@ -17,18 +17,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
-import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
 
 type WikiPublishDialogProps = {
     wiki: Wiki;
     project: Project;
 };
 
-const WikiPublishDialog = ({
-    wiki,
-    project,
-}: WikiPublishDialogProps) => {
+const WikiPublishDialog = ({ wiki, project }: WikiPublishDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
         updateWikiStatusAction,
         {}
@@ -63,23 +58,23 @@ const WikiPublishDialog = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handlePublish}
-                        disabled={isLoading}
                         type="submit"
                         variant="default"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Rocket />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Rocket />}
                         Confirm
                     </Button>
                 </DialogFooter>

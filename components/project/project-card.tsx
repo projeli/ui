@@ -25,7 +25,9 @@ const ProjectCard = ({ project, layout, href }: ProjectCardProps) => {
                         </Link>
                     </div>
                     <div>
-                        <p className="text-sm text-muted-foreground">{project.summary}</p>
+                        <p className="text-sm text-muted-foreground">
+                            {project.summary}
+                        </p>
                     </div>
                     <ProjectTags project={project} />
                 </div>

@@ -26,7 +26,7 @@ export default async function ProjectMembers({
             <div className="grid mt-4">
                 {members.map((member) => (
                     <Anchor
-                        key={member.id}
+                        key={member.userId}
                         href={`/users/${member.userName}`}
                         variant="ghost"
                         className="justify-start h-14"

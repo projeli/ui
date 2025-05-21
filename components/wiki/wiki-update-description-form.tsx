@@ -1,15 +1,15 @@
 "use client";
 
 import { updateWikiContentAction } from "@/actions/wiki/update-wiki-content";
+import { useToast } from "@/hooks/use-toast";
 import { Project } from "@/lib/types/project-types";
 import { Wiki } from "@/lib/types/wiki-types";
+import { createFormToast } from "@/lib/utils";
 import { debounce } from "lodash";
 import { Save } from "lucide-react";
 import { useActionState, useEffect, useRef } from "react";
-import FormAlert from "../form/form-alert";
 import MarkdownEditor from "../markdown/markdown-editor";
 import { Button } from "../ui/button";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type WikiUpdateDescriptionFormProps = {
     project: Project;
@@ -20,6 +20,7 @@ const WikiUpdateDescriptionForm = ({
     project,
     wiki,
 }: WikiUpdateDescriptionFormProps) => {
+    const { toast } = useToast();
     const [formState, formAction, isLoading] = useActionState(
         updateWikiContentAction,
         {}
@@ -52,9 +53,12 @@ const WikiUpdateDescriptionForm = ({
         };
     }, [isLoading]); // Add isLoading to dependencies
 
+    useEffect(() => {
+        createFormToast(toast, formState, "Description updated successfully.");
+    }, [formState, toast]);
+
     return (
         <div className="flex flex-col h-full grow">
-            <FormAlert formState={formState} className="mb-4" />
             <form action={formAction} className="flex flex-col gap-4 grow">
                 <input type="hidden" name="id" value={wiki.id} />
                 <div className="border border-border rounded-lg overflow-hidden grow">
@@ -63,10 +67,10 @@ const WikiUpdateDescriptionForm = ({
                 <div>
                     <Button
                         variant="default"
-                        disabled={isLoading}
                         ref={submitBtnRef}
+                        loading={isLoading}
+                        icon={<Save />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Save />}
                         Save Changes
                     </Button>
                 </div>

@@ -1,4 +1,3 @@
-import NotPublishedBanner from "@/components/banner/not-published-banner";
 import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import DashboardWikiNavigation from "@/components/dashboard/wiki/dashboard-wiki-navigation";
 import DashboardWikiSettingsNavbar from "@/components/dashboard/wiki/dashboard-wiki-settings-navbar";
@@ -8,7 +7,6 @@ import {
     withDashboardWikiSettings,
 } from "@/components/notification/breadcrumbs";
 import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
-import WikiPublishDialog from "@/components/wiki/wiki-publish-dialog";
 import WikiUpdateDescriptionForm from "@/components/wiki/wiki-update-description-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";

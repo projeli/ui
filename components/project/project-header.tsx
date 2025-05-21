@@ -60,7 +60,12 @@ const ProjectHeader = ({
     }
 
     return (
-        <div className={cn("flex flex-col sm:flex-row justify-between items-end pb-6 border-b border-border gap-4", className)}>
+        <div
+            className={cn(
+                "flex flex-col sm:flex-row justify-between items-end pb-6 border-b border-border gap-4",
+                className
+            )}
+        >
             <div className="grid grid-cols-[96px,minmax(0,1fr)] grid-rows-[max-content,max-content,1fr] gap-x-2 sm:gap-x-6">
                 <div className="row-span-1 sm:row-span-3">
                     <ProjectImage project={project} href={href} />

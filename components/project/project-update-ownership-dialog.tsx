@@ -9,7 +9,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import ProjectMemberDeleteForm from "./project-member-delete-form";
 import ProjectUpdateOwnershipForm from "./project-update-ownership-form";
 
 const ProjectUpdateOwnershipDialog = ({

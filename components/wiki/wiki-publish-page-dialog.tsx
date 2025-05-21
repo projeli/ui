@@ -17,7 +17,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type WikiPublishPageDialogProps = {
     page: WikiPage;
@@ -66,23 +65,23 @@ const WikiPublishPageDialog = ({
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handlePublish}
-                        disabled={isLoading}
                         type="submit"
                         variant="default"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Rocket />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Rocket />}
                         Confirm
                     </Button>
                 </DialogFooter>

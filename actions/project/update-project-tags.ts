@@ -15,7 +15,7 @@ export const updateProjectTagsAction: ServerAction = async (
     if (response.success) {
         return {
             success: true,
-            message: "Tags updated successfully",
+            message: "Tags updated successfully.",
             errors: {},
         };
     }

@@ -36,10 +36,7 @@ const WikiCreatePageDialog = ({
                         Create a new page by filling out the form below.
                     </DialogDescription>
                 </DialogHeader>
-                <WikiCreatePageForm
-                    projectSlug={projectSlug}
-                    wikiId={wikiId}
-                />
+                <WikiCreatePageForm projectSlug={projectSlug} wikiId={wikiId} />
             </DialogContent>
         </Dialog>
     );

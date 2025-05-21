@@ -1,20 +1,21 @@
 "use client";
 
 import { updateProjectContentAction } from "@/actions/project/update-project-content";
+import { useToast } from "@/hooks/use-toast";
 import { Project } from "@/lib/types/project-types";
+import { createFormToast } from "@/lib/utils";
 import { debounce } from "lodash";
 import { Save } from "lucide-react";
 import { useActionState, useEffect, useRef } from "react";
-import FormAlert from "../form/form-alert";
 import MarkdownEditor from "../markdown/markdown-editor";
 import { Button } from "../ui/button";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type ProjectContentFormProps = {
     project: Project;
 };
 
 const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
+    const { toast } = useToast();
     const [formState, formAction, isLoading] = useActionState(
         updateProjectContentAction,
         {}
@@ -25,6 +26,10 @@ const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
     const debouncedSubmit = debounce(() => {
         submitBtnRef.current?.click();
     }, 1000);
+
+    useEffect(() => {
+        createFormToast(toast, formState, "Description updated successfully.");
+    }, [formState, toast]);
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
@@ -46,7 +51,6 @@ const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
 
     return (
         <div className="grid gap-4">
-            <FormAlert formState={formState} />
             <form
                 action={formAction}
                 className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
@@ -58,10 +62,10 @@ const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
                 <div>
                     <Button
                         variant="default"
-                        disabled={isLoading}
                         ref={submitBtnRef}
+                        loading={isLoading}
+                        icon={<Save />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Save />}
                         Save Changes
                     </Button>
                 </div>

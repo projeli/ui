@@ -38,7 +38,7 @@ export const updateProjectDetailsAction: ServerAction = async (
 
         return {
             success: true,
-            message: "Project updated successfully",
+            message: "Project updated successfully.",
             errors: {},
         };
     }

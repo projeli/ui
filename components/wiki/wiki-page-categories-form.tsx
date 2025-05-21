@@ -1,14 +1,14 @@
 "use client";
 
 import { updateWikiPageCategoriesAction } from "@/actions/wiki/update-wiki-page-categories";
+import { useToast } from "@/hooks/use-toast";
 import { WikiCategory, WikiPage } from "@/lib/types/wiki-types";
+import { createFormToast } from "@/lib/utils";
 import { ArrowLeft, ArrowRight, Save } from "lucide-react";
-import { startTransition, useActionState, useState } from "react";
-import FormAlert from "../form/form-alert";
+import { startTransition, useActionState, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type WikiPageCategoriesFormProps = {
     wikiId: string;
@@ -23,6 +23,7 @@ const WikiPageCategoriesForm = ({
     page,
     categories,
 }: WikiPageCategoriesFormProps) => {
+    const { toast } = useToast();
     const [formState, formAction, isLoading] = useActionState(
         updateWikiPageCategoriesAction,
         {}
@@ -111,9 +112,12 @@ const WikiPageCategoriesForm = ({
         });
     };
 
+    useEffect(() => {
+        createFormToast(toast, formState, "Categories updated successfully.");
+    }, [formState, toast]);
+
     return (
         <div>
-            <FormAlert formState={formState} className="mb-4" />
             <div className="grid gap-4">
                 <div className="grid sm:flex gap-4">
                     <Input
@@ -126,8 +130,11 @@ const WikiPageCategoriesForm = ({
                         placeholder="Search all categories..."
                         className="w-full"
                     />
-                    <Button onClick={handleSave} disabled={isLoading}>
-                        {isLoading ? <LoadingSpinner /> : <Save />}
+                    <Button
+                        onClick={handleSave}
+                        loading={isLoading}
+                        icon={<Save />}
+                    >
                         Save Changes
                     </Button>
                 </div>

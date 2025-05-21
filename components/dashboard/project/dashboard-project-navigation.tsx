@@ -3,7 +3,7 @@
 import Anchor from "@/components/navigation/anchor";
 import { Card } from "@/components/ui/card";
 import { Project } from "@/lib/types/project-types";
-import { BookOpen, Box, ChartLine, List, Menu, Users } from "lucide-react";
+import { BookOpen, Box, List, Menu, Users } from "lucide-react";
 import { usePathname } from "next/navigation";
 import DashboardNavigation from "../dashboard-navigation";
 import DashboardProjectHeader from "./dashboard-project-header";

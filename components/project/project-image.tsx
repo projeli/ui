@@ -1,6 +1,5 @@
 import { Project } from "@/lib/types/project-types";
 import { cn, getCdnUrl } from "@/lib/utils";
-import { get } from "lodash";
 import { FileQuestion } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";

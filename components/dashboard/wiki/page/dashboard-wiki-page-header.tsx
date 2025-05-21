@@ -20,11 +20,9 @@ const DashboardWikiPageHeader = ({
             {(page.status === "Draft" || page.status === "Archived") && (
                 <Card className="px-6 py-4 bg-destructive flex flex-col sm:flex-row justify-between sm:items-center gap-4">
                     <p className="text-sm text-destructive-foreground">
-                        {
-                            page.status === "Draft"
-                                ? "This page has not been published yet and is only visible to project members."
-                                : "This page has been archived and is no longer visible to users."
-                        }
+                        {page.status === "Draft"
+                            ? "This page has not been published yet and is only visible to project members."
+                            : "This page has been archived and is no longer visible to users."}
                     </p>
                     <div>
                         <WikiPublishPageDialog

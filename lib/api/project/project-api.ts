@@ -195,6 +195,30 @@ export class ProjectApi extends BaseApi {
             .then((res) => res.json());
     }
 
+    async updateMemberRole(
+        id: string,
+        userId: string,
+        role: string
+    ): Promise<ApiResponse<ProjectMember>> {
+        return this.fetchService(`/v1/projects/${id}/members/${userId}/role`, {
+            method: "PUT",
+            body: JSON.stringify({ role }),
+        })
+            .then((res) => res.json());
+    }
+
+    async updateMemberPermissions(
+        id: string,
+        userId: string,
+        permissions: string
+    ): Promise<ApiResponse<ProjectMember>> {
+        return this.fetchService(`/v1/projects/${id}/members/${userId}/permissions`, {
+            method: "PUT",
+            body: JSON.stringify({ permissions }),
+        })
+            .then((res) => res.json());
+    }
+
     async deleteMember(
         id: string,
         userId: string

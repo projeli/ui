@@ -19,7 +19,7 @@ type WikiCreateCategoryDialogProps = {
 
 const WikiCreateCategoryDialog = ({
     wikiId,
-    redirectUrl
+    redirectUrl,
 }: WikiCreateCategoryDialogProps) => {
     return (
         <Dialog>

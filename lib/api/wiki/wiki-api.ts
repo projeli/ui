@@ -73,8 +73,22 @@ export class WikiApi extends BaseApi {
         return this.fetchService(`/v1/wikis/${id}`, {
             method: "DELETE",
         })
-            .then((res) => res.json())
-            .catch((error) => error.json());
+            .then((res) => res.json());
+    }
+
+    async updateMemberPermissions(
+        wikiId: string,
+        wikiMemberId: string,
+        permissions: string
+    ): Promise<ApiResponse<Wiki>> {
+        return this.fetchService(
+            `/v1/wikis/${wikiId}/members/${wikiMemberId}/permissions`,
+            {
+                method: "PUT",
+                body: JSON.stringify({ permissions }),
+            }
+        )
+            .then((res) => res.json());
     }
 }
 

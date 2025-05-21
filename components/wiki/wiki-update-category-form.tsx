@@ -2,7 +2,7 @@
 
 import { updateWikiCategoryAction } from "@/actions/wiki/update-wiki-category";
 import { WikiCategory } from "@/lib/types/wiki-types";
-import { Edit, Plus, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { z } from "zod";
 import SmartForm from "../form/smart-form";
 

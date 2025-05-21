@@ -27,7 +27,7 @@ export default async function WikiMembers({
             <div className="grid mt-4">
                 {members.map((member) => (
                     <Anchor
-                        key={member.id}
+                        key={member.userId}
                         href={`/users/${member.userName}`}
                         variant="ghost"
                         className="flex gap-2 justify-start h-14 relative"
@@ -46,7 +46,7 @@ export default async function WikiMembers({
                                 <span className="flex gap-1 items-center">
                                     {member.firstName} {member.lastName}{" "}
                                     {wiki.members.find(
-                                        (m) => m.userId === member.id
+                                        (m) => m.userId === member.userId
                                     )?.isOwner && (
                                         <Crown className="!size-3 text-orange-400" />
                                     )}

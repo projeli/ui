@@ -1,20 +1,21 @@
 "use client";
 
 import { updateProjectTagsAction } from "@/actions/project/update-project-tags";
+import { useToast } from "@/hooks/use-toast";
 import { Project } from "@/lib/types/project-types";
+import { createFormToast } from "@/lib/utils";
 import { Save } from "lucide-react";
-import { useActionState, useState } from "react";
-import FormAlert from "../form/form-alert";
+import { useActionState, useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import LabeledTagsInput from "../ui/labeled-tags-input";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type ProjectTagsFormProps = {
     project: Project;
 };
 
 const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
+    const { toast } = useToast();
     const [formState, formAction, isLoading] = useActionState(
         updateProjectTagsAction,
         {}
@@ -22,6 +23,10 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
     const [tags, setTags] = useState<string[]>(
         project.tags.map((tag) => tag.name)
     );
+
+    useEffect(() => {
+        createFormToast(toast, formState, "Tags updated successfully.");
+    }, [formState, toast]);
 
     return (
         <div className="grid gap-4 h-max">
@@ -41,7 +46,6 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
                             spaces or using Enter.
                         </p>
                     </div>
-                    <FormAlert formState={formState} />
                     <div>
                         <LabeledTagsInput
                             className="max-w-sm"
@@ -53,8 +57,11 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
                         />
                     </div>
                     <div>
-                        <Button variant="default" disabled={isLoading}>
-                            {isLoading ? <LoadingSpinner /> : <Save />}
+                        <Button
+                            variant="default"
+                            loading={isLoading}
+                            icon={<Save />}
+                        >
                             Save Changes
                         </Button>
                     </div>

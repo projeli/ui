@@ -1,4 +1,3 @@
-import NotPublishedBanner from "@/components/banner/not-published-banner";
 import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import DashboardWikiNavigation from "@/components/dashboard/wiki/dashboard-wiki-navigation";
 import PageContainer from "@/components/layout/page-container";
@@ -10,7 +9,6 @@ import { Card } from "@/components/ui/card";
 import { WikiCategoriesTable } from "@/components/wiki/wiki-categories-table";
 import WikiCreateCategoryDialog from "@/components/wiki/wiki-create-category-dialog";
 import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
-import WikiPublishDialog from "@/components/wiki/wiki-publish-dialog";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { wikiCategoryApi } from "@/lib/api/wiki/wiki-category-api";

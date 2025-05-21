@@ -6,7 +6,7 @@ type DashboardWikiSettingsNavbarProps = {
 };
 
 const DashboardWikiSettingsNavbar = ({
-    projectSlug
+    projectSlug,
 }: DashboardWikiSettingsNavbarProps) => {
     return (
         <HorizontalNavbar

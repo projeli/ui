@@ -17,7 +17,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type WikiArchiveDialogProps = {
     project: Project;
@@ -59,23 +58,23 @@ const WikiArchiveDialog = ({ project, wiki }: WikiArchiveDialogProps) => {
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handleDelete}
-                        disabled={isLoading}
                         type="submit"
                         variant="destructive"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Archive />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Archive />}
                         Confirm
                     </Button>
                 </DialogFooter>

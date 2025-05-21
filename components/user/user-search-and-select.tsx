@@ -41,16 +41,16 @@ const UserSearchAndSelect = ({
     useEffect(() => {
         if (formState.success && formState.data) {
             const filteredSuggestions = formState.data.filter(
-                (user: ProjeliUser) => !excludedUsers.includes(user.id)
+                (user: ProjeliUser) => !excludedUsers.includes(user.userId)
             );
 
             const mappedSuggestions = filteredSuggestions
                 .map((user: ProjeliUser) => ({
-                    id: user.id,
+                    userId: user.userId,
                     name: user.userName,
                     image: user.imageUrl,
                 }))
-                .filter((suggestion) => !excludedUsers.includes(suggestion.id));
+                .filter((suggestion) => !excludedUsers.includes(suggestion.userId));
             setSuggestions(mappedSuggestions);
         } else {
             setSuggestions([]);
@@ -61,7 +61,7 @@ const UserSearchAndSelect = ({
         <SuggestedInput
             onChange={handleInputChange}
             onSelect={(suggestion) => {
-                onUserSelect({ id: suggestion.id, userName: suggestion.name });
+                onUserSelect({ userId: suggestion.userId, userName: suggestion.name, imageUrl: "", email: "" });
             }}
             onDeselect={() => {
                 onUserDeselect();

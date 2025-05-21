@@ -1,6 +1,6 @@
 import { ProjectLink } from "@/lib/types/project-types";
-import Anchor from "../navigation/anchor";
 import { SquareArrowOutUpRight } from "lucide-react";
+import Anchor from "../navigation/anchor";
 import { Card } from "../ui/card";
 
 const ProjectLinks = ({ links }: { links: ProjectLink[] }) => {

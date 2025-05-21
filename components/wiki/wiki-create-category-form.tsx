@@ -2,7 +2,7 @@
 
 import { createWikiCategoryAction } from "@/actions/wiki/create-wiki-category";
 import { Plus } from "lucide-react";
-import { redirect, RedirectType, useRouter } from "next/navigation";
+import { redirect, RedirectType } from "next/navigation";
 import { z } from "zod";
 import SmartForm from "../form/smart-form";
 

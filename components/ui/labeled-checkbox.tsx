@@ -6,11 +6,13 @@ import { Checkbox } from "./checkbox";
 import { Label } from "./label";
 
 type LabeledCheckboxProps = React.ComponentProps<typeof Checkbox> & {
+    ref?: React.ForwardedRef<HTMLButtonElement>;
     label: string | React.ReactNode;
     errors?: Errors;
 };
 
 const LabeledCheckbox = ({
+    ref,
     label,
     errors,
     name,
@@ -29,6 +31,7 @@ const LabeledCheckbox = ({
             )}
         >
             <Checkbox
+                ref={ref}
                 className="size-5 rounded-[.5rem]"
                 name={name}
                 required={required}

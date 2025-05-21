@@ -136,16 +136,34 @@ export const withDashboardProject = (
 export const withDashboardWiki = (
     project: { name: string; slug: string },
     links: readonly Link[]
-): Link[] => withDashboardProject(project, [{ label: "Wiki", href: `/dashboard/projects/${project.slug}/wiki` }, ...links]);
+): Link[] =>
+    withDashboardProject(project, [
+        { label: "Wiki", href: `/dashboard/projects/${project.slug}/wiki` },
+        ...links,
+    ]);
 
 export const withDashboardWikiSettings = (
     project: { name: string; slug: string },
     links: readonly Link[]
-): Link[] => withDashboardWiki(project, [{ label: "Settings", href: `/dashboard/projects/${project.slug}/wiki/settings` }, ...links]);
+): Link[] =>
+    withDashboardWiki(project, [
+        {
+            label: "Settings",
+            href: `/dashboard/projects/${project.slug}/wiki/settings`,
+        },
+        ...links,
+    ]);
 
 export const withDashboardWikiPages = (
     project: { name: string; slug: string },
     links: readonly Link[]
-): Link[] => withDashboardWiki(project, [{ label: "Pages", href: `/dashboard/projects/${project.slug}/wiki/pages` }, ...links]);
+): Link[] =>
+    withDashboardWiki(project, [
+        {
+            label: "Pages",
+            href: `/dashboard/projects/${project.slug}/wiki/pages`,
+        },
+        ...links,
+    ]);
 
 Breadcrumbs.displayName = "Breadcrumbs";

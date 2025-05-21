@@ -1,5 +1,6 @@
 "use client";
 
+import { updateWikiPageStatusAction } from "@/actions/wiki/update-wiki-page-status";
 import { Project } from "@/lib/types/project-types";
 import { WikiPage } from "@/lib/types/wiki-types";
 import { Trash, X } from "lucide-react";
@@ -16,8 +17,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
-import { updateWikiPageStatusAction } from "@/actions/wiki/update-wiki-page-status";
 
 type WikiPageArchiveDialogProps = {
     page: WikiPage;
@@ -25,7 +24,11 @@ type WikiPageArchiveDialogProps = {
     wikiId: string;
 };
 
-const WikiPageArchiveDialog = ({ page, project, wikiId }: WikiPageArchiveDialogProps) => {
+const WikiPageArchiveDialog = ({
+    page,
+    project,
+    wikiId,
+}: WikiPageArchiveDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
         updateWikiPageStatusAction,
         {}
@@ -55,30 +58,30 @@ const WikiPageArchiveDialog = ({ page, project, wikiId }: WikiPageArchiveDialogP
                 <DialogHeader>
                     <DialogTitle>Archive Page</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to archive the page for the {" "}
+                        Are you sure you want to archive the page for the{" "}
                         {project.name} wiki?
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handleArchive}
-                        disabled={isLoading}
                         type="submit"
                         variant="destructive"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Trash />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Trash />}
                         Confirm
                     </Button>
                 </DialogFooter>

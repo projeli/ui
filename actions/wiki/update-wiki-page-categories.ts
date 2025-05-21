@@ -16,7 +16,7 @@ export const updateWikiPageCategoriesAction: ServerAction = async (
     if (response.success) {
         return {
             success: true,
-            message: "Categories updated successfully",
+            message: "Categories updated successfully.",
             errors: {},
         };
     }

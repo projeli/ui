@@ -20,8 +20,8 @@ const ProjectMemberDeleteDialog = ({
         icon: buttonIcon,
         label: buttonLabel,
     } = {},
-    dialog: { 
-        description: dialogDescription, 
+    dialog: {
+        description: dialogDescription,
         title: dialogTitle,
         button: {
             className: dialogButtonClassName = "",
@@ -50,7 +50,7 @@ const ProjectMemberDeleteDialog = ({
             variant?: VariantProps<typeof buttonVariants>["variant"];
             icon?: React.ReactNode;
             label?: string;
-        }
+        };
     };
     userId: string;
 }) => {

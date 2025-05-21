@@ -1,10 +1,11 @@
 "use client";
 
+import { useToast } from "@/hooks/use-toast";
 import { FormState, ServerAction } from "@/lib/types/form-types";
+import { createFormToast } from "@/lib/utils";
 import { Upload, X } from "lucide-react";
 import { useActionState, useEffect, useState } from "react";
 import FormValidationMessage from "../form/form-validation-message";
-import { useToast } from "../toast/toast-context";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle } from "../ui/dialog";
 
@@ -27,7 +28,7 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
     action,
     hiddenInputs = {},
 }) => {
-    const { addToast } = useToast();
+    const { toast } = useToast();
 
     const [image, setImage] = useState<File | null>(null);
 
@@ -41,6 +42,14 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
 
     const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files?.[0];
+        if (selectedFile && selectedFile.size > 2 * 1024 * 1024) {
+            toast({
+                description: "File size exceeds 2MB.",
+                variant: "destructive",
+            });
+            setImage(null);
+            return;
+        }
         if (selectedFile && acceptedFormats.includes(selectedFile.type)) {
             setImage(selectedFile);
         }
@@ -56,22 +65,15 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
         }
     };
 
-    const initialState: FormState = {
-        errors: {},
-        success: false,
-        message: "",
-    };
-
-    const [formState, formAction] = useActionState<FormState, FormData>(
-        action,
-        initialState
-    );
+    const [formState, formAction, isLoading] = useActionState<
+        FormState,
+        FormData
+    >(action, {});
 
     useEffect(() => {
         if (formState.success) {
             onClose();
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formState]);
 
     useEffect(() => {
@@ -79,13 +81,8 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
     }, [onClose]);
 
     useEffect(() => {
-        if (formState.message) {
-            addToast(
-                formState.message,
-                formState.success ? "success" : "error"
-            );
-        }
-    }, [formState, addToast]);
+        createFormToast(toast, formState, "Image uploaded successfully.");
+    }, [formState, toast]);
 
     return (
         <Dialog open={isOpen} onOpenChange={onClose}>
@@ -141,9 +138,8 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
                                 variant="destructive"
                                 className="absolute top-0 left-0 rounded hover:bg-destructive/50 bg-transparent hover:opacity-100 opacity-0 size-12"
                                 onClick={removeImage}
-                            >
-                                <X />
-                            </Button>
+                                icon={<X />}
+                            />
                             <img
                                 src={URL.createObjectURL(image)}
                                 alt="Preview"
@@ -156,8 +152,12 @@ const ImageUploadDialog: React.FC<ImageUploadDialogProps> = ({
                         </div>
                     )}
                     <div className="mt-4 flex justify-end">
-                        <Button disabled={!image}>
-                            <Upload />
+                        <Button
+                            disabled={!image}
+                            type="submit"
+                            loading={isLoading}
+                            icon={<Upload />}
+                        >
                             Upload
                         </Button>
                     </div>

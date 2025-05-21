@@ -16,7 +16,6 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "../ui/dialog";
-import LoadingSpinner from "../ui/loading-spinner";
 
 type ProjectDeleteDialogProps = {
     project: Project;
@@ -62,23 +61,23 @@ const ProjectDeleteDialog = ({ project }: ProjectDeleteDialogProps) => {
                 <DialogFooter>
                     <DialogClose asChild>
                         <Button
-                            disabled={isLoading}
                             type="button"
                             variant="outline"
                             className="grow"
+                            loading={isLoading}
+                            icon={<X />}
                         >
-                            <X />
                             Cancel
                         </Button>
                     </DialogClose>
                     <Button
                         onClick={handleDelete}
-                        disabled={isLoading}
                         type="submit"
                         variant="destructive"
                         className="grow"
+                        loading={isLoading}
+                        icon={<Trash />}
                     >
-                        {isLoading ? <LoadingSpinner /> : <Trash />}
                         Confirm
                     </Button>
                 </DialogFooter>

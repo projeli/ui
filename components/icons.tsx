@@ -3,9 +3,7 @@ import ProjeliLogo from "./logo/projeli-logo";
 type IconProps = React.HTMLAttributes<SVGElement>;
 
 export const Icons = {
-    logo: (props: IconProps) => (
-        <ProjeliLogo {...props} />
-    ),
+    logo: (props: IconProps) => <ProjeliLogo {...props} />,
     twitter: (props: IconProps) => (
         <svg
             {...props}

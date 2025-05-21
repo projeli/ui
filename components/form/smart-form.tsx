@@ -1,6 +1,8 @@
+import { useToast } from "@/hooks/use-toast";
 import useFormActionState from "@/lib/hooks/form-hook";
 import { ServerAction } from "@/lib/types/form-types";
-import { cn } from "@/lib/utils";
+import { cn, createFormToast } from "@/lib/utils";
+import { VariantProps } from "class-variance-authority";
 import { useEffect } from "react";
 import { Button, buttonVariants } from "../ui/button";
 import { Checkbox } from "../ui/checkbox";
@@ -20,7 +22,6 @@ import {
     InputBaseControl,
     InputBaseInput,
 } from "../ui/input-base";
-import LoadingSpinner from "../ui/loading-spinner";
 import {
     Select,
     SelectContent,
@@ -29,8 +30,6 @@ import {
     SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
-import FormAlert from "./form-alert";
-import { VariantProps } from "class-variance-authority";
 
 type SmartFormProps = {
     action: ServerAction;
@@ -57,6 +56,7 @@ const SmartForm = ({
     submitButton,
     values,
 }: SmartFormProps) => {
+    const { toast } = useToast();
     const [form, handleSubmit, formState, isLoading] = useFormActionState(
         action,
         formSchema,
@@ -75,9 +75,12 @@ const SmartForm = ({
         }
     }, [formState]);
 
+    useEffect(() => {
+        createFormToast(toast, formState);
+    }, [formState, toast]);
+
     return (
         <Form {...form}>
-            <FormAlert formState={formState} className="my-4" />
             <form onSubmit={handleSubmit} className="space-y-4">
                 {inputs.map((input, index) =>
                     input.type === "hidden" ? (
@@ -216,16 +219,11 @@ const SmartForm = ({
                     <Button
                         type="submit"
                         className={cn("btn-primary", submitButton.className)}
-                        disabled={isLoading || submitButton.disabled}
+                        disabled={submitButton.disabled}
                         variant={submitButton.variant || "default"}
+                        loading={isLoading}
+                        icon={submitButton.icon}
                     >
-                        {submitButton.icon ? (
-                            isLoading ? (
-                                <LoadingSpinner />
-                            ) : (
-                                submitButton.icon
-                            )
-                        ) : null}
                         {submitButton.label}
                     </Button>
                 )}

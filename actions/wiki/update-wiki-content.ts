@@ -15,7 +15,7 @@ export const updateWikiContentAction: ServerAction = async (
     if (response.success) {
         return {
             success: true,
-            message: "Description updated successfully",
+            message: "Description updated successfully.",
             errors: {},
         };
     }

@@ -21,14 +21,14 @@ const ProjectMember = ({ project, member }: ProjectMemberProps) => {
                 <h3 className="text-base font-semibold leading-4">
                     <span className="flex gap-1 items-center">
                         {member.userName}
-                        {project.members.find((m) => m.userId === member.id)
+                        {project.members.find((m) => m.userId === member.userId)
                             ?.isOwner && (
                             <Crown className="!size-3 text-orange-400" />
                         )}
                     </span>
                 </h3>
                 <p className="text-xs text-muted-foreground">
-                    {project.members.find((m) => m.userId === member.id)
+                    {project.members.find((m) => m.userId === member.userId)
                         ?.role || "Member"}
                 </p>
             </div>

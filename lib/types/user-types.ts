@@ -1,8 +1,9 @@
 export type ProjeliUser = {
-    id: string;
+    id?: string | null;
+    userId: string;
     userName: string;
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    imageUrl?: string;
+    firstName?: string | null;
+    lastName?: string | null;
+    email: string;
+    imageUrl: string;
 };

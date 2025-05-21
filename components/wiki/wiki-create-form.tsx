@@ -1,12 +1,11 @@
 "use client";
 
+import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
 import { Rocket } from "lucide-react";
 import { useActionState } from "react";
 import FormAlert from "../form/form-alert";
 import { Button } from "../ui/button";
 import { Card } from "../ui/card";
-import LoadingSpinner from "../ui/loading-spinner";
-import { updateWikiStatusAction } from "@/actions/wiki/update-wiki-status";
 
 type WikiCreateFormProps = {
     projectName: string;
@@ -40,9 +39,9 @@ const WikiCreateForm = ({ projectName, wikiId }: WikiCreateFormProps) => {
                     variant="outline"
                     className="w-full"
                     type="submit"
-                    disabled={isLoading}
+                    loading={isLoading}
+                    icon={<Rocket />}
                 >
-                    {isLoading ? <LoadingSpinner /> : <Rocket />}
                     Start a wiki for {projectName}
                 </Button>
             </form>
