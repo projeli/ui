@@ -49,8 +49,3 @@ export async function POST(req: NextRequest) {
     return new Response('Error verifying webhook', { status: 400 })
   }
 }
-
-export async function GET(req: NextRequest) {
-    console.log(await userApi.deleteUser("user_2xPEAN4ZS1Zwbtbe4P0Xj49ECUa"));
-    return new Response('Webhook endpoint for Clerk')
-}
