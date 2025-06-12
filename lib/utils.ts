@@ -2,7 +2,9 @@ import { Toast } from "@/hooks/use-toast";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { FormState } from "./types/form-types";
+import { Notification } from "./types/notification-types";
 import { ProjectMember } from "./types/project-types";
+import { ProjeliUser } from "./types/user-types";
 import { WikiMember } from "./types/wiki-types";
 
 export function cn(...inputs: ClassValue[]) {
@@ -45,4 +47,15 @@ export function createFormToast(toast: ({}: Toast) => void, formState: FormState
       variant: "destructive",
     });
   }
+}
+
+export function getNotificationPerformer(notification: Notification, users: ProjeliUser[]) {
+  const hasPerformerId = Object.prototype.hasOwnProperty.call(
+    notification.body,
+    "performerId"
+  );
+
+  if (!hasPerformerId) return undefined;
+
+  return users.find((user) => user.id === (notification.body as any).performerId);
 }

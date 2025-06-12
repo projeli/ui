@@ -6,7 +6,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardWikiPages,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import { Card } from "@/components/ui/card";
 import WikiDeletePageDialog from "@/components/wiki/wiki-delete-page-dialog";
 import WikiPageArchiveDialog from "@/components/wiki/wiki-page-archive-dialog";
@@ -37,7 +37,7 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki || wiki.status === "Uncreated") return notFound();
+    if (!wiki) return notFound();
     if (!page) return notFound();
 
     return (

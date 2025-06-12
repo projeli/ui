@@ -33,7 +33,9 @@ const WikiPageCategoriesForm = ({
         WikiCategory[]
     >(page.categories);
     const [availableCategories, setAvailableCategories] =
-        useState<WikiCategory[]>(categories);
+        useState<WikiCategory[]>(categories.filter(
+            (category) => !page.categories.some((c) => c.id === category.id)
+        ));
 
     // Pagination states
     const [selectedCategoriesPage, setSelectedCategoriesPage] =

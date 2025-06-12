@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardProjects,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import ProjectHeader from "@/components/project/project-header";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import { Card } from "@/components/ui/card";

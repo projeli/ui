@@ -4,11 +4,13 @@ import NotPublishedBanner from "../banner/not-published-banner";
 import WikiPublishDialog from "./wiki-publish-dialog";
 
 type WikiInfoBannerProps = {
-    wiki: Wiki;
     project: Project;
+    wiki?: Wiki;
 };
 
 const WikiInfoBanner = ({ wiki, project }: WikiInfoBannerProps) => {
+    if (!wiki) return null;
+
     if (wiki.status === "Draft") {
         return (
             <NotPublishedBanner

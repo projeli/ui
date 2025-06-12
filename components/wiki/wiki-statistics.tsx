@@ -1,5 +1,4 @@
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
-import Anchor from "../navigation/anchor";
 import { Card } from "../ui/card";
 
 type WikiStatisticsProps = {
@@ -9,9 +8,8 @@ type WikiStatisticsProps = {
 
 const WikiStatistics = async ({ projectSlug, wikiId }: WikiStatisticsProps) => {
     if (!wikiId) {
-        wikiId = await wikiApi
-            .getByProjectSlug(projectSlug)
-            .then((wiki) => wiki.id);
+        const wiki = await wikiApi.getByProjectSlug(projectSlug);
+        if (wiki) wikiId = wiki.id;
     }
     if (!wikiId) return null;
 
@@ -34,13 +32,6 @@ const WikiStatistics = async ({ projectSlug, wikiId }: WikiStatisticsProps) => {
                 value={statistics.categoryCount}
                 label={{ singular: "Wiki Category", plural: "Wiki Categories" }}
             />
-            <Anchor
-                href={`/dashboard/projects/${projectSlug}/analytics`}
-                variant="outline"
-                className="w-full"
-            >
-                View analytics
-            </Anchor>
         </Card>
     );
 };

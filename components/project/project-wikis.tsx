@@ -8,9 +8,10 @@ import { cache } from "react";
 import NotPublishedBanner from "../banner/not-published-banner";
 import Anchor from "../navigation/anchor";
 import { Card } from "../ui/card";
+import { Project } from "@/lib/types/project-types";
 
 type ProjectWikisProps = {
-    projectId?: string;
+    project: Project;
     wiki?: Wiki;
 };
 
@@ -19,23 +20,19 @@ const getWiki = cache(async (projectId: string) => {
 });
 
 const ProjectWikis = async ({
-    projectId,
+    project,
     wiki: wikiProp,
 }: ProjectWikisProps) => {
     // Use provided wiki object or fetch it using projectId
-    const wiki = wikiProp ?? (projectId ? await getWiki(projectId) : null);
+    const wiki = wikiProp ?? (project.id ? await getWiki(project.id) : null);
 
     if (!wiki) {
-        return null;
-    }
-
-    if (wiki.status === "Uncreated") {
         const { userId } = await auth();
 
-        if (wiki.members.some((member) => member.userId === userId)) {
+        if (project.members.some((member) => member.userId === userId)) {
             return (
                 <Anchor
-                    href={`/dashboard/projects/${wiki.projectSlug}/wiki`}
+                    href={`/dashboard/projects/${project.slug}/wiki`}
                     variant="outline"
                     className="flex items-center gap-2 p-6 justify-start border-secondary"
                 >
@@ -52,7 +49,7 @@ const ProjectWikis = async ({
         return (
             <Card className="border-secondary overflow-hidden">
                 <div className="p-6">
-                    <Header projectId={projectId} wiki={wiki} />
+                    <Header projectId={project.id} wiki={wiki} />
                     <div className="grid mt-4">
                         <ul className="grid">
                             <Item wiki={wiki} title={"Home"} slug={""} />
@@ -71,7 +68,7 @@ const ProjectWikis = async ({
     return (
         <Card className="border-secondary overflow-hidden">
             <div className="p-6">
-                <Header projectId={projectId} wiki={wiki} />
+                <Header projectId={project.id} wiki={wiki} />
                 <div className="grid mt-4">
                     <ul className="grid">
                         {wiki.config.sidebar.items.map((item, i) => (

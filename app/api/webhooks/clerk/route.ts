@@ -7,7 +7,6 @@ export async function POST(req: NextRequest) {
     const event = await verifyWebhook(req)
 
     if (event.type === 'user.created') {
-        console.log('User created:', event.data)
         var response = await userApi.createUser({
             userId: event.data.id,
             userName: event.data.username!,
@@ -45,7 +44,7 @@ export async function POST(req: NextRequest) {
 
     return new Response('Webhook received', { status: 200 })
   } catch (err) {
-    console.error("reqult", 'Error verifying webhook:', err)
+    console.error("result", 'Error verifying webhook:', err)
     return new Response('Error verifying webhook', { status: 400 })
   }
 }

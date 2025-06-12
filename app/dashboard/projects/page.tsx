@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboard,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import ProjectFilters from "@/components/project/project-filters";
 import ProjectSearchHeader from "@/components/project/project-search-header";
 import ProjectsPagination from "@/components/project/projects-pagination";

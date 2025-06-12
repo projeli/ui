@@ -6,7 +6,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardWikiPages,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import WikiPageCategoriesForm from "@/components/wiki/wiki-page-categories-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
@@ -36,7 +36,7 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki || wiki.status === "Uncreated") return notFound();
+    if (!wiki) return notFound();
     if (!page) return notFound();
 
     return (

@@ -144,32 +144,6 @@ export async function Navbar() {
                                             </div>
                                         </CollapsibleContent>
                                     </Collapsible>
-                                    // <div key={i}>
-                                    //     {link.path ? (
-                                    //         <Anchor
-                                    //             className="w-full justify-start mt-2"
-                                    //             variant="ghost"
-                                    //             href={link.path}
-                                    //         >
-                                    //             {link.label}
-                                    //         </Anchor>
-                                    //     ) : (
-                                    //         <div className="w-full justify-start mt-2">
-                                    //             {link.label}
-                                    //         </div>
-                                    //     )}
-                                    //     {link.subLinks?.map((subLink, j) => (
-                                    //         <Anchor
-                                    //             key={j}
-                                    //             className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
-                                    //             variant="ghost"
-                                    //             href={subLink.path}
-                                    //         >
-                                    //             {subLink.icon}
-                                    //             {subLink.label}
-                                    //         </Anchor>
-                                    //     ))}
-                                    // </div>
                                 ))}
                             </div>
                         </SheetHeader>
@@ -203,7 +177,7 @@ export async function Navbar() {
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center gap-2">
-                <NotificationButton />
+                {userId && <NotificationButton />}
                 <ThemeToggle />
                 {userId ? (
                     <CustomUserButton />

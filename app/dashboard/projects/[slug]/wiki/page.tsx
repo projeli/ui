@@ -4,27 +4,39 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardProject,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import ProjectHeader from "@/components/project/project-header";
 import { Card } from "@/components/ui/card";
+import LoadingSpinner from "@/components/ui/loading-spinner";
 import WikiCreateForm from "@/components/wiki/wiki-create-form";
+import WikiEventFilters from "@/components/wiki/wiki-event-filters";
+import WikiEventsContainer from "@/components/wiki/wiki-events-container";
 import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import WikiStatistics from "@/components/wiki/wiki-statistics";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
+import { wikiEventNames, WikiEventType } from "@/lib/types/wiki-types";
 import { auth } from "@clerk/nextjs/server";
 import { notFound, unauthorized } from "next/navigation";
 import { Suspense } from "react";
-import { match, P } from "ts-pattern";
 
 export default async function Page({
     params,
+    searchParams,
 }: {
     params: Promise<{
         slug: string;
     }>;
+    searchParams: Promise<{
+        types: string | string[];
+    }>;
 }) {
     const { slug } = await params;
+    const sp = await searchParams;
+
+    const eventTypes = (Array.isArray(sp.types) ? sp.types : [sp.types]).filter(
+        (type) => Object.keys(wikiEventNames).includes(type)
+    ) as WikiEventType[];
 
     const { userId } = await auth();
     if (!userId) return unauthorized();
@@ -35,7 +47,6 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki) return notFound();
 
     return (
         <PageContainer className="grid gap-6 mt-8">
@@ -46,44 +57,53 @@ export default async function Page({
                 <div className="grid gap-6 h-max">
                     <DashboardWikiNavigation project={project} wiki={wiki} />
                 </div>
-                <div className="flex flex-col gap-4">
-                    <WikiInfoBanner wiki={wiki} project={project} />
-                    <DashboardGrid
-                        className="grid-rows-[max-content,1fr] gap-4"
-                        reverse
-                    >
-                        <Card className="p-6 h-max col-span-2">
+                {wiki ? (
+                    <div className="flex flex-col gap-4">
+                        <WikiInfoBanner wiki={wiki} project={project} />
+                        <Card className="p-6 h-max lg:col-span-2">
                             <ProjectHeader
                                 project={project}
                                 className="border-none p-0"
                                 simple
                             />
                         </Card>
-                        {match(wiki)
-                            .with({ status: P.not("Uncreated") }, () => (
-                                <>
-                                    <Card className="p-6 h-max grid gap-4">
-                                        <h2 className="text-xl font-semibold pb-4 border-b border-border">
-                                            Recent Activity
-                                        </h2>
-                                    </Card>
-                                    <Suspense fallback={null}>
-                                        <WikiStatistics
-                                            projectSlug={slug}
-                                            wikiId={wiki.id}
-                                        />
-                                    </Suspense>
-                                </>
-                            ))
-                            .with({ status: "Uncreated" }, () => (
-                                <WikiCreateForm
-                                    projectName={project.name}
-                                    wikiId={wiki.id}
-                                />
-                            ))
-                            .otherwise(() => null)}
-                    </DashboardGrid>
-                </div>
+                        <DashboardGrid className="gap-4 h-full" reverse>
+                            <Card className="p-6 h-max grid gap-4 order-2 lg:order-1">
+                                <div className="flex gap-4 items-center justify-between pb-4 border-b border-border">
+                                    <h2 className="text-xl font-semibold">
+                                        Recent Activity
+                                    </h2>
+                                    <WikiEventFilters eventTypes={eventTypes} />
+                                </div>
+                                <Suspense
+                                    fallback={
+                                        <div className="flex justify-center gap-2">
+                                            <LoadingSpinner className="size-4" />
+                                            Loading activities...
+                                        </div>
+                                    }
+                                >
+                                    <WikiEventsContainer
+                                        wikiId={wiki.id}
+                                        eventTypes={eventTypes}
+                                    />
+                                </Suspense>
+                            </Card>
+                            <div className="order-1 lg:order-2">
+                                <Suspense fallback={null}>
+                                    <WikiStatistics
+                                        projectSlug={slug}
+                                        wikiId={wiki.id}
+                                    />
+                                </Suspense>
+                            </div>
+                        </DashboardGrid>
+                    </div>
+                ) : (
+                    <div className="flex justify-center items-center">
+                        <WikiCreateForm project={project} />
+                    </div>
+                )}
             </DashboardGrid>
         </PageContainer>
     );

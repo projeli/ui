@@ -34,6 +34,14 @@ export class ProjectApi extends BaseApi {
             .then((res) => res.data);
     }
 
+    async getByIds(ids: string[]): Promise<Project[]> {
+        return this.fetchService(
+            this.createPathWithQueryParams("/v1/projects", { ids })
+        )
+            .then((res) => res.json())
+            .then((res) => res.data);
+    }
+
     async create(
         name: string,
         slug: string,

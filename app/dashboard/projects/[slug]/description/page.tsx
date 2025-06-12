@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardProject,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectUpdateDescriptionForm from "@/components/project/project-update-content-form";
 import { projectApi } from "@/lib/api/project/project-api";

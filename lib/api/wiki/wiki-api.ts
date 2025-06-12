@@ -1,6 +1,8 @@
-import { ApiResponse } from "@/lib/types/api-response-types";
+import { ApiResponse, PagedApiResponse } from "@/lib/types/api-response-types";
 import {
     Wiki,
+    WikiEvent,
+    WikiEventType,
     WikiSidebar,
     WikiStatistics,
     WikiStatus,
@@ -28,6 +30,41 @@ export class WikiApi extends BaseApi {
         return this.fetchService(`/v1/wikis/${wikiId}/statistics`)
             .then((res) => res.json())
             .then((res) => res.data);
+    }
+
+    async getByIds(ids: string[]): Promise<Wiki[]> {
+        return this.fetchService(
+            this.createPathWithQueryParams("/v1/wikis", { ids })
+        )
+            .then((res) => res.json())
+            .then((res) => res.data);
+    }
+
+    async create({
+        projectId,
+        projectName,
+        projectSlug,
+        projectImageUrl,
+        members,
+    }: {
+        projectId: string;
+        projectName: string;
+        projectSlug: string;
+        projectImageUrl?: string;
+        members: { userId: string; isOwner: boolean }[];
+    }): Promise<ApiResponse<Wiki>> {
+        return this.fetchService("/v1/wikis", {
+            method: "POST",
+            body: JSON.stringify({
+                projectId,
+                projectName,
+                projectSlug,
+                projectImageUrl,
+                members,
+            }),
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
     }
 
     async updateStatus(
@@ -89,6 +126,21 @@ export class WikiApi extends BaseApi {
             }
         )
             .then((res) => res.json());
+    }
+
+    async getEvents(
+        wikiId: string,
+        searchParams?: {
+            userIds?: string[];
+            eventTypes?: WikiEventType[];
+            page?: number;
+            pageSize?: number;
+        }
+    ): Promise<PagedApiResponse<WikiEvent>> {
+        console.log("WikiApi getEvents", wikiId, searchParams);
+        return this.fetchService(this.createPathWithQueryParams(`/v1/wikis/${wikiId}/events`, searchParams))
+            .then((res) => res.json())
+            .catch((error) => error.json());
     }
 }
 

@@ -1,10 +1,7 @@
 import "@/app/markdown.css";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
-import {
-    Breadcrumbs,
-    withProjects,
-} from "@/components/notification/breadcrumbs";
+import { Breadcrumbs, withProjects } from "@/components/navigation/breadcrumbs";
 import ProjectDetails from "@/components/project/project-details";
 import ProjectHeader from "@/components/project/project-header";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
@@ -81,9 +78,7 @@ export default async function Page({ params }: Props) {
                 <div className="grid lg:grid-cols-[1fr,18rem] gap-6">
                     <Markdown content={project.content} />
                     <div className="flex flex-col gap-6">
-                        <Suspense>
-                            <ProjectWikis projectId={slug} />
-                        </Suspense>
+                        <ProjectWikis project={project} />
                         {project.links.length > 0 && (
                             <ProjectLinks links={project.links} />
                         )}

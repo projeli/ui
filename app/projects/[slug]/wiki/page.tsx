@@ -2,10 +2,7 @@ import "@/app/markdown.css";
 import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
-import {
-    Breadcrumbs,
-    withProject,
-} from "@/components/notification/breadcrumbs";
+import { Breadcrumbs, withProject } from "@/components/navigation/breadcrumbs";
 import ProjectHeader from "@/components/project/project-header";
 import ProjectLinks from "@/components/project/project-links";
 import ProjectWikis from "@/components/project/project-wikis";
@@ -85,7 +82,7 @@ export default async function Page({ params }: Props) {
                         <Markdown content={wiki.content} />
                     </div>
                     <div className="flex flex-col gap-6">
-                        <ProjectWikis wiki={wiki} />
+                        <ProjectWikis project={project} wiki={wiki} />
                         {project.links.length > 0 && (
                             <ProjectLinks links={project.links} />
                         )}

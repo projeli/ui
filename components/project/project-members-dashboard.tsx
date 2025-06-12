@@ -90,8 +90,6 @@ const ProjectMembersDashboard: React.FC<ProjectMembersDashboardProps> = ({
         (m) => m.userId === currentUserId
     );
 
-    if (wiki?.status === "Uncreated") wiki = undefined;
-
     if (!currentProjectMember) return <div aria-live="polite">Loading...</div>;
 
     return (

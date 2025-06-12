@@ -11,7 +11,7 @@ import DashboardProjectNavigation from "../project/dashboard-project-navigation"
 
 type DashboardWikiNavigationProps = {
     project: Project;
-    wiki: Wiki;
+    wiki?: Wiki;
 };
 
 const DashboardWikiNavigation = ({
@@ -37,7 +37,7 @@ const DashboardWikiNavigation = ({
                     <BookOpen />
                     Overview
                 </Anchor>
-                {wiki.status !== "Uncreated" && (
+                {wiki && (
                     <>
                         <Anchor
                             href={`/dashboard/projects/${project.slug}/wiki/pages`}

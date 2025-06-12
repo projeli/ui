@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardProject,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import ProjectArchiveDialog from "@/components/project/project-archive-dialog";
 import ProjectDeleteDialog from "@/components/project/project-delete-dialog";
 import ProjectImage from "@/components/project/project-image";

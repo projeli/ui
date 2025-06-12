@@ -78,7 +78,7 @@ const WikiUpdateSidebarForm = ({
             isFolder: true,
             children:
                 wiki.config?.sidebar?.items?.map((item) => item.index) || [],
-            data: wiki.name,
+            data: wiki.projectName,
         },
         ...sidebarItems,
     };

@@ -2,7 +2,7 @@ import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import DashboardNavigation from "@/components/dashboard/dashboard-navigation";
 import PageContainer from "@/components/layout/page-container";
 import Anchor from "@/components/navigation/anchor";
-import { Breadcrumbs, withHome } from "@/components/notification/breadcrumbs";
+import { Breadcrumbs, withHome } from "@/components/navigation/breadcrumbs";
 import ProjectCard from "@/components/project/project-card";
 import ProjectCreateDialog from "@/components/project/project-create-dialog";
 import { Card } from "@/components/ui/card";

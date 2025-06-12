@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import {
     Breadcrumbs,
     withDashboardWiki,
-} from "@/components/notification/breadcrumbs";
+} from "@/components/navigation/breadcrumbs";
 import { Card } from "@/components/ui/card";
 import WikiCreatePageDialog from "@/components/wiki/wiki-create-page-dialog";
 import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
@@ -34,7 +34,7 @@ export default async function Page({
     ]);
 
     if (!project) return notFound();
-    if (!wiki || wiki.status === "Uncreated") return notFound();
+    if (!wiki) return notFound();
 
     return (
         <PageContainer className="grid gap-6 mt-8">

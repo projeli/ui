@@ -1,11 +1,12 @@
 "use client";
 
 import { updateWikiPageContentAction } from "@/actions/wiki/update-wiki-page-content";
+import { useToast } from "@/hooks/use-toast";
 import { WikiPage } from "@/lib/types/wiki-types";
+import { createFormToast } from "@/lib/utils";
 import { debounce } from "lodash";
 import { Save } from "lucide-react";
 import { useActionState, useEffect, useRef } from "react";
-import FormAlert from "../form/form-alert";
 import MarkdownEditor from "../markdown/markdown-editor";
 import { Button } from "../ui/button";
 
@@ -20,6 +21,7 @@ const WikiUpdatePageContentForm = ({
     wikiId,
     page,
 }: WikiUpdatePageContentFormProps) => {
+    const { toast } = useToast();
     const [formState, formAction, isLoading] = useActionState(
         updateWikiPageContentAction,
         {}
@@ -49,11 +51,12 @@ const WikiUpdatePageContentForm = ({
         };
     }, [isLoading]);
 
+    useEffect(() => {
+        createFormToast(toast, formState, "Page content updated successfully.");
+    }, [formState, toast]);
+
     return (
         <div className="grid grid-rows-[max-content,1fr]">
-            <div>
-                <FormAlert formState={formState} className="mb-4 h-max" />
-            </div>
             <form
                 action={formAction}
                 className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
