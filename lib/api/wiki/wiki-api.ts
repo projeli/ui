@@ -63,8 +63,27 @@ export class WikiApi extends BaseApi {
                 members,
             }),
         })
-            .then((res) => res.json())
-            .catch((error) => error.json());
+            .then(async (res) => {
+                const contentType = res.headers.get("Content-Type") || "";
+                
+                const jsonContentTypeRegex = /^application\/(.*\+)?json(;.*)?$/i;
+                
+                if (jsonContentTypeRegex.test(contentType)) {
+                    return res.json();
+                }
+            
+                console.error("Invalid response while creating wiki:", res);
+
+                if (Number(res.headers.get("Content-Length") ?? 0) > 0) {
+                    console.error("Response body:", await res.text());
+                }
+
+                return {
+                    success: false,
+                    message: "Invalid response",
+                    data: null,
+                };
+            });
     }
 
     async updateStatus(
