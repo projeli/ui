@@ -60,8 +60,8 @@ export default function FooterSection() {
                             rights reserved
                         </div>
                         <div className="flex items-center gap-4">
-                            <a href="/">Privacy Policy</a>
-                            <a href="/">Terms of Service</a>
+                            <a href="/legal/privacy">Privacy Policy</a>
+                            <a href="/legal/terms">Terms of Service</a>
                             <ModeToggle />
                         </div>
                     </FooterBottom>
