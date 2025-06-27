@@ -1,113 +1,244 @@
+import CustomSignInButton from "@/components/clerk/custom-sign-in-button";
+import PencilsImage from "@/components/images/pencils";
 import PageContainer from "@/components/layout/page-container";
 import Anchor from "@/components/navigation/anchor";
-import { Input } from "@/components/ui/input";
+import ProjectSearchInput from "@/components/navigation/project-search-input";
+import ProjectCard from "@/components/project/project-card";
+import { Card } from "@/components/ui/card";
+import { projectApi } from "@/lib/api/project/project-api";
+import { cn } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
+import {
+    BookOpen,
+    Compass,
+    GitMerge,
+    Image,
+    MonitorSmartphone,
+    Rocket,
+    Search,
+    Users,
+} from "lucide-react";
 
 export default async function Home() {
     const { userId } = await auth();
+    const projects = await projectApi
+        .get({
+            page: "1",
+            pageSize: "8",
+            order: "Relevance",
+        })
+        .then((res) => res.data);
+
+    console.log("Projects:", projects);
 
     return (
-        <PageContainer className="flex flex-col gap-32">
-            <PageContainer className="mt-32 flex justify-between">
-                <div className="grid w-full max-w-md grid-rows-[max-content,max-content] gap-4">
-                    <h1 className="text-4xl font-bold">
-                        Discover, grow, and connect with your community.
-                    </h1>
-                    <p>
-                        Projeli.com is the ultimate hub for all creators. Track
-                        your analytics, build your brand, and connect with a
-                        passionate community and fellow creators.
-                    </p>
-                    <div className="mt-4 flex gap-2">
-                        {userId ? (
-                            <Anchor href="/dashboard">Open Dashboard</Anchor>
-                        ) : (
-                            <Anchor href="/signin">Join The Community</Anchor>
-                        )}
-                        <Anchor variant="ghost" href="#features">
-                            Learn More
-                        </Anchor>
+        <PageContainer size="full" className="p-0">
+            <PageContainer size="large" className="mt-12">
+                <ProjectSearchInput />
+            </PageContainer>
+            <PageContainer size="large" className="py-12">
+                <div className="flex justify-between gap-8">
+                    <div className="grid h-max my-12">
+                        <div className="max-w-lg mb-8">
+                            <h1 className="text-2xl lg:text-4xl font-bold mb-8">
+                                Explore and Create{" "}
+                                <span className="text-3xl lg:text-5xl font-black text-primary">
+                                    Beautiful Projects.
+                                </span>
+                            </h1>
+                            <p>
+                                Projeli helps creators show off their work and
+                                share their story with simple, beautiful wikis.
+                                Perfect for artists, gamers, and developers.
+                            </p>
+                        </div>
+                        <div className="flex flex-col lg:flex-row gap-4">
+                            <Anchor href="/projects">Explore Projects</Anchor>
+                            {userId ? (
+                                <Anchor
+                                    href="/dashboard/projects"
+                                    variant="outline"
+                                >
+                                    Start Creating
+                                </Anchor>
+                            ) : (
+                                <CustomSignInButton
+                                    label="Start Creating"
+                                    icon={<></>}
+                                    variant="outline"
+                                />
+                            )}
+                        </div>
                     </div>
-                </div>
-                <div className="w-full max-w-lg hidden md:block">
-                    <div className="h-64 w-full rounded-xl bg-green-300" />
+                    <div className="size-96 hidden lg:block">
+                        <PencilsImage />
+                    </div>
                 </div>
             </PageContainer>
-            <div id="search">
-                <div className="mx-auto w-full max-w-6xl items-center justify-center gap-4">
-                    <hr className="border-muted" />
-                </div>
-                <div className="mt-8 grid md:grid-cols-[2fr,3fr] gap-8">
-                    <div>
-                        <div className="h-64 w-full rounded-xl bg-purple-300" />
+            <div className="bg-secondary/75 text-secondary-foreground my-12 py-24">
+                <PageContainer size="default">
+                    <h2 className="text-2xl lg:text-3xl font-bold">
+                        Featured Projects
+                    </h2>
+                    <p className="mb-8">
+                        Discover some of the best projects created by our
+                        community.
+                    </p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                        {projects.map((project, i) => (
+                            <div
+                                key={i}
+                                className={cn(
+                                    "w-full hidden",
+                                    i < 4 && "block",
+                                    i < 6 && "md:block",
+                                    i < 8 && "xl:block"
+                                )}
+                            >
+                                <ProjectCard
+                                    project={project}
+                                    layout={"mini"}
+                                    href={"projects"}
+                                />
+                            </div>
+                        ))}
                     </div>
-                    <div className="mx-auto flex w-full max-w-lg flex-col gap-1">
-                        <h2 className="text-2xl font-semibold">
-                            Search
-                            <span className="font-normal">
-                                {" "}
-                                for projects
-                            </span>
+                </PageContainer>
+            </div>
+            <PageContainer size="large" className="py-12">
+                <div className="flex flex-col items-center mb-16 w-full">
+                    <div className="border-2 border-secondary rounded-lg bg-secondary/25 text-secondary py-2 px-4 mb-8">
+                        <h2 className="text-base font-semibold w-max">
+                            For Explorers
                         </h2>
+                    </div>
+                    <h3 className="text-2xl font-semibold mb-2">
+                        Discover Inspiring Projects
+                    </h3>
+                    <p className="text-lg text-muted-foreground text-center max-w-xl">
+                        Browse a diverse collection of wikis showcasing
+                        innovative projects from creators worldwide.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 gap-y-12">
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-secondary rounded-lg">
+                            <Search className="text-secondary-foreground" />
+                        </div>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Powerful Search
+                        </h4>
                         <p>
-                            Find the perfect project for your needs or interest.
-                            Use our powerful search functionality to explore
-                            projects across various categories and tags.
+                            Quickly find specific topics or projects using our
+                            search functionality, with results across all
+                            accessible wikis.
                         </p>
-                        <div className="mt-2">
-                            <Input />
+                    </Card>
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-secondary rounded-lg">
+                            <Image className="text-secondary-foreground" />
                         </div>
-                    </div>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Rich Content Experience
+                        </h4>
+                        <p>
+                            Dive into detailed wiki pages packed with multimedia
+                            like images and videos for deeper insights.
+                        </p>
+                    </Card>
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-secondary rounded-lg">
+                            <Compass className="text-secondary-foreground" />
+                        </div>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Effortless Navigation
+                        </h4>
+                        <p>
+                            Use tables of contents and categories to explore
+                            wikis seamlessly, finding exactly what you need.
+                        </p>
+                    </Card>
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-secondary rounded-lg">
+                            <MonitorSmartphone className="text-secondary-foreground" />
+                        </div>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Responsive Design
+                        </h4>
+                        <p>
+                            Access wikis on any device, desktop or mobile, with
+                            a fast, user-friendly interface.
+                        </p>
+                    </Card>
                 </div>
-            </div>
-            <div id="features">
-                <div className="mx-auto grid w-full max-w-6xl grid-cols-[10%,max-content,1fr] items-center justify-center gap-4">
-                    <hr className="border-muted" />
-                    <h2 className="text-2xl font-semibold">Features</h2>
-                    <hr className="border-muted" />
+            </PageContainer>
+            <PageContainer size="large" className="py-24">
+                <div className="flex flex-col items-center mb-16 w-full">
+                    <div className="border-2 border-primary rounded-lg bg-primary/25 text-primary py-2 px-4 mb-8">
+                        <h2 className="text-base font-semibold w-max">
+                            For Creators
+                        </h2>
+                    </div>
+                    <h3 className="text-2xl font-semibold mb-2">
+                        Discover Inspiring Projects
+                    </h3>
+                    <p className="text-lg text-muted-foreground text-center max-w-xl">
+                        Browse a diverse collection of wikis showcasing
+                        innovative projects from creators worldwide.
+                    </p>
                 </div>
-                <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div className="grid grid-rows-[12rem,1fr] gap-4">
-                        <div className="h-48 w-full rounded-xl bg-blue-300" />
-                        <div className="grid grid-rows-[max-content,max-content] gap-1">
-                            <h3 className="text-xl font-semibold">
-                                Detailed Analytics
-                            </h3>
-                            <p>
-                                Track your project&apos;s performance with
-                                comprehensive analytics. See user engagement,
-                                and more to optimize your creations.
-                            </p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 gap-y-12">
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-primary rounded-lg">
+                            <BookOpen className="text-primary-foreground" />
                         </div>
-                    </div>
-                    <div className="grid grid-rows-[12rem,1fr] gap-4">
-                        <div className="h-48 w-full rounded-xl bg-red-300" />
-                        <div className="grid grid-rows-[max-content,max-content] gap-1">
-                            <h3 className="text-xl font-semibold">
-                                Community Building
-                            </h3>
-                            <p>
-                                Build a dedicated community around your projects.
-                                Host discussions, share updates, and engage
-                                directly with your audience.
-                            </p>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Easy Wiki Creation
+                        </h4>
+                        <p>
+                            Set up a project wiki in minutes using a rich text
+                            editor or markdown, no technical skills needed.
+                        </p>
+                    </Card>
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-primary rounded-lg">
+                            <Users className="text-primary-foreground" />
                         </div>
-                    </div>
-                    <div className="grid grid-rows-[12rem,1fr] gap-4">
-                        <div className="h-48 w-full rounded-xl bg-green-300" />
-                        <div className="grid grid-rows-[max-content,max-content] gap-1">
-                            <h3 className="text-xl font-semibold">
-                                Project Showcase
-                            </h3>
-                            <p>
-                                Showcase your projects with dedicated pages,
-                                detailed descriptions, and beautiful visuals.
-                                Attract new users and build your brand.
-                            </p>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Collaborate Seamlessly
+                        </h4>
+                        <p>
+                            Invite team members to edit or view unpublished
+                            wikis, with permission-based access, you control who
+                            can do what.
+                        </p>
+                    </Card>
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-primary rounded-lg">
+                            <GitMerge className="text-primary-foreground" />
                         </div>
-                    </div>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Version Control
+                        </h4>
+                        <p>
+                            Track all changes and revert to previous versions to
+                            ensure your wiki stays accurate and up-to-date.
+                        </p>
+                    </Card>
+                    <Card className="p-6 pt-8 relative">
+                        <div className="absolute flex justify-center items-center -top-6 left-6 w-12 h-12 bg-primary rounded-lg">
+                            <Rocket className="text-primary-foreground" />
+                        </div>
+                        <h4 className="text-lg font-semibold mb-2">
+                            Fast Performance
+                        </h4>
+                        <p>
+                            Enjoy page load times under 2 seconds, ensuring a
+                            smooth experience even during peak usage.
+                        </p>
+                    </Card>
                 </div>
-            </div>
+            </PageContainer>
         </PageContainer>
     );
 }

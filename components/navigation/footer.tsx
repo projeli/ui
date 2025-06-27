@@ -1,22 +1,24 @@
-import ProjeliLogo from "@/components/logo/projeli-logo";
+import Logo from "@/components/images/logo";
 import Link from "next/link";
 import {
-    Footer,
     FooterBottom,
     FooterColumn,
     FooterContent,
-} from "../../ui/footer";
-import { ModeToggle } from "../../ui/mode-toggle";
+    Footer as Footerr,
+} from "../ui/footer";
+import { ModeToggle } from "../ui/mode-toggle";
 
-export default function FooterSection() {
+export default function Footer() {
     return (
-        <footer className="w-full bg-background px-4">
+        <footer className="w-full bg-card px-4 mt-12">
             <div className="mx-auto max-w-7xl">
-                <Footer>
+                <Footerr>
                     <FooterContent>
                         <FooterColumn className="col-span-2 sm:col-span-3 md:col-span-1">
                             <div className="flex items-center gap-2">
-                                <ProjeliLogo />
+                                <a href="/" className="h-12 w-max">
+                                    <Logo />
+                                </a>
                             </div>
                         </FooterColumn>
                         <FooterColumn>
@@ -28,12 +30,6 @@ export default function FooterSection() {
                                 className="text-sm text-muted-foreground"
                             >
                                 Projects
-                            </Link>
-                            <Link
-                                href="/wikis"
-                                className="text-sm text-muted-foreground"
-                            >
-                                Wikis
                             </Link>
                         </FooterColumn>
                         <FooterColumn>
@@ -65,7 +61,7 @@ export default function FooterSection() {
                             <ModeToggle />
                         </div>
                     </FooterBottom>
-                </Footer>
+                </Footerr>
             </div>
         </footer>
     );

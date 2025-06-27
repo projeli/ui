@@ -1,5 +1,5 @@
+import Footer from "@/components/navigation/footer";
 import { Navbar } from "@/components/navigation/navbar";
-import FooterSection from "@/components/sections/footer/default";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ClerkProvider } from "@clerk/nextjs";
@@ -54,7 +54,7 @@ export default function RootLayout({
                         <main className="flex flex-grow flex-col">
                             {children}
                         </main>
-                        <FooterSection />
+                        <Footer />
                         <Toaster />
                     </ThemeProvider>
                 </body>

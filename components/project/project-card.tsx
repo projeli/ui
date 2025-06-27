@@ -7,7 +7,7 @@ import ProjectTags from "./project-tags";
 
 type ProjectCardProps = {
     project: Project;
-    layout: "grid" | "list";
+    layout: "grid" | "list" | "mini";
     href: string;
 };
 
@@ -30,6 +30,32 @@ const ProjectCard = ({ project, layout, href }: ProjectCardProps) => {
                         </p>
                     </div>
                     <ProjectTags project={project} />
+                </div>
+                <NotPublishedBanner
+                    predicate={!(project.status === "Published")}
+                    title="Only visible to members (unpublished)"
+                    size="sm"
+                />
+            </Card>
+        );
+    }
+
+    if (layout === "mini") {
+        // Mini layout
+        return (
+            <Card className="flex flex-col overflow-hidden">
+                <div className="grid grid-cols-[64px,minmax(0,1fr)] gap-4 p-4">
+                    <ProjectImage project={project} href={href} size="md" />
+                    <div>
+                        <Link href={`${href}/${project.slug}`}>
+                            <h3 className="text-lg font-semibold hover:underline break-words line-clamp-1">
+                                {project.name}
+                            </h3>
+                        </Link>
+                        <p className="text-sm text-muted-foreground line-clamp-2">
+                            {project.summary}
+                        </p>
+                    </div>
                 </div>
                 <NotPublishedBanner
                     predicate={!(project.status === "Published")}

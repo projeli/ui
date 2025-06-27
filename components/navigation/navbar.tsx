@@ -14,7 +14,6 @@ import {
     SheetTrigger,
 } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { SignInButton } from "@clerk/nextjs";
 import { auth } from "@clerk/nextjs/server";
 import { SiDiscord, SiGithub } from "@icons-pack/react-simple-icons";
 import {
@@ -22,12 +21,12 @@ import {
     Boxes,
     CalendarSync,
     ChevronDown,
-    LogIn,
     Menu,
 } from "lucide-react";
 import React from "react";
+import CustomSignInButton from "../clerk/custom-sign-in-button";
 import CustomUserButton from "../clerk/custom-user-button";
-import ProjeliLogo from "../logo/projeli-logo";
+import Logo from "../images/logo";
 import NotificationButton from "../notification/notification-button";
 import { ThemeToggle } from "../theme/theme-toggle";
 import { Button } from "../ui/button";
@@ -97,7 +96,9 @@ export async function Navbar() {
                     <SheetContent side="left">
                         <SheetHeader>
                             <SheetTitle asChild>
-                                <ProjeliLogo />
+                                <a href="/" className="h-12 w-max">
+                                    <Logo />
+                                </a>
                             </SheetTitle>
                             <div>
                                 {links.map((link, i) => (
@@ -150,7 +151,9 @@ export async function Navbar() {
                     </SheetContent>
                 </Sheet>
             </div>
-            <ProjeliLogo />
+            <a href="/" className="h-12 w-max">
+                <Logo />
+            </a>
             <NavigationMenu className="hidden md:flex">
                 <NavigationMenuList>
                     {links.map((link) => (
@@ -179,18 +182,7 @@ export async function Navbar() {
             <div className="flex items-center gap-2">
                 {userId && <NotificationButton />}
                 <ThemeToggle />
-                {userId ? (
-                    <CustomUserButton />
-                ) : (
-                    <Button asChild className="cursor-pointer">
-                        <SignInButton mode="modal">
-                            <div>
-                                <LogIn className="h-6 w-6" />
-                                Sign in
-                            </div>
-                        </SignInButton>
-                    </Button>
-                )}
+                {userId ? <CustomUserButton /> : <CustomSignInButton />}
             </div>
         </header>
     );
