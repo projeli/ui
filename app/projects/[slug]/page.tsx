@@ -74,6 +74,7 @@ export default async function Page({ params }: Props) {
                 <ProjectInfoBanner project={project} projectMember={projectMember} />
                 <ProjectHeader
                     project={project}
+                    projectMember={projectMember}
                     button={{
                         icon: <Cog />,
                         label: "Open Dashboard",

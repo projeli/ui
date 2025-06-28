@@ -1,4 +1,4 @@
-import { Project } from "@/lib/types/project-types";
+import { Project, ProjectMember } from "@/lib/types/project-types";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import Anchor from "../navigation/anchor";
@@ -7,6 +7,7 @@ import ProjectTags from "./project-tags";
 
 type ProjectHeaderProps = {
     project: Project;
+    projectMember?: ProjectMember;
     button?: {
         icon: React.ReactNode;
         label: string;
@@ -19,6 +20,7 @@ type ProjectHeaderProps = {
 
 const ProjectHeader = ({
     project,
+    projectMember,
     button,
     simple,
     href = "/projects",
@@ -45,7 +47,7 @@ const ProjectHeader = ({
                         {project.summary}
                     </p>
                 </div>
-                {button && (
+                {button && projectMember && (
                     <Anchor
                         href={button.href}
                         className="w-full sm:w-auto justify-center sm:justify-start"

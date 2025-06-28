@@ -8,20 +8,22 @@ import { Input } from "../ui/input";
 const ProjectSearchInput = () => {
     const router = useRouter();
     const [projectQuery, setProjectQuery] = useState("");
-    const handleProjectSearch = () => {
+
+    const handleProjectSearch = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         router.push(`/projects?query=${projectQuery}`);
     };
     return (
-        <div className="flex gap-2">
+        <form onSubmit={handleProjectSearch} className="flex gap-2">
             <Input
                 value={projectQuery}
                 onChange={(e) => setProjectQuery(e.target.value)}
                 placeholder="Search for projects..."
             />
-            <Button onClick={handleProjectSearch} className="ml-2">
+            <Button type="submit" className="ml-2">
                 Search
             </Button>
-        </div>
+        </form>
     );
 };
 

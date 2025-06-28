@@ -11,7 +11,7 @@ import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import WikiMembers from "@/components/wiki/wiki-members";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
-import { getWikiMember } from "@/lib/utils";
+import { getProjectMember, getWikiMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { Cog } from "lucide-react";
 import { Metadata } from "next";
@@ -65,6 +65,7 @@ export default async function Page({ params }: Props) {
     const wiki = await getWiki(project.id);
     if (!wiki) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
     const wikiMember = getWikiMember(userId, wiki);
 
     return (
@@ -76,6 +77,7 @@ export default async function Page({ params }: Props) {
                 <WikiInfoBanner wiki={wiki} project={project} wikiMember={wikiMember} />
                 <ProjectHeader
                     project={project}
+                    projectMember={projectMember}
                     button={{
                         href: `/dashboard/projects/${project.slug}/wiki`,
                         icon: <Cog />,
