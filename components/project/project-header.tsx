@@ -82,7 +82,7 @@ const ProjectHeader = ({
                     <ProjectTags project={project} filterable={false} />
                 </div>
             </div>
-            {button && (
+            {button && projectMember && (
                 <Anchor
                     href={button.href}
                     className="w-full sm:w-auto justify-center sm:justify-start"
