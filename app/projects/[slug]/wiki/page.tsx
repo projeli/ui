@@ -11,6 +11,8 @@ import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import WikiMembers from "@/components/wiki/wiki-members";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
+import { getWikiMember } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
 import { Cog } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -55,11 +57,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
     const { slug } = await params;
+    const { userId } = await auth();
+
     const project = await getProject(slug);
     if (!project) return notFound();
 
     const wiki = await getWiki(project.id);
     if (!wiki) return notFound();
+
+    const wikiMember = getWikiMember(userId, wiki);
 
     return (
         <PageContainer>
@@ -67,7 +73,7 @@ export default async function Page({ params }: Props) {
                 <Breadcrumbs
                     links={withProject(project, [{ label: "Wiki" }])}
                 />
-                <WikiInfoBanner wiki={wiki} project={project} />
+                <WikiInfoBanner wiki={wiki} project={project} wikiMember={wikiMember} />
                 <ProjectHeader
                     project={project}
                     button={{

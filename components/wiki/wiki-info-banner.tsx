@@ -11,7 +11,7 @@ import WikiPublishDialog from "./wiki-publish-dialog";
 type WikiInfoBannerProps = {
     project: Project;
     wiki: Wiki;
-    wikiMember: WikiMember;
+    wikiMember: WikiMember | undefined;
 };
 
 const WikiInfoBanner = ({

@@ -10,6 +10,8 @@ import ProjectMembers from "@/components/project/project-members";
 import ProjectWikis from "@/components/project/project-wikis";
 import { Card } from "@/components/ui/card";
 import { projectApi } from "@/lib/api/project/project-api";
+import { getProjectMember } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
 import _ from "lodash";
 import { Cog } from "lucide-react";
 import { Metadata } from "next";
@@ -57,16 +59,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function Page({ params }: Props) {
     const { slug } = await params;
+    const { userId } = await auth();
 
     const project = await getProject(slug);
 
     if (!project) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
+
     return (
         <PageContainer>
             <div className="grid mt-8 gap-6">
                 <Breadcrumbs links={withProjects([{ label: project.name }])} />
-                <ProjectInfoBanner project={project} />
+                <ProjectInfoBanner project={project} projectMember={projectMember} />
                 <ProjectHeader
                     project={project}
                     button={{

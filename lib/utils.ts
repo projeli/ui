@@ -61,17 +61,17 @@ export function getNotificationPerformer(notification: Notification, users: Proj
 }
 
 export function getProjectMember(
-  userId: string,
+  userId: string | undefined | null,
   project: Project
 ): ProjectMember | undefined {
-  if (!project || !project.members) return undefined;
+  if (!userId || !project || !project.members) return undefined;
   return project.members.find((member) => member.userId === userId);
 }
 
 export function getWikiMember(
-  userId: string,
+  userId: string | undefined | null,
   wiki: Wiki
 ): WikiMember | undefined {
-  if (!wiki || !wiki.members) return undefined;
+  if (!userId || !wiki || !wiki.members) return undefined;
   return wiki.members.find((member) => member.userId === userId);
 }

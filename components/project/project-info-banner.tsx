@@ -9,7 +9,7 @@ import ProjectPublishDialog from "./project-publish-dialog";
 
 type ProjectInfoBannerProps = {
     project: Project;
-    projectMember: ProjectMember;
+    projectMember?: ProjectMember;
 };
 
 const ProjectInfoBanner = ({
