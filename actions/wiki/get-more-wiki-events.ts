@@ -28,8 +28,6 @@ export const getMoreWikiEventsAction: CustomServerAction<
         ? await userApi.getByIds(newEventUserIds)
         : [];
 
-    console.log("Users:", users);
-
     return {
         events,
         users

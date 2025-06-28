@@ -101,10 +101,13 @@ export const WikiMemberPermissions = {
     None: 0n,
     EditWikiMemberPermissions: 1n << 0n,
     EditWiki: 1n << 1n,
+    PublishWiki: 1n << 2n,
+    ArchiveWiki: 1n << 3n,
 
     CreateWikiPages: 1n << 11n,
     EditWikiPages: 1n << 12n,
     PublishWikiPages: 1n << 13n,
+    ArchiveWikiPages: 1n << 14n,
 
     DeleteWikiPages: 1n << 20n,
 
@@ -216,6 +219,14 @@ export type WikiCategoryUpdatedEvent = WikiCategoryEvent<"WikiCategoryUpdatedEve
     description: string;
 }
 
+export type WikiCategoryUpdatedPagesEvent = WikiCategoryEvent<"WikiCategoryUpdatedPagesEvent"> & {
+    pages: {
+        id: string;
+        title: string;
+        slug: string;
+    }[];
+}
+
 
 
 // Wiki Member Events
@@ -245,6 +256,7 @@ export type WikiEvent = WikiCreatedEvent
     | WikiCategoryCreatedEvent
     | WikiCategoryDeletedEvent
     | WikiCategoryUpdatedEvent
+    | WikiCategoryUpdatedPagesEvent
     | WikiMemberAddedEvent
     | WikiMemberRemovedEvent
     | WikiMemberUpdatedPermissionsEvent;
@@ -268,6 +280,7 @@ export const wikiEventNames: Record<WikiEventType, string> = {
     "WikiCategoryCreatedEvent": "Wiki Category Created",
     "WikiCategoryDeletedEvent": "Wiki Category Deleted",
     "WikiCategoryUpdatedEvent": "Wiki Category Updated",
+    "WikiCategoryUpdatedPagesEvent": "Wiki Category Pages Updated",
 
     "WikiMemberAddedEvent": "Member Added",
     "WikiMemberRemovedEvent": "Member Removed",

@@ -19,7 +19,8 @@ export const updateWikiCategoryAction: ServerAction = async (
     );
 
     if (response.success) {
-        throw redirect(
+        let redirectUrl = formData.get("redirectUrl") as string;
+        throw redirect(redirectUrl ||
             `/dashboard/projects/${formData.get("projectSlug")}/wiki/categories`
         );
     }

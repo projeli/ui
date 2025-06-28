@@ -9,13 +9,13 @@ import { Project } from "@/lib/types/project-types";
 import { ProjeliUser } from "@/lib/types/user-types";
 import { Wiki } from "@/lib/types/wiki-types";
 import _ from "lodash";
+import { useState } from "react";
 import { ProjectPageSizeSelect } from "../project/project-page-size-select";
 import { Card } from "../ui/card";
 import Pagination from "../ui/pagination";
 import SearchparamsSelect from "../ui/searchparams-select";
 import NotificationCard from "./notification-card";
 import NotificationMarkAllButton from "./notification-mark-all-button";
-import { useState } from "react";
 
 type NotificationsTableProps = {
     notificationsResponse: PagedApiResponse<Notification>;

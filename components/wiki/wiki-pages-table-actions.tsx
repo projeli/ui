@@ -42,7 +42,7 @@ const WikiPagesTableActions = ({
                         </DropdownMenuItem>
                         <DropdownMenuItem asChild>
                             <Link
-                                href={`/dashboard/projects/${projectSlug}/wiki/pages/${page.slug}/settings`}
+                                href={`/dashboard/projects/${projectSlug}/wiki/pages/${page.slug}`}
                             >
                                 <Edit />
                                 Edit Page
@@ -51,7 +51,7 @@ const WikiPagesTableActions = ({
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild>
                             <Link
-                                href={`/dashboard/projects/${projectSlug}/wiki/pages/${page.slug}/settings`}
+                                href={`/dashboard/projects/${projectSlug}/wiki/pages/${page.slug}`}
                                 className="text-destructive hover:!text-destructive"
                             >
                                 <Trash />

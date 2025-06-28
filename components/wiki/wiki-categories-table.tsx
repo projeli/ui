@@ -31,13 +31,14 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { WikiCategory } from "@/lib/types/wiki-types";
+import { WikiCategory, WikiMember } from "@/lib/types/wiki-types";
 import Anchor from "../navigation/anchor";
 import WikiCategoriesTableActions from "./wiki-categories-table-actions";
 
 export const getColumns = (
     projectSlug: string,
-    wikiId: string
+    wikiId: string,
+    member: WikiMember
 ): ColumnDef<WikiCategory>[] => [
     {
         accessorKey: "name",
@@ -56,7 +57,7 @@ export const getColumns = (
         },
         cell: ({ row }) => (
             <Anchor
-                href={`/projects/${projectSlug}/wiki/categories/${row.getValue(
+                href={`/dashboard/projects/${projectSlug}/wiki/categories/${row.getValue(
                     "slug"
                 )}`}
                 className="w-full justify-start pl-4"
@@ -102,6 +103,7 @@ export const getColumns = (
                     wikiId={wikiId}
                     projectSlug={projectSlug}
                     category={row.original}
+                    member={member}
                 />
             );
         },
@@ -112,12 +114,14 @@ type WikiCategoriesTableProps = {
     projectSlug: string;
     wikiId: string;
     categories: WikiCategory[];
+    wikiMember: WikiMember;
 };
 
 export function WikiCategoriesTable({
     projectSlug,
     wikiId,
     categories,
+    wikiMember,
 }: WikiCategoriesTableProps) {
     const [sorting, setSorting] = React.useState<SortingState>([]);
     const [columnFilters, setColumnFilters] =
@@ -133,7 +137,7 @@ export function WikiCategoriesTable({
 
     const table = useReactTable({
         data: categories,
-        columns: getColumns(projectSlug, wikiId),
+        columns: getColumns(projectSlug, wikiId, wikiMember),
         onSortingChange: setSorting,
         onColumnFiltersChange: setColumnFilters,
         getCoreRowModel: getCoreRowModel(),
@@ -237,7 +241,11 @@ export function WikiCategoriesTable({
                             <TableRow>
                                 <TableCell
                                     colSpan={
-                                        getColumns(projectSlug, wikiId).length
+                                        getColumns(
+                                            projectSlug,
+                                            wikiId,
+                                            wikiMember
+                                        ).length
                                     }
                                     className="h-24 text-center"
                                 >

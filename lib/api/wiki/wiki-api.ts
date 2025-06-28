@@ -156,7 +156,6 @@ export class WikiApi extends BaseApi {
             pageSize?: number;
         }
     ): Promise<PagedApiResponse<WikiEvent>> {
-        console.log("WikiApi getEvents", wikiId, searchParams);
         return this.fetchService(this.createPathWithQueryParams(`/v1/wikis/${wikiId}/events`, searchParams))
             .then((res) => res.json())
             .catch((error) => error.json());

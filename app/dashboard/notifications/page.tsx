@@ -5,23 +5,16 @@ import {
     Breadcrumbs,
     withDashboard,
 } from "@/components/navigation/breadcrumbs";
-import NotificationCard from "@/components/notification/notification-card";
-import NotificationMarkAllButton from "@/components/notification/notification-mark-all-button";
 import NotificationsTable from "@/components/notification/notifications-table";
-import { ProjectPageSizeSelect } from "@/components/project/project-page-size-select";
 import { Card } from "@/components/ui/card";
-import Pagination from "@/components/ui/pagination";
-import SearchparamsSelect from "@/components/ui/searchparams-select";
 import { notificationApi } from "@/lib/api/notification/notification-api";
 import { projectApi } from "@/lib/api/project/project-api";
 import { userApi } from "@/lib/api/user/user-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import {
-    Notification,
-    notificationTypes,
+    Notification
 } from "@/lib/types/notification-types";
 import { auth } from "@clerk/nextjs/server";
-import _ from "lodash";
 import { unauthorized } from "next/navigation";
 
 export default async function Page({

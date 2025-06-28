@@ -25,6 +25,56 @@ export class WikiCategoryApi extends BaseApi {
             .then((res) => res.data);
     }
 
+    async getById(wikiId: string, id: string): Promise<WikiCategory> {
+            return this.fetchService(`/v1/wikis/${wikiId}/categories/${id}`)
+                .then((res) => res.json())
+                .then((res) => res.data);
+        }
+    
+        async getBySlug(wikiId: string, slug: string): Promise<WikiCategory> {
+            return this.fetchService(`/v1/wikis/${wikiId}/categories/${slug}`)
+                .then((res) => res.json())
+                .then((res) => res.data);
+        }
+    
+        async getByProjectIdAndId(
+            projectId: string,
+            id: string
+        ): Promise<WikiCategory> {
+            return this.fetchService(`/v1/wikis/${projectId}/categories/${id}/project`)
+                .then((res) => res.json())
+                .then((res) => res.data);
+        }
+    
+        async getByProjectIdAndSlug(
+            projectId: string,
+            slug: string
+        ): Promise<WikiCategory> {
+            return this.fetchService(`/v1/wikis/${projectId}/categories/${slug}/project`)
+                .then((res) => res.json())
+                .then((res) => res.data);
+        }
+    
+        async getByProjectSlugAndId(
+            projectSlug: string,
+            id: string
+        ): Promise<WikiCategory> {
+            return this.fetchService(`/v1/wikis/${projectSlug}/categories/${id}/project`)
+                .then((res) => res.json())
+                .then((res) => res.data);
+        }
+    
+        async getByProjectSlugAndSlug(
+            projectSlug: string,
+            slug: string
+        ): Promise<WikiCategory> {
+            return this.fetchService(
+                `/v1/wikis/${projectSlug}/categories/${slug}/project`
+            )
+                .then((res) => res.json())
+                .then((res) => res.data);
+        }
+
     async create(
         wikiId: string,
         data: {
@@ -53,6 +103,17 @@ export class WikiCategoryApi extends BaseApi {
             body: JSON.stringify(data),
         }).then((res) => res.json());
     }
+
+    async updatePages(
+            wikiId: string,
+            id: string,
+            pageIds: string[]
+        ): Promise<ApiResponse<WikiCategory>> {
+            return this.fetchService(`/v1/wikis/${wikiId}/categories/${id}/pages`, {
+                method: "PUT",
+                body: JSON.stringify({ pageIds }),
+            }).then((res) => res.json());
+        }
 
     async delete(
         wikiId: string,

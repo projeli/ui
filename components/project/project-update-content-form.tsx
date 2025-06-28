@@ -50,7 +50,7 @@ const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
     }, [isLoading]);
 
     return (
-        <div className="grid gap-4">
+        <div className="grid gap-4 h-full">
             <form
                 action={formAction}
                 className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"

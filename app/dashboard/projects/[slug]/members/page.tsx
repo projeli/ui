@@ -12,8 +12,9 @@ import LoadingSpinner from "@/components/ui/loading-spinner";
 import { projectApi } from "@/lib/api/project/project-api";
 import { userApi } from "@/lib/api/user/user-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
+import { getProjectMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { notFound, unauthorized } from "next/navigation";
+import { forbidden, notFound, unauthorized } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -36,6 +37,10 @@ export default async function Page({
 
     if (!project) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
+
+    if (!projectMember) return forbidden();
+
     const members =
         (await userApi.getByIds(
             project.members.map((member) => member.userId)
@@ -48,10 +53,16 @@ export default async function Page({
             />
             <DashboardGrid>
                 <div className="grid gap-6 h-max">
-                    <DashboardProjectNavigation project={project} />
+                    <DashboardProjectNavigation
+                        project={project}
+                        projectMember={projectMember}
+                    />
                 </div>
                 <div className="grid grid-rows-[max-content,1fr] gap-4">
-                    <ProjectInfoBanner project={project} />
+                    <ProjectInfoBanner
+                        project={project}
+                        projectMember={projectMember}
+                    />
                     <div>
                         <Suspense
                             fallback={

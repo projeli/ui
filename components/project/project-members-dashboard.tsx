@@ -58,16 +58,21 @@ type ProjectMembersDashboardProps = {
 type Permissions = {
     editProject: boolean;
     publishProject: boolean;
+    archiveProject: boolean;
     manageLinks: boolean;
+    manageTags: boolean;
     addMembers: boolean;
     editRoles: boolean;
     editPermissions: boolean;
     removeMembers: boolean;
     deleteProject: boolean;
     editWikiDetails: boolean;
+    publishWiki: boolean;
+    archiveWiki: boolean;
     createPages: boolean;
     editPages: boolean;
     publishPages: boolean;
+    archivePages: boolean;
     deletePages: boolean;
     createCategories: boolean;
     editCategories: boolean;
@@ -351,9 +356,17 @@ const PermissionsForm: React.FC<{
             projectMember,
             ProjectMemberPermissions.PublishProject
         ),
+        archiveProject: hasProjectPermission(
+            projectMember,
+            ProjectMemberPermissions.ArchiveProject
+        ),
         manageLinks: hasProjectPermission(
             projectMember,
             ProjectMemberPermissions.ManageLinks
+        ),
+        manageTags: hasProjectPermission(
+            projectMember,
+            ProjectMemberPermissions.ManageTags
         ),
         addMembers: hasProjectPermission(
             projectMember,
@@ -378,6 +391,12 @@ const PermissionsForm: React.FC<{
         editWikiDetails: wikiMember
             ? hasWikiPermission(wikiMember, WikiMemberPermissions.EditWiki)
             : false,
+        publishWiki: wikiMember
+            ? hasWikiPermission(wikiMember, WikiMemberPermissions.PublishWiki)
+            : false,
+        archiveWiki: wikiMember
+            ? hasWikiPermission(wikiMember, WikiMemberPermissions.ArchiveWiki)
+            : false,
         createPages: wikiMember
             ? hasWikiPermission(
                   wikiMember,
@@ -391,6 +410,12 @@ const PermissionsForm: React.FC<{
             ? hasWikiPermission(
                   wikiMember,
                   WikiMemberPermissions.PublishWikiPages
+              )
+            : false,
+        archivePages: wikiMember
+            ? hasWikiPermission(
+                  wikiMember,
+                  WikiMemberPermissions.ArchiveWikiPages
               )
             : false,
         deletePages: wikiMember
@@ -494,6 +519,23 @@ const PermissionsForm: React.FC<{
                         }
                     />
                     <LabeledCheckbox
+                        label="Archive Project"
+                        name="archiveProject"
+                        checked={permissions.archiveProject}
+                        onCheckedChange={(checked) =>
+                            handlePermissionChange(
+                                "archiveProject",
+                                checked === true
+                            )
+                        }
+                        disabled={
+                            !hasProjectPermission(
+                                currentProjectMember,
+                                ProjectMemberPermissions.ArchiveProject
+                            ) || cannotEditPermissions
+                        }
+                    />
+                    <LabeledCheckbox
                         label="Manage Links"
                         name="manageLinks"
                         checked={permissions.manageLinks}
@@ -507,6 +549,23 @@ const PermissionsForm: React.FC<{
                             !hasProjectPermission(
                                 currentProjectMember,
                                 ProjectMemberPermissions.ManageLinks
+                            ) || cannotEditPermissions
+                        }
+                    />
+                    <LabeledCheckbox
+                        label="Manage Tags"
+                        name="manageTags"
+                        checked={permissions.manageTags}
+                        onCheckedChange={(checked) =>
+                            handlePermissionChange(
+                                "manageTags",
+                                checked === true
+                            )
+                        }
+                        disabled={
+                            !hasProjectPermission(
+                                currentProjectMember,
+                                ProjectMemberPermissions.ManageTags
                             ) || cannotEditPermissions
                         }
                     />
@@ -603,6 +662,40 @@ const PermissionsForm: React.FC<{
                                     ) || cannotEditPermissions
                                 }
                             />
+                            <LabeledCheckbox
+                                label="Publish Wiki"
+                                name="publishWiki"
+                                checked={permissions.publishWiki}
+                                onCheckedChange={(checked) =>
+                                    handlePermissionChange(
+                                        "publishWiki",
+                                        checked === true
+                                    )
+                                }
+                                disabled={
+                                    !hasWikiPermission(
+                                        currentWikiMember!,
+                                        WikiMemberPermissions.PublishWiki
+                                    ) || cannotEditPermissions
+                                }
+                            />
+                            <LabeledCheckbox
+                                label="Archive Wiki"
+                                name="archiveWiki"
+                                checked={permissions.archiveWiki}
+                                onCheckedChange={(checked) =>
+                                    handlePermissionChange(
+                                        "archiveWiki",
+                                        checked === true
+                                    )
+                                }
+                                disabled={
+                                    !hasWikiPermission(
+                                        currentWikiMember!,
+                                        WikiMemberPermissions.ArchiveWiki
+                                    ) || cannotEditPermissions
+                                }
+                            />
                         </div>
                         <div className="flex flex-col gap-2 mx-2">
                             <h4 className="text-base font-semibold">
@@ -656,6 +749,23 @@ const PermissionsForm: React.FC<{
                                     !hasWikiPermission(
                                         currentWikiMember!,
                                         WikiMemberPermissions.PublishWikiPages
+                                    ) || cannotEditPermissions
+                                }
+                            />
+                            <LabeledCheckbox
+                                label="Archive Pages"
+                                name="archivePages"
+                                checked={permissions.archivePages}
+                                onCheckedChange={(checked) =>
+                                    handlePermissionChange(
+                                        "archivePages",
+                                        checked === true
+                                    )
+                                }
+                                disabled={
+                                    !hasWikiPermission(
+                                        currentWikiMember!,
+                                        WikiMemberPermissions.ArchiveWikiPages
                                     ) || cannotEditPermissions
                                 }
                             />

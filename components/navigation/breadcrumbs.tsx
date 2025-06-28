@@ -142,14 +142,14 @@ export const withDashboardWiki = (
         ...links,
     ]);
 
-export const withDashboardWikiSettings = (
+export const withDashboardWikiDetails = (
     project: { name: string; slug: string },
     links: readonly Link[]
 ): Link[] =>
     withDashboardWiki(project, [
         {
             label: "Settings",
-            href: `/dashboard/projects/${project.slug}/wiki/settings`,
+            href: `/dashboard/projects/${project.slug}/wiki/details`,
         },
         ...links,
     ]);
@@ -162,6 +162,18 @@ export const withDashboardWikiPages = (
         {
             label: "Pages",
             href: `/dashboard/projects/${project.slug}/wiki/pages`,
+        },
+        ...links,
+    ]);
+
+export const withDashboardWikiCategories = (
+    project: { name: string; slug: string },
+    links: readonly Link[]
+): Link[] =>
+    withDashboardWiki(project, [
+        {
+            label: "Categories",
+            href: `/dashboard/projects/${project.slug}/wiki/categories`,
         },
         ...links,
     ]);

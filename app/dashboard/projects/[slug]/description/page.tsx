@@ -8,8 +8,10 @@ import {
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectUpdateDescriptionForm from "@/components/project/project-update-content-form";
 import { projectApi } from "@/lib/api/project/project-api";
+import { ProjectMemberPermissions } from "@/lib/types/project-types";
+import { getProjectMember, hasProjectPermission } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { notFound, unauthorized } from "next/navigation";
+import { forbidden, notFound, unauthorized } from "next/navigation";
 
 export default async function Page({
     params,
@@ -28,6 +30,17 @@ export default async function Page({
 
     if (!project) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
+
+    if (
+        !projectMember ||
+        !hasProjectPermission(
+            projectMember,
+            ProjectMemberPermissions.EditProject
+        )
+    )
+        return forbidden();
+
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs
@@ -37,10 +50,16 @@ export default async function Page({
             />
             <DashboardGrid>
                 <div className="grid gap-6 h-max">
-                    <DashboardProjectNavigation project={project} />
+                    <DashboardProjectNavigation
+                        project={project}
+                        projectMember={projectMember}
+                    />
                 </div>
-                <div className="grid grid-rows-[max-content,1fr] gap-4">
-                    <ProjectInfoBanner project={project} />
+                <div className="flex flex-col gap-4">
+                    <ProjectInfoBanner
+                        project={project}
+                        projectMember={projectMember}
+                    />
                     <ProjectUpdateDescriptionForm project={project} />
                 </div>
             </DashboardGrid>

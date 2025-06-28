@@ -56,29 +56,27 @@ const WikiUpdatePageContentForm = ({
     }, [formState, toast]);
 
     return (
-        <div className="grid grid-rows-[max-content,1fr]">
-            <form
-                action={formAction}
-                className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
-            >
-                <input type="hidden" name="pageSlug" value={pageSlug} />
-                <input type="hidden" name="wikiId" value={wikiId} />
-                <input type="hidden" name="id" value={page.id} />
-                <div className="border border-border rounded-lg overflow-hidden">
-                    <MarkdownEditor content={page.content} />
-                </div>
-                <div>
-                    <Button
-                        variant="default"
-                        ref={submitBtnRef}
-                        loading={isLoading}
-                        icon={<Save />}
-                    >
-                        Save Changes
-                    </Button>
-                </div>
-            </form>
-        </div>
+        <form
+            action={formAction}
+            className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
+        >
+            <input type="hidden" name="pageSlug" value={pageSlug} />
+            <input type="hidden" name="wikiId" value={wikiId} />
+            <input type="hidden" name="id" value={page.id} />
+            <div className="border border-border rounded-lg overflow-hidden">
+                <MarkdownEditor content={page.content} />
+            </div>
+            <div>
+                <Button
+                    variant="default"
+                    ref={submitBtnRef}
+                    loading={isLoading}
+                    icon={<Save />}
+                >
+                    Save Changes
+                </Button>
+            </div>
+        </form>
     );
 };
 

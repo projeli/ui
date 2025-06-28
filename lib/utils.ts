@@ -3,9 +3,9 @@ import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 import { FormState } from "./types/form-types";
 import { Notification } from "./types/notification-types";
-import { ProjectMember } from "./types/project-types";
+import { Project, ProjectMember } from "./types/project-types";
 import { ProjeliUser } from "./types/user-types";
-import { WikiMember } from "./types/wiki-types";
+import { Wiki, WikiMember } from "./types/wiki-types";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -24,7 +24,7 @@ export function hasProjectPermission(user: ProjectMember, permission: bigint) {
 }
 
 export function hasWikiPermission(
-  user: WikiMember,
+  user: WikiMember | undefined,
   permission: bigint
 ) {
   if (!user || !user.permissions || !permission) return false;
@@ -58,4 +58,20 @@ export function getNotificationPerformer(notification: Notification, users: Proj
   if (!hasPerformerId) return undefined;
 
   return users.find((user) => user.id === (notification.body as any).performerId);
+}
+
+export function getProjectMember(
+  userId: string,
+  project: Project
+): ProjectMember | undefined {
+  if (!project || !project.members) return undefined;
+  return project.members.find((member) => member.userId === userId);
+}
+
+export function getWikiMember(
+  userId: string,
+  wiki: Wiki
+): WikiMember | undefined {
+  if (!wiki || !wiki.members) return undefined;
+  return wiki.members.find((member) => member.userId === userId);
 }

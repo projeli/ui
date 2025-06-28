@@ -11,7 +11,7 @@ export const markNotificationsAction: ServerAction = async (
     const response = await notificationApi.markAllAsRead();
 
     if (response.success) {
-        throw redirect("/dashboard/notifications");
+        throw redirect(formData.get("redirectUrl") as string || "/dashboard/notifications");
     }
 
     return {

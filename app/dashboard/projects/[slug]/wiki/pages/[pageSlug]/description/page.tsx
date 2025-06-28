@@ -6,12 +6,16 @@ import {
     Breadcrumbs,
     withDashboardWikiPages,
 } from "@/components/navigation/breadcrumbs";
-import WikiPageCategoriesForm from "@/components/wiki/wiki-page-categories-form";
+import WikiUpdatePageContentForm from "@/components/wiki/wiki-update-page-content-form";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
-import { wikiCategoryApi } from "@/lib/api/wiki/wiki-category-api";
 import { wikiPageApi } from "@/lib/api/wiki/wiki-pages-api";
-import { getProjectMember, getWikiMember } from "@/lib/utils";
+import { WikiMemberPermissions } from "@/lib/types/wiki-types";
+import {
+    getProjectMember,
+    getWikiMember,
+    hasWikiPermission,
+} from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import { forbidden, notFound, unauthorized } from "next/navigation";
 
@@ -28,11 +32,10 @@ export default async function Page({
     const { userId } = await auth();
     if (!userId) return unauthorized();
 
-    const [project, wiki, page, categories] = await Promise.all([
+    const [project, wiki, page] = await Promise.all([
         projectApi.getBySlug(slug),
         wikiApi.getByProjectSlug(slug),
         wikiPageApi.getByProjectSlugAndSlug(slug, pageSlug),
-        wikiCategoryApi.getByProjectSlug(slug),
     ]);
 
     if (!project) return notFound();
@@ -42,7 +45,12 @@ export default async function Page({
     const projectMember = getProjectMember(userId, project);
     const wikiMember = getWikiMember(userId, wiki);
 
-    if (!wikiMember || !projectMember) return forbidden();
+    if (
+        !wikiMember ||
+        !projectMember ||
+        !hasWikiPermission(wikiMember, WikiMemberPermissions.EditWikiPages)
+    )
+        return forbidden();
 
     return (
         <PageContainer className="grid gap-6 mt-8">
@@ -59,19 +67,20 @@ export default async function Page({
                         wikiMember={wikiMember}
                     />
                 </div>
-                <div className="flex flex-col gap-4 h-max">
+                <div className="flex flex-col gap-4 h-full">
                     <DashboardWikiPageHeader
                         project={project}
                         page={page}
                         wikiId={wiki.id}
                         wikiMember={wikiMember}
                     />
-                    <WikiPageCategoriesForm
-                        wikiId={wiki.id}
-                        page={page}
-                        categories={categories}
-                        member={wikiMember}
-                    />
+                    <div className="grid grow h-full">
+                        <WikiUpdatePageContentForm
+                            pageSlug={project.slug}
+                            wikiId={wiki.id}
+                            page={page}
+                        />
+                    </div>
                 </div>
             </DashboardGrid>
         </PageContainer>

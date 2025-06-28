@@ -10,8 +10,9 @@ import ProjectInfoBanner from "@/components/project/project-info-banner";
 import { Card } from "@/components/ui/card";
 import WikiStatistics from "@/components/wiki/wiki-statistics";
 import { projectApi } from "@/lib/api/project/project-api";
+import { getProjectMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { notFound, unauthorized } from "next/navigation";
+import { forbidden, notFound, unauthorized } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -31,6 +32,10 @@ export default async function Page({
 
     if (!project) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
+
+    if (!projectMember) return forbidden();
+
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs
@@ -38,11 +43,17 @@ export default async function Page({
             />
             <DashboardGrid>
                 <div className="grid gap-6 h-max">
-                    <DashboardProjectNavigation project={project} />
+                    <DashboardProjectNavigation
+                        project={project}
+                        projectMember={projectMember}
+                    />
                 </div>
                 <div className="grid gap-6">
                     <div className="grid gap-4 h-max">
-                        <ProjectInfoBanner project={project} />
+                        <ProjectInfoBanner
+                            project={project}
+                            projectMember={projectMember}
+                        />
                         <DashboardGrid
                             className="grid-rows-[max-content,max-content,1fr] gap-4"
                             reverse

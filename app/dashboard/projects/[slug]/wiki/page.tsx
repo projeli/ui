@@ -16,8 +16,9 @@ import WikiStatistics from "@/components/wiki/wiki-statistics";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { wikiEventNames, WikiEventType } from "@/lib/types/wiki-types";
+import { getProjectMember, getWikiMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { notFound, unauthorized } from "next/navigation";
+import { forbidden, notFound, unauthorized } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -48,6 +49,11 @@ export default async function Page({
 
     if (!project) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
+    const wikiMember = getWikiMember(userId, wiki);
+
+    if (!projectMember) return forbidden();
+
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs
@@ -55,11 +61,20 @@ export default async function Page({
             />
             <DashboardGrid>
                 <div className="grid gap-6 h-max">
-                    <DashboardWikiNavigation project={project} wiki={wiki} />
+                    <DashboardWikiNavigation
+                        project={project}
+                        wiki={wiki}
+                        projectMember={projectMember}
+                        wikiMember={wikiMember}
+                    />
                 </div>
-                {wiki ? (
+                {wiki && wikiMember ? (
                     <div className="flex flex-col gap-4">
-                        <WikiInfoBanner wiki={wiki} project={project} />
+                        <WikiInfoBanner
+                            wiki={wiki}
+                            project={project}
+                            wikiMember={wikiMember}
+                        />
                         <Card className="p-6 h-max lg:col-span-2">
                             <ProjectHeader
                                 project={project}
@@ -101,7 +116,14 @@ export default async function Page({
                     </div>
                 ) : (
                     <div className="flex justify-center items-center">
-                        <WikiCreateForm project={project} />
+                        {projectMember.isOwner ? (
+                            <WikiCreateForm project={project} />
+                        ) : (
+                            <p className="text-muted-foreground">
+                                The owner of this project has not created a wiki
+                                yet.
+                            </p>
+                        )}
                     </div>
                 )}
             </DashboardGrid>

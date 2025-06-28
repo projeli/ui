@@ -11,6 +11,7 @@ export class NotificationApi extends BaseApi {
 
     async get(searchParams: {
         type?: string;
+        unread?: string;
         page?: string;
         pageSize?: string;
     }): Promise<PagedApiResponse<Notification>> {

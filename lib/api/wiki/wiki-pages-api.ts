@@ -1,5 +1,5 @@
 import { ApiResponse } from "@/lib/types/api-response-types";
-import { WikiPage, WikiPageStatus, WikiSidebar } from "@/lib/types/wiki-types";
+import { WikiPage, WikiPageStatus } from "@/lib/types/wiki-types";
 import { BaseApi } from "../base-api";
 
 export class WikiPageApi extends BaseApi {

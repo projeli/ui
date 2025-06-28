@@ -16,14 +16,14 @@ export const updateMemberPermissionsAction: ServerAction = async (
     const wikiMemberId = formData.get("wikiMemberId") as string | null | undefined;
     const permissions = JSON.parse(formData.get("permissions") as string) as Record<string, boolean>;
 
-    console.log(formData);
-
     let projectPermissions = BigInt(0n);
     let wikiPermissions = BigInt(0n);
 
     if (permissions.editProject) projectPermissions |= BigInt(ProjectMemberPermissions.EditProject);
     if (permissions.publishProject) projectPermissions |= BigInt(ProjectMemberPermissions.PublishProject);
+    if (permissions.archiveProject) projectPermissions |= BigInt(ProjectMemberPermissions.ArchiveProject);
     if (permissions.manageLinks) projectPermissions |= BigInt(ProjectMemberPermissions.ManageLinks);
+    if (permissions.manageTags) projectPermissions |= BigInt(ProjectMemberPermissions.ManageTags);
     if (permissions.addMembers) projectPermissions |= BigInt(ProjectMemberPermissions.AddProjectMembers);
     if (permissions.editRoles) projectPermissions |= BigInt(ProjectMemberPermissions.EditProjectMemberRoles);
     if (permissions.editPermissions) projectPermissions |= BigInt(ProjectMemberPermissions.EditProjectMemberPermissions);
@@ -32,9 +32,12 @@ export const updateMemberPermissionsAction: ServerAction = async (
 
     if (wikiId && wikiMemberId) {
         if (permissions.editWikiDetails) wikiPermissions |= BigInt(WikiMemberPermissions.EditWiki);
+        if (permissions.publishWiki) wikiPermissions |= BigInt(WikiMemberPermissions.PublishWiki);
+        if (permissions.archiveWiki) wikiPermissions |= BigInt(WikiMemberPermissions.ArchiveWiki);
         if (permissions.createPages) wikiPermissions |= BigInt(WikiMemberPermissions.CreateWikiPages);
         if (permissions.editPages) wikiPermissions |= BigInt(WikiMemberPermissions.EditWikiPages);
         if (permissions.publishPages) wikiPermissions |= BigInt(WikiMemberPermissions.PublishWikiPages);
+        if (permissions.archivePages) wikiPermissions |= BigInt(WikiMemberPermissions.ArchiveWikiPages);
         if (permissions.deletePages) wikiPermissions |= BigInt(WikiMemberPermissions.DeleteWikiPages);
         if (permissions.createCategories) wikiPermissions |= BigInt(WikiMemberPermissions.CreateWikiCategories);
         if (permissions.editCategories) wikiPermissions |= BigInt(WikiMemberPermissions.EditWikiCategories);

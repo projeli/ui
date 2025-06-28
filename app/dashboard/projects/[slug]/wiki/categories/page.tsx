@@ -12,8 +12,14 @@ import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { wikiCategoryApi } from "@/lib/api/wiki/wiki-category-api";
+import { WikiMemberPermissions } from "@/lib/types/wiki-types";
+import {
+    getProjectMember,
+    getWikiMember,
+    hasWikiPermission,
+} from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { notFound, unauthorized } from "next/navigation";
+import { forbidden, notFound, unauthorized } from "next/navigation";
 
 export default async function Page({
     params,
@@ -36,6 +42,11 @@ export default async function Page({
     if (!project) return notFound();
     if (!wiki) return notFound();
 
+    const projectMember = getProjectMember(userId, project);
+    const wikiMember = getWikiMember(userId, wiki);
+
+    if (!wikiMember || !projectMember) return forbidden();
+
     return (
         <PageContainer className="grid gap-6 mt-8">
             <Breadcrumbs
@@ -43,10 +54,19 @@ export default async function Page({
             />
             <DashboardGrid>
                 <div className="grid gap-6 h-max">
-                    <DashboardWikiNavigation project={project} wiki={wiki} />
+                    <DashboardWikiNavigation
+                        project={project}
+                        wiki={wiki}
+                        projectMember={projectMember}
+                        wikiMember={wikiMember}
+                    />
                 </div>
                 <div className="flex flex-col gap-4">
-                    <WikiInfoBanner wiki={wiki} project={project} />
+                    <WikiInfoBanner
+                        wiki={wiki}
+                        project={project}
+                        wikiMember={wikiMember}
+                    />
                     <Card className="p-6 h-max">
                         <div className="flex justify-between items-end gap-4 pb-4 border-b">
                             <div>
@@ -60,10 +80,15 @@ export default async function Page({
                                 </p>
                             </div>
                             <div>
-                                <WikiCreateCategoryDialog
-                                    wikiId={wiki.id}
-                                    redirectUrl={`/dashboard/projects/${slug}/wiki/categories`}
-                                />
+                                {hasWikiPermission(
+                                    wikiMember,
+                                    WikiMemberPermissions.CreateWikiCategories
+                                ) && (
+                                    <WikiCreateCategoryDialog
+                                        wikiId={wiki.id}
+                                        redirectUrl={`/dashboard/projects/${slug}/wiki/categories`}
+                                    />
+                                )}
                             </div>
                         </div>
                         <div className="grid gap-4">
@@ -71,6 +96,7 @@ export default async function Page({
                                 projectSlug={project.slug}
                                 wikiId={wiki.id}
                                 categories={categories}
+                                wikiMember={wikiMember}
                             />
                         </div>
                     </Card>

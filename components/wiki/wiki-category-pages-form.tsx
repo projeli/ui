@@ -1,6 +1,6 @@
 "use client";
 
-import { updateWikiPageCategoriesAction } from "@/actions/wiki/update-wiki-page-categories";
+import { updateWikiCategoryPagesAction } from "@/actions/wiki/update-wiki-category-pages";
 import { useToast } from "@/hooks/use-toast";
 import {
     WikiCategory,
@@ -15,42 +15,38 @@ import { Button } from "../ui/button";
 import { Card } from "../ui/card";
 import { Input } from "../ui/input";
 
-type WikiPageCategoriesFormProps = {
+type WikiCategoryPagesFormProps = {
     wikiId: string;
-    page: WikiPage;
-    categories: WikiCategory[];
+    category: WikiCategory;
+    pages: WikiPage[];
     member: WikiMember;
 };
 
 const ITEMS_PER_PAGE = 10;
 
-const WikiPageCategoriesForm = ({
+const WikiCategoryPagesForm = ({
     wikiId,
-    page,
-    categories,
+    category,
+    pages,
     member,
-}: WikiPageCategoriesFormProps) => {
+}: WikiCategoryPagesFormProps) => {
     const { toast } = useToast();
     const [formState, formAction, isLoading] = useActionState(
-        updateWikiPageCategoriesAction,
+        updateWikiCategoryPagesAction,
         {}
     );
 
-    const [selectedCategories, setSelectedCategories] = useState<
-        WikiCategory[]
-    >(page.categories);
-    const [availableCategories, setAvailableCategories] = useState<
-        WikiCategory[]
-    >(
-        categories.filter(
-            (category) => !page.categories.some((c) => c.id === category.id)
-        )
+    const [selectedPages, setSelectedPages] = useState<WikiPage[]>(
+        category.pages
+    );
+    const [availablePages, setAvailablePages] = useState<WikiPage[]>(
+        pages.filter((page) => !category.pages.some((c) => c.id === page.id))
     );
 
     // Pagination states
-    const [selectedCategoriesPage, setSelectedCategoriesPage] =
+    const [selectedPagesCategory, setSelectedPagesCategory] =
         useState<number>(1);
-    const [availableCategoriesPage, setAvailableCategoriesPage] =
+    const [availablePagesCategory, setAvailablePagesCategory] =
         useState<number>(1);
 
     // Search states
@@ -59,35 +55,35 @@ const WikiPageCategoriesForm = ({
     const [availableQuery, setAvailableQuery] = useState<string>("");
 
     // Filter functions
-    const filterCategories = (categories: WikiCategory[], query: string) =>
-        categories.filter((category) =>
-            category.name.toLowerCase().includes(query.toLowerCase())
+    const filterPages = (pages: WikiPage[], query: string) =>
+        pages.filter((page) =>
+            page.title.toLowerCase().includes(query.toLowerCase())
         );
 
-    // Selected Categories pagination
-    const filteredSelected = filterCategories(
-        selectedCategories,
+    // Selected Pages pagination
+    const filteredSelected = filterPages(
+        selectedPages,
         selectedQuery || globalQuery
     );
     const selectedTotalPages = Math.ceil(
         filteredSelected.length / ITEMS_PER_PAGE
     );
-    const selectedStart = (selectedCategoriesPage - 1) * ITEMS_PER_PAGE;
+    const selectedStart = (selectedPagesCategory - 1) * ITEMS_PER_PAGE;
     const selectedEnd = selectedStart + ITEMS_PER_PAGE;
     const paginatedSelected = filteredSelected.slice(
         selectedStart,
         selectedEnd
     );
 
-    // Available Categories pagination
-    const filteredAvailable = filterCategories(
-        availableCategories,
+    // Available Pages pagination
+    const filteredAvailable = filterPages(
+        availablePages,
         availableQuery || globalQuery
     );
     const availableTotalPages = Math.ceil(
         filteredAvailable.length / ITEMS_PER_PAGE
     );
-    const availableStart = (availableCategoriesPage - 1) * ITEMS_PER_PAGE;
+    const availableStart = (availablePagesCategory - 1) * ITEMS_PER_PAGE;
     const availableEnd = availableStart + ITEMS_PER_PAGE;
     const paginatedAvailable = filteredAvailable.slice(
         availableStart,
@@ -96,36 +92,34 @@ const WikiPageCategoriesForm = ({
 
     // Pagination handlers
     const handleSelectedPrevious = () => {
-        if (selectedCategoriesPage > 1)
-            setSelectedCategoriesPage(selectedCategoriesPage - 1);
+        if (selectedPagesCategory > 1)
+            setSelectedPagesCategory(selectedPagesCategory - 1);
     };
     const handleSelectedNext = () => {
-        if (selectedCategoriesPage < selectedTotalPages)
-            setSelectedCategoriesPage(selectedCategoriesPage + 1);
+        if (selectedPagesCategory < selectedTotalPages)
+            setSelectedPagesCategory(selectedPagesCategory + 1);
     };
     const handleAvailablePrevious = () => {
-        if (availableCategoriesPage > 1)
-            setAvailableCategoriesPage(availableCategoriesPage - 1);
+        if (availablePagesCategory > 1)
+            setAvailablePagesCategory(availablePagesCategory - 1);
     };
     const handleAvailableNext = () => {
-        if (availableCategoriesPage < availableTotalPages)
-            setAvailableCategoriesPage(availableCategoriesPage + 1);
+        if (availablePagesCategory < availableTotalPages)
+            setAvailablePagesCategory(availablePagesCategory + 1);
     };
 
     const handleSave = () => {
         startTransition(() => {
             const formData = new FormData();
             formData.append("wikiId", wikiId);
-            formData.append("id", page.id);
-            selectedCategories.forEach((category) =>
-                formData.append("categories", category.id)
-            );
+            formData.append("id", category.id);
+            selectedPages.forEach((page) => formData.append("pages", page.id));
             formAction(formData);
         });
     };
 
     useEffect(() => {
-        createFormToast(toast, formState, "Categories updated successfully.");
+        createFormToast(toast, formState, "Pages updated successfully.");
     }, [formState, toast]);
 
     const canUpdate = hasWikiPermission(
@@ -141,10 +135,10 @@ const WikiPageCategoriesForm = ({
                         value={globalQuery}
                         onChange={(e) => {
                             setGlobalQuery(e.target.value);
-                            setSelectedCategoriesPage(1);
-                            setAvailableCategoriesPage(1);
+                            setSelectedPagesCategory(1);
+                            setAvailablePagesCategory(1);
                         }}
-                        placeholder="Search all categories..."
+                        placeholder="Search all pages..."
                         className="w-full"
                     />
                     {canUpdate && (
@@ -161,13 +155,13 @@ const WikiPageCategoriesForm = ({
                     <Card className="grid p-6 gap-4 h-max">
                         <div className="grid gap-4 pb-4 border-b">
                             <h2 className="text-lg font-semibold">
-                                Selected Categories
+                                Selected Pages
                             </h2>
                             <Input
                                 value={selectedQuery}
                                 onChange={(e) => {
                                     setSelectedQuery(e.target.value);
-                                    setSelectedCategoriesPage(1);
+                                    setSelectedPagesCategory(1);
                                 }}
                                 placeholder="Search selected..."
                                 disabled={!!globalQuery}
@@ -177,30 +171,30 @@ const WikiPageCategoriesForm = ({
                             {paginatedSelected.length === 0 ? (
                                 <p className="text-muted-foreground">
                                     {selectedQuery || globalQuery
-                                        ? "No matching categories found"
-                                        : "No categories selected"}
+                                        ? "No matching pages found"
+                                        : "No pages selected"}
                                 </p>
                             ) : (
-                                paginatedSelected.map((category) => (
+                                paginatedSelected.map((page) => (
                                     <Button
-                                        key={category.id}
+                                        key={page.id}
                                         className="justify-start text-base px-4 py-2"
                                         variant="outline"
                                         onClick={() => {
                                             if (!canUpdate) return;
-                                            setSelectedCategories(
-                                                selectedCategories.filter(
-                                                    (c) => c.id !== category.id
+                                            setSelectedPages(
+                                                selectedPages.filter(
+                                                    (c) => c.id !== page.id
                                                 )
                                             );
-                                            setAvailableCategories([
-                                                ...availableCategories,
-                                                category,
+                                            setAvailablePages([
+                                                ...availablePages,
+                                                page,
                                             ]);
                                         }}
                                     >
                                         {canUpdate && <ArrowRight />}
-                                        <p className="ml-2">{category.name}</p>
+                                        <p className="ml-2">{page.title}</p>
                                     </Button>
                                 ))
                             )}
@@ -211,12 +205,12 @@ const WikiPageCategoriesForm = ({
                                     variant="outline"
                                     size="sm"
                                     onClick={handleSelectedPrevious}
-                                    disabled={selectedCategoriesPage === 1}
+                                    disabled={selectedPagesCategory === 1}
                                 >
                                     Previous
                                 </Button>
                                 <span className="text-sm text-muted-foreground">
-                                    Page {selectedCategoriesPage} of{" "}
+                                    Page {selectedPagesCategory} of{" "}
                                     {selectedTotalPages}
                                 </span>
                                 <Button
@@ -224,7 +218,7 @@ const WikiPageCategoriesForm = ({
                                     size="sm"
                                     onClick={handleSelectedNext}
                                     disabled={
-                                        selectedCategoriesPage ===
+                                        selectedPagesCategory ===
                                         selectedTotalPages
                                     }
                                 >
@@ -236,13 +230,13 @@ const WikiPageCategoriesForm = ({
                     <Card className="grid p-6 gap-4 h-max">
                         <div className="grid gap-4 pb-4 border-b">
                             <h2 className="text-lg font-semibold">
-                                Available Categories
+                                Available Pages
                             </h2>
                             <Input
                                 value={availableQuery}
                                 onChange={(e) => {
                                     setAvailableQuery(e.target.value);
-                                    setAvailableCategoriesPage(1);
+                                    setAvailablePagesCategory(1);
                                 }}
                                 placeholder="Search available..."
                                 disabled={!!globalQuery}
@@ -252,30 +246,30 @@ const WikiPageCategoriesForm = ({
                             {paginatedAvailable.length === 0 ? (
                                 <p className="text-muted-foreground">
                                     {availableQuery || globalQuery
-                                        ? "No matching categories found"
-                                        : "No categories available"}
+                                        ? "No matching pages found"
+                                        : "No pages available"}
                                 </p>
                             ) : (
-                                paginatedAvailable.map((category) => (
+                                paginatedAvailable.map((page) => (
                                     <Button
-                                        key={category.id}
+                                        key={page.id}
                                         className="justify-start text-base px-4 py-2"
                                         variant="outline"
                                         onClick={() => {
                                             if (!canUpdate) return;
-                                            setSelectedCategories([
-                                                ...selectedCategories,
-                                                category,
+                                            setSelectedPages([
+                                                ...selectedPages,
+                                                page,
                                             ]);
-                                            setAvailableCategories(
-                                                availableCategories.filter(
-                                                    (c) => c.id !== category.id
+                                            setAvailablePages(
+                                                availablePages.filter(
+                                                    (c) => c.id !== page.id
                                                 )
                                             );
                                         }}
                                     >
                                         {canUpdate && <ArrowLeft />}
-                                        <p className="ml-2">{category.name}</p>
+                                        <p className="ml-2">{page.title}</p>
                                     </Button>
                                 ))
                             )}
@@ -286,12 +280,12 @@ const WikiPageCategoriesForm = ({
                                     variant="outline"
                                     size="sm"
                                     onClick={handleAvailablePrevious}
-                                    disabled={availableCategoriesPage === 1}
+                                    disabled={availablePagesCategory === 1}
                                 >
                                     Previous
                                 </Button>
                                 <span className="text-sm text-muted-foreground">
-                                    Page {availableCategoriesPage} of{" "}
+                                    Page {availablePagesCategory} of{" "}
                                     {availableTotalPages}
                                 </span>
                                 <Button
@@ -299,7 +293,7 @@ const WikiPageCategoriesForm = ({
                                     size="sm"
                                     onClick={handleAvailableNext}
                                     disabled={
-                                        availableCategoriesPage ===
+                                        availablePagesCategory ===
                                         availableTotalPages
                                     }
                                 >
@@ -314,4 +308,4 @@ const WikiPageCategoriesForm = ({
     );
 };
 
-export default WikiPageCategoriesForm;
+export default WikiCategoryPagesForm;

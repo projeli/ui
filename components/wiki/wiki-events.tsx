@@ -307,6 +307,48 @@ export const WikiEvent = ({
                 {categories[event.categoryId]?.name || "Deleted category"}
             </span>
         </p>
+    ) : event.$type === "WikiCategoryUpdatedPagesEvent" ? (
+        event.pages.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+                Removed all pages from the wiki category{" "}
+                <span className="text-foreground">
+                    {pages[event.categoryId]?.title || "Deleted category"}
+                </span>
+            </p>
+        ) : event.pages.length === 1 ? (
+            <p className="text-sm text-muted-foreground">
+                Updated the page of the wiki category{" "}
+                <span className="text-foreground">
+                    {categories[event.categoryId]?.name || "Deleted category"}
+                </span>{" "}
+                to [
+                <span className="text-foreground">
+                    {pages[event.pages[0].id]?.title || "Deleted page"}
+                </span>
+                ]
+            </p>
+        ) : (
+            <p className="text-sm text-muted-foreground">
+                Updated the pages of the wiki category{" "}
+                <span className="text-foreground">
+                    {categories[event.categoryId]?.name || "Deleted category"}
+                </span>{" "}
+                to [
+                <span className="text-foreground">
+                    {event.pages
+                        .map((c) => pages[c.id]?.title || "Deleted page")
+                        .slice(0, -1)
+                        .join(", ")}
+                    , and{" "}
+                    {
+                        pages[
+                            event.pages[event.pages.length - 1].id
+                        ]?.title || "Deleted page"
+                    }
+                </span>
+                ]
+            </p>
+        )
     ) : event.$type === "WikiMemberAddedEvent" ? (
         <p className="text-sm text-muted-foreground">
             Added{" "}

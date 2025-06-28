@@ -10,12 +10,14 @@ type WikiUpdateCategoryFormProps = {
     projectSlug: string;
     wikiId: string;
     category: WikiCategory;
+    redirectUrl?: string;
 };
 
 const WikiUpdateCategoryForm = ({
     projectSlug,
     wikiId,
     category,
+    redirectUrl = `/dashboard/projects/${projectSlug}/wiki/categories`,
 }: WikiUpdateCategoryFormProps) => {
     return (
         <SmartForm
@@ -23,6 +25,7 @@ const WikiUpdateCategoryForm = ({
             formSchema={z.object({
                 projectSlug: z.string(),
                 wikiId: z.string(),
+                redirectUrl: z.string(),
                 id: z.string(),
                 name: z.string().min(3).max(32),
                 slug: z.string().min(3).max(32),
@@ -31,6 +34,7 @@ const WikiUpdateCategoryForm = ({
             defaultValues={{
                 projectSlug,
                 wikiId,
+                redirectUrl,
                 id: category.id,
                 name: category.name,
                 slug: category.slug,
@@ -45,6 +49,11 @@ const WikiUpdateCategoryForm = ({
                 {
                     name: "wikiId",
                     label: "Wiki ID",
+                    type: "hidden",
+                },
+                {
+                    name: "redirectUrl",
+                    label: "Redirect URL",
                     type: "hidden",
                 },
                 {

@@ -29,8 +29,6 @@ export default async function Home() {
         })
         .then((res) => res.data);
 
-    console.log("Projects:", projects);
-
     return (
         <PageContainer size="full" className="p-0">
             <PageContainer size="large" className="mt-12">

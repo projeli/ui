@@ -1,6 +1,11 @@
 "use client";
 
-import { WikiCategory } from "@/lib/types/wiki-types";
+import {
+    WikiCategory,
+    WikiMember,
+    WikiMemberPermissions,
+} from "@/lib/types/wiki-types";
+import { hasWikiPermission } from "@/lib/utils";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/button";
@@ -18,15 +23,30 @@ type WikiCategoriesTableActionsProps = {
     wikiId: string;
     projectSlug: string;
     category: WikiCategory;
+    member: WikiMember;
 };
 
 const WikiCategoriesTableActions = ({
     wikiId,
     projectSlug,
     category,
+    member,
 }: WikiCategoriesTableActionsProps) => {
     const [dialogUpdateOpen, setDialogUpdateOpen] = useState(false);
     const [dialogDeleteOpen, setDialogDeleteOpen] = useState(false);
+
+    const canEdit = hasWikiPermission(
+        member,
+        WikiMemberPermissions.EditWikiCategories
+    );
+    const canDelete = hasWikiPermission(
+        member,
+        WikiMemberPermissions.DeleteWikiCategories
+    );
+
+    if (!canEdit && !canDelete) {
+        return null;
+    }
 
     return (
         <>
@@ -39,20 +59,24 @@ const WikiCategoriesTableActions = ({
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                            onSelect={() => setDialogUpdateOpen(true)}
-                        >
-                            <Edit />
-                            Edit Category
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onSelect={() => setDialogDeleteOpen(true)}
-                            className="text-destructive"
-                        >
-                            <Trash />
-                            Delete Category
-                        </DropdownMenuItem>
+                        {canEdit && (
+                            <DropdownMenuItem
+                                onSelect={() => setDialogUpdateOpen(true)}
+                            >
+                                <Edit />
+                                Edit Category
+                            </DropdownMenuItem>
+                        )}
+                        {canEdit && canDelete && <DropdownMenuSeparator />}
+                        {canDelete && (
+                            <DropdownMenuItem
+                                onSelect={() => setDialogDeleteOpen(true)}
+                                className="text-destructive"
+                            >
+                                <Trash />
+                                Delete Category
+                            </DropdownMenuItem>
+                        )}
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

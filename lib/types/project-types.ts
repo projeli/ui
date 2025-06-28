@@ -47,8 +47,10 @@ export const ProjectMemberPermissions = {
     None: 0n,
     EditProject: 1n << 0n,
     PublishProject: 1n << 1n,
-    ManageLinks: 1n << 2n,
-    // Reserved (3 - 10) for future project-level permissions
+    ArchiveProject: 1n << 2n,
+    ManageLinks: 1n << 3n,
+    ManageTags: 1n << 4n,
+    // Reserved (5 - 10) for future project-level permissions
 
     AddProjectMembers: 1n << 11n,
     EditProjectMemberRoles: 1n << 12n,
