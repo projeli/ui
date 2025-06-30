@@ -67,7 +67,6 @@ export default async function Page({
                 <div className="flex flex-col gap-4">
                     <WikiInfoBanner
                         wiki={wiki}
-                        project={project}
                         wikiMember={wikiMember}
                     />
                     <WikiUpdateDescriptionForm project={project} wiki={wiki} />

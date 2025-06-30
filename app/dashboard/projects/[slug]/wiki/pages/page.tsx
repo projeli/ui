@@ -59,7 +59,6 @@ export default async function Page({
                 <div className="flex flex-col gap-4">
                     <WikiInfoBanner
                         wiki={wiki}
-                        project={project}
                         wikiMember={wikiMember}
                     />
                     <Card className="p-6 h-max">
