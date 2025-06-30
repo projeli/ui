@@ -23,6 +23,7 @@ import {
     ChevronDown,
     Menu,
 } from "lucide-react";
+import Link from "next/link";
 import React from "react";
 import CustomSignInButton from "../clerk/custom-sign-in-button";
 import CustomUserButton from "../clerk/custom-user-button";
@@ -126,10 +127,13 @@ export async function Navbar() {
                                                                 className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
                                                                 asChild
                                                             >
-                                                                <a
+                                                                <Link
                                                                     href={
                                                                         subLink.path
                                                                     }
+                                                                    prefetch={subLink.path.startsWith(
+                                                                        "/"
+                                                                    )}
                                                                 >
                                                                     <div className="flex items-center gap-2">
                                                                         {
@@ -139,7 +143,7 @@ export async function Navbar() {
                                                                             subLink.label
                                                                         }
                                                                     </div>
-                                                                </a>
+                                                                </Link>
                                                             </Button>
                                                         )
                                                     )}
@@ -199,12 +203,14 @@ type ListItemProps = {
 const ListItem = React.forwardRef<
     React.ElementRef<"a">,
     ListItemProps & React.ComponentPropsWithoutRef<"a">
->(({ className, title, icon, children, ...props }, ref) => {
+>(({ className, title, icon, children, href, ...props }, ref) => {
     return (
         <li>
             <NavigationMenuLink asChild>
-                <a
+                <Link
                     ref={ref}
+                    href={href}
+                    prefetch={href.startsWith("/")}
                     className={cn(
                         "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                         className
@@ -218,7 +224,7 @@ const ListItem = React.forwardRef<
                     <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
                         {children}
                     </p>
-                </a>
+                </Link>
             </NavigationMenuLink>
         </li>
     );

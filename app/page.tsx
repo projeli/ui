@@ -178,11 +178,12 @@ export default async function Home() {
                         </h2>
                     </div>
                     <h3 className="text-2xl font-semibold mb-2">
-                        Discover Inspiring Projects
+                        Build and Share Your Project Wiki
                     </h3>
                     <p className="text-lg text-muted-foreground text-center max-w-xl">
-                        Browse a diverse collection of wikis showcasing
-                        innovative projects from creators worldwide.
+                        Create a stunning wiki for your project in minutes,
+                        with powerful features to showcase your work and
+                        collaborate with others.
                     </p>
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 gap-y-12">
