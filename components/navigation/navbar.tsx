@@ -87,104 +87,106 @@ export async function Navbar() {
     const { userId } = await auth();
 
     return (
-        <header className="flex justify-between items-center p-4 max-w-7xl mx-auto w-full">
-            <div className="flex items-center gap-2 md:hidden">
-                <Sheet>
-                    <SheetTrigger>
-                        <Menu className="h-6 w-6" />
-                    </SheetTrigger>
-                    <SheetContent side="left">
-                        <SheetHeader>
-                            <SheetTitle asChild>
-                                <a href="/" className="h-12 w-max">
-                                    <Logo />
-                                </a>
-                            </SheetTitle>
-                            <div>
-                                {links.map((link, i) => (
-                                    <Collapsible
-                                        key={i}
-                                        defaultOpen={link.defaultOpen}
-                                    >
-                                        <CollapsibleTrigger className="w-full">
-                                            <Button
-                                                variant="ghost"
-                                                className="w-full justify-start text-base font-semibold mt-2"
-                                            >
-                                                {link.label}
-                                                <ChevronDown className="w-4 h-4 ml-auto" />
-                                            </Button>
-                                        </CollapsibleTrigger>
-                                        <CollapsibleContent>
-                                            <div className="grid gap-2 mt-2">
-                                                {link.subLinks?.map(
-                                                    (subLink, j) => (
-                                                        <Button
-                                                            key={j}
-                                                            variant="ghost"
-                                                            className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
-                                                            asChild
-                                                        >
-                                                            <a
-                                                                href={
-                                                                    subLink.path
-                                                                }
+        <div className="sticky top-0 bg-background z-50">
+            <header className="flex justify-between items-center p-4 max-w-7xl mx-auto w-full">
+                <div className="flex items-center gap-2 md:hidden">
+                    <Sheet>
+                        <SheetTrigger>
+                            <Menu className="h-6 w-6" />
+                        </SheetTrigger>
+                        <SheetContent side="left">
+                            <SheetHeader>
+                                <SheetTitle asChild>
+                                    <a href="/" className="h-12 w-max">
+                                        <Logo />
+                                    </a>
+                                </SheetTitle>
+                                <div>
+                                    {links.map((link, i) => (
+                                        <Collapsible
+                                            key={i}
+                                            defaultOpen={link.defaultOpen}
+                                        >
+                                            <CollapsibleTrigger className="w-full">
+                                                <Button
+                                                    variant="ghost"
+                                                    className="w-full justify-start text-base font-semibold mt-2"
+                                                >
+                                                    {link.label}
+                                                    <ChevronDown className="w-4 h-4 ml-auto" />
+                                                </Button>
+                                            </CollapsibleTrigger>
+                                            <CollapsibleContent>
+                                                <div className="grid gap-2 mt-2">
+                                                    {link.subLinks?.map(
+                                                        (subLink, j) => (
+                                                            <Button
+                                                                key={j}
+                                                                variant="ghost"
+                                                                className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
+                                                                asChild
                                                             >
-                                                                <div className="flex items-center gap-2">
-                                                                    {
-                                                                        subLink.icon
+                                                                <a
+                                                                    href={
+                                                                        subLink.path
                                                                     }
-                                                                    {
-                                                                        subLink.label
-                                                                    }
-                                                                </div>
-                                                            </a>
-                                                        </Button>
-                                                    )
-                                                )}
-                                            </div>
-                                        </CollapsibleContent>
-                                    </Collapsible>
-                                ))}
-                            </div>
-                        </SheetHeader>
-                    </SheetContent>
-                </Sheet>
-            </div>
-            <a href="/" className="h-12 w-max">
-                <Logo />
-            </a>
-            <NavigationMenu className="hidden md:flex">
-                <NavigationMenuList>
-                    {links.map((link) => (
-                        <NavigationMenuItem key={link.label}>
-                            <NavigationMenuTrigger>
-                                <div className="text-base font-semibold">
-                                    {link.label}
-                                </div>
-                            </NavigationMenuTrigger>
-                            <NavigationMenuContent>
-                                <ul className="grid gap-3 p-6 lg:grid-cols-[.75fr_1fr] text-nowrap">
-                                    {link.subLinks?.map((subLink) => (
-                                        <ListItem
-                                            key={subLink.label}
-                                            title={subLink.label}
-                                            href={subLink.path}
-                                            icon={subLink.icon}
-                                        />
+                                                                >
+                                                                    <div className="flex items-center gap-2">
+                                                                        {
+                                                                            subLink.icon
+                                                                        }
+                                                                        {
+                                                                            subLink.label
+                                                                        }
+                                                                    </div>
+                                                                </a>
+                                                            </Button>
+                                                        )
+                                                    )}
+                                                </div>
+                                            </CollapsibleContent>
+                                        </Collapsible>
                                     ))}
-                                </ul>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                    ))}
-                </NavigationMenuList>
-            </NavigationMenu>
-            <div className="flex items-center gap-2">
-                {userId && <NotificationButton />}
-                <ThemeToggle />
-                {userId ? <CustomUserButton /> : <CustomSignInButton />}
-            </div>
-        </header>
+                                </div>
+                            </SheetHeader>
+                        </SheetContent>
+                    </Sheet>
+                </div>
+                <a href="/" className="h-12 w-max">
+                    <Logo />
+                </a>
+                <NavigationMenu className="hidden md:flex">
+                    <NavigationMenuList>
+                        {links.map((link) => (
+                            <NavigationMenuItem key={link.label}>
+                                <NavigationMenuTrigger>
+                                    <div className="text-base font-semibold">
+                                        {link.label}
+                                    </div>
+                                </NavigationMenuTrigger>
+                                <NavigationMenuContent>
+                                    <ul className="grid gap-3 p-6 lg:grid-cols-[.75fr_1fr] text-nowrap">
+                                        {link.subLinks?.map((subLink) => (
+                                            <ListItem
+                                                key={subLink.label}
+                                                title={subLink.label}
+                                                href={subLink.path}
+                                                icon={subLink.icon}
+                                            />
+                                        ))}
+                                    </ul>
+                                </NavigationMenuContent>
+                            </NavigationMenuItem>
+                        ))}
+                    </NavigationMenuList>
+                </NavigationMenu>
+                <div className="flex items-center gap-2">
+                    {userId && <NotificationButton />}
+                    <ThemeToggle />
+                    {userId ? <CustomUserButton /> : <CustomSignInButton />}
+                </div>
+            </header>
+        </div>
     );
 }
 

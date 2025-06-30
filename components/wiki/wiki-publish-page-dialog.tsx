@@ -1,8 +1,7 @@
 "use client";
 
 import { updateWikiPageStatusAction } from "@/actions/wiki/update-wiki-page-status";
-import { Project } from "@/lib/types/project-types";
-import { WikiPage } from "@/lib/types/wiki-types";
+import { Wiki, WikiPage } from "@/lib/types/wiki-types";
 import { Rocket, X } from "lucide-react";
 import { startTransition, useActionState } from "react";
 import FormAlert from "../form/form-alert";
@@ -20,14 +19,12 @@ import {
 
 type WikiPublishPageDialogProps = {
     page: WikiPage;
-    project: Project;
-    wikiId: string;
+    wiki: Wiki;
 };
 
 const WikiPublishPageDialog = ({
     page,
-    project,
-    wikiId,
+    wiki,
 }: WikiPublishPageDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
         updateWikiPageStatusAction,
@@ -37,8 +34,8 @@ const WikiPublishPageDialog = ({
     const handlePublish = async () => {
         startTransition(() => {
             const formData = new FormData();
-            formData.append("projectSlug", project.slug);
-            formData.append("wikiId", wikiId);
+            formData.append("projectSlug", wiki.projectSlug);
+            formData.append("wikiId", wiki.id);
             formData.append("id", page.id);
             formData.append("status", "Published");
             formAction(formData);
@@ -59,7 +56,7 @@ const WikiPublishPageDialog = ({
                     <DialogTitle>Publish Page</DialogTitle>
                     <DialogDescription>
                         Are you sure you want to publish this page for the{" "}
-                        {project.name} wiki?
+                        {wiki.projectName} wiki?
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

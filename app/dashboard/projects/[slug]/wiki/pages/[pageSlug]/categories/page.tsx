@@ -61,9 +61,8 @@ export default async function Page({
                 </div>
                 <div className="flex flex-col gap-4 h-max">
                     <DashboardWikiPageHeader
-                        project={project}
                         page={page}
-                        wikiId={wiki.id}
+                        wiki={wiki}
                         wikiMember={wikiMember}
                     />
                     <WikiPageCategoriesForm

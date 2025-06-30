@@ -1,19 +1,20 @@
 import "@/app/markdown.css";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
+import Anchor from "@/components/navigation/anchor";
 import { Breadcrumbs, withProjects } from "@/components/navigation/breadcrumbs";
 import ProjectDetails from "@/components/project/project-details";
 import ProjectHeader from "@/components/project/project-header";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectLinks from "@/components/project/project-links";
 import ProjectMembers from "@/components/project/project-members";
-import ProjectWikis from "@/components/project/project-wikis";
 import { Card } from "@/components/ui/card";
 import { projectApi } from "@/lib/api/project/project-api";
+import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { getProjectMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
 import _ from "lodash";
-import { Cog } from "lucide-react";
+import { BookOpen, Cog } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache, Suspense } from "react";
@@ -61,7 +62,10 @@ export default async function Page({ params }: Props) {
     const { slug } = await params;
     const { userId } = await auth();
 
-    const project = await getProject(slug);
+    const [project, wiki] = await Promise.all([
+        getProject(slug),
+        wikiApi.getByProjectSlug(slug),
+    ]);
 
     if (!project) return notFound();
 
@@ -69,22 +73,58 @@ export default async function Page({ params }: Props) {
 
     return (
         <PageContainer>
-            <div className="grid mt-8 gap-6">
-                <Breadcrumbs links={withProjects([{ label: project.name }])} />
-                <ProjectInfoBanner project={project} projectMember={projectMember} />
-                <ProjectHeader
-                    project={project}
-                    projectMember={projectMember}
-                    button={{
-                        icon: <Cog />,
-                        label: "Open Dashboard",
-                        href: `/dashboard/projects/${project.slug}`,
-                    }}
-                />
+            <div className="grid mt-8">
+                <div className="mb-6">
+                    <Breadcrumbs
+                        links={withProjects([{ label: project.name }])}
+                    />
+                </div>
+                <div className="mb-6">
+                    <ProjectInfoBanner
+                        project={project}
+                        projectMember={projectMember}
+                    />
+                </div>
+                <div className="mb-4">
+                    <ProjectHeader
+                        project={project}
+                        projectMember={projectMember}
+                    />
+                </div>
+                <div className="flex gap-2 mb-4 flex-wrap">
+                    {!wiki && projectMember && (
+                        <Anchor
+                            href={`/dashboard/projects/${project.slug}/wiki`}
+                            className="text-sm"
+                            variant="outline"
+                        >
+                            Create wiki
+                        </Anchor>
+                    )}
+                    {wiki && (
+                        <Anchor
+                            href={`/projects/${project.slug}/wiki`}
+                            className="text-sm"
+                            variant="outline"
+                        >
+                            <BookOpen />
+                            Wiki
+                        </Anchor>
+                    )}
+                    {projectMember && (
+                        <Anchor
+                            href={`/dashboard/projects/${project.slug}`}
+                            className="text-sm"
+                            variant="outline"
+                        >
+                            <Cog />
+                            Dashboard
+                        </Anchor>
+                    )}
+                </div>
                 <div className="grid lg:grid-cols-[1fr,18rem] gap-6">
                     <Markdown content={project.content} />
                     <div className="flex flex-col gap-6">
-                        <ProjectWikis project={project} />
                         {project.links.length > 0 && (
                             <ProjectLinks links={project.links} />
                         )}

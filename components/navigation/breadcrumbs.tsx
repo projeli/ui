@@ -115,6 +115,15 @@ export const withProject = (
         ...links,
     ]);
 
+export const withWiki = (
+    project: { name: string; slug: string },
+    links: readonly Link[]
+): Link[] =>
+    withProject(project, [
+        { label: "Wiki", href: `/projects/${project.slug}/wiki` },
+        ...links,
+    ]);
+
 export const withDashboard = (links: readonly Link[]): Link[] =>
     withHome([{ label: "Dashboard", href: "/dashboard" }, ...links]);
 

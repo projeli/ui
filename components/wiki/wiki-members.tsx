@@ -25,7 +25,7 @@ export default async function WikiMembers({
                 Authors
             </h2>
             <div className="grid mt-4">
-                {members.map((member) => (
+                {members?.map((member) => (
                     <Anchor
                         key={member.userId}
                         href={`/users/${member.userName}`}

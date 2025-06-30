@@ -5,10 +5,10 @@ import Markdown from "@/components/markdown/markdown";
 import { Breadcrumbs, withProject } from "@/components/navigation/breadcrumbs";
 import ProjectHeader from "@/components/project/project-header";
 import ProjectLinks from "@/components/project/project-links";
-import ProjectWikis from "@/components/project/project-wikis";
 import WikiDetails from "@/components/wiki/wiki-details";
 import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
 import WikiMembers from "@/components/wiki/wiki-members";
+import WikiSidebar from "@/components/wiki/wiki-sidebar";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { getProjectMember, getWikiMember } from "@/lib/utils";
@@ -74,7 +74,11 @@ export default async function Page({ params }: Props) {
                 <Breadcrumbs
                     links={withProject(project, [{ label: "Wiki" }])}
                 />
-                <WikiInfoBanner wiki={wiki} project={project} wikiMember={wikiMember} />
+                <WikiInfoBanner
+                    wiki={wiki}
+                    project={project}
+                    wikiMember={wikiMember}
+                />
                 <ProjectHeader
                     project={project}
                     projectMember={projectMember}
@@ -90,7 +94,7 @@ export default async function Page({ params }: Props) {
                         <Markdown content={wiki.content} />
                     </div>
                     <div className="flex flex-col gap-6">
-                        <ProjectWikis project={project} wiki={wiki} />
+                        <WikiSidebar wiki={wiki} />
                         {project.links.length > 0 && (
                             <ProjectLinks links={project.links} />
                         )}

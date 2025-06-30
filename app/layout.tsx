@@ -42,7 +42,7 @@ export default function RootLayout({
         >
             <html lang="en" suppressHydrationWarning>
                 <body
-                    className={`${poppins.style.fontFamily} ${montserrat.style.fontFamily} antialiased flex flex-col min-h-screen`}
+                    className={`${poppins.style.fontFamily} ${montserrat.style.fontFamily} antialiased flex flex-col min-h-screen relative`}
                 >
                     <ThemeProvider
                         attribute="class"

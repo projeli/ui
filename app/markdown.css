@@ -120,11 +120,7 @@
     overflow: hidden;
     background: transparent;
     border-bottom: 1px solid hsl(var(--border));
-    height: 0.25em;
-    padding: 0;
     margin: 24px 0;
-    background-color: #d0d7de;
-    border: 0;
 }
 
 .markdown-body input {
@@ -1054,4 +1050,38 @@
 
 .markdown-body figure > pre > code > span {
     @apply saturate-[1.3];
+}
+
+.markdown-toc :where(ul, ol) {
+    --nesting-level: 1;
+}
+.markdown-toc :where(ul, ol) :where(ul, ol) {
+    --nesting-level: 2;
+}
+.markdown-toc :where(ul, ol) :where(ul, ol) :where(ul, ol) {
+    --nesting-level: 3;
+}
+.markdown-toc :where(ul, ol) :where(ul, ol) :where(ul, ol) :where(ul, ol) {
+    --nesting-level: 4;
+}
+.markdown-toc
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol) {
+    --nesting-level: 5;
+}
+.markdown-toc
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol)
+    :where(ul, ol) {
+    --nesting-level: 6;
+}
+
+.markdown-toc :where(ul, ol) a {
+    padding-left: calc(var(--nesting-level, 1) * 1rem);
 }

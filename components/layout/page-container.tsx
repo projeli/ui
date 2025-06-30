@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 type PageContainerProps = {
     children: React.ReactNode;
-    size?: "small" | "medium" | "large" | "default" | "full";
+    size?: "small" | "medium" | "large" | "default" | "extra-large" | "full";
     className?: string;
 };
 
@@ -17,6 +17,7 @@ const PageContainer = ({
         medium: "max-w-5xl",
         large: "max-w-6xl",
         default: "max-w-7xl",
+        "extra-large": "max-w-8xl",
         full: "max-w-full",
     };
 

@@ -1,4 +1,3 @@
-import { Project } from "@/lib/types/project-types";
 import { cn, getCdnUrl } from "@/lib/utils";
 import { FileQuestion } from "lucide-react";
 import Image from "next/image";
@@ -7,7 +6,11 @@ import Link from "next/link";
 type Size = "sm" | "md" | "lg";
 
 type ProjectImageProps = {
-    project: Project;
+    project: {
+        name: string;
+        slug: string;
+        imageUrl: string;
+    };
     href?: string;
     size?: Size;
 };
@@ -42,7 +45,11 @@ const ImageComponent = ({
     project,
     size,
 }: {
-    project: Project;
+    project: {
+        name: string;
+        slug: string;
+        imageUrl: string;
+    };
     size: Size;
 }) => {
     const imageUrl = getCdnUrl(project.imageUrl);
