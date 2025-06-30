@@ -64,18 +64,22 @@ export default async function Page({ params }: Props) {
 
     const wikiMember = getWikiMember(userId, wiki);
 
-    const updatedAt = new Date(wiki.updatedAt);
-    const publishedAt = new Date(wiki.publishedAt);
+    const updatedAt = wiki.updatedAt ? new Date(wiki.updatedAt) : null;
+    const publishedAt = wiki.publishedAt ? new Date(wiki.publishedAt) : null;
 
     const shownDate = (() => {
-        const isValidDate = (date: Date) =>
-            !isNaN(date.getTime()) && date.getTime() !== 0;
+        const isValidDate = (date: Date | null): date is Date =>
+            date instanceof Date &&
+            !isNaN(date.getTime()) &&
+            date.getTime() !== 0;
 
         if (!isValidDate(updatedAt) && !isValidDate(publishedAt)) {
             return null;
         }
 
-        return updatedAt > publishedAt ? updatedAt : publishedAt;
+        return updatedAt && publishedAt && updatedAt > publishedAt
+            ? updatedAt
+            : publishedAt;
     })();
 
     return (
@@ -87,7 +91,11 @@ export default async function Page({ params }: Props) {
                             <WikiSidebar wiki={wiki} defaultOpen={false} />
                         </div>
                         <div className="hidden lg:block">
-                            <WikiSidebar wiki={wiki} defaultOpen={true} open={true} />
+                            <WikiSidebar
+                                wiki={wiki}
+                                defaultOpen={true}
+                                open={true}
+                            />
                         </div>
                     </div>
                 </div>

@@ -27,18 +27,22 @@ export default async function Page({
 
     const wikiMember = getWikiMember(userId, wiki);
 
-    const updatedAt = new Date(page.updatedAt);
-    const publishedAt = new Date(page.publishedAt);
+    const updatedAt = page.updatedAt ? new Date(page.updatedAt) : null;
+    const publishedAt = page.publishedAt ? new Date(page.publishedAt) : null;
 
     const shownDate = (() => {
-        const isValidDate = (date: Date) =>
-            !isNaN(date.getTime()) && date.getTime() !== 0;
+        const isValidDate = (date: Date | null): date is Date =>
+            date instanceof Date &&
+            !isNaN(date.getTime()) &&
+            date.getTime() !== 0;
 
         if (!isValidDate(updatedAt) && !isValidDate(publishedAt)) {
             return null;
         }
 
-        return updatedAt > publishedAt ? updatedAt : publishedAt;
+        return updatedAt && publishedAt && updatedAt > publishedAt
+            ? updatedAt
+            : publishedAt;
     })();
 
     return (
