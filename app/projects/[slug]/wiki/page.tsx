@@ -68,14 +68,18 @@ export default async function Page({ params }: Props) {
     const publishedAt = new Date(wiki.publishedAt);
 
     const shownDate = (() => {
-        const isValidDate = (date: Date) =>
-            !isNaN(date.getTime()) && date.getTime() !== 0;
+        const isValidDate = (date?: Date) =>
+            !isNaN(date?.getTime() || NaN) && date?.getTime() !== 0;
 
         if (!isValidDate(updatedAt) && !isValidDate(publishedAt)) {
             return null;
         }
 
-        return updatedAt > publishedAt ? updatedAt : publishedAt;
+        if (isValidDate(updatedAt) && isValidDate(publishedAt)) {
+            return updatedAt! > publishedAt! ? updatedAt : publishedAt;
+        }
+
+        return updatedAt || publishedAt || null;
     })();
 
     return (
