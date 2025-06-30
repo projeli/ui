@@ -15,8 +15,16 @@ type WikiSidebarProps = {
 };
 
 const WikiSidebar = async ({ wiki, defaultOpen, open }: WikiSidebarProps) => {
-    if (!wiki.config?.sidebar?.items) {
-        wiki.config.sidebar.items = [];
+    if (!wiki) {
+        return null;
+    }
+
+    if (!wiki.config || !wiki.config.sidebar || !wiki.config.sidebar.items) {
+        wiki.config = {
+            sidebar: {
+                items: [],
+            },
+        };
     }
 
     //deep copy the sidebar items to avoid mutating the original wiki object
@@ -30,7 +38,11 @@ const WikiSidebar = async ({ wiki, defaultOpen, open }: WikiSidebarProps) => {
 
     return (
         <div className="bg-muted lg:bg-transparent flex-1 max-w-sm rounded-lg lg:rounded-none p-4 lg:p-0">
-            <Collapsible className="group" defaultOpen={defaultOpen} open={open}>
+            <Collapsible
+                className="group"
+                defaultOpen={defaultOpen}
+                open={open}
+            >
                 <CollapsibleTrigger asChild>
                     <div className="flex items-center justify-between group-data-[state=open]:mb-4">
                         <h2 className="lg:text-lg font-semibold">
