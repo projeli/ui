@@ -10,6 +10,7 @@ import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { wikiPageApi } from "@/lib/api/wiki/wiki-pages-api";
 import { getWikiMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
+import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
 export default async function Page({
@@ -24,6 +25,9 @@ export default async function Page({
         wikiApi.getByProjectSlug(slug),
         wikiPageApi.getByProjectSlugAndSlug(slug, wikiSlug),
     ]);
+
+    if (!wiki) return notFound();
+    if (!page) return notFound();
 
     const wikiMember = getWikiMember(userId, wiki);
 

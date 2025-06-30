@@ -23,8 +23,8 @@ const getProject = cache(async (slug: string) => {
     return await projectApi.getBySlug(slug);
 });
 
-const getWiki = cache(async (projectId: string) => {
-    return await wikiApi.getByProjectId(projectId);
+const getWiki = cache(async (projectSlug: string) => {
+    return await wikiApi.getByProjectSlug(projectSlug);
 });
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -56,10 +56,7 @@ export default async function Page({ params }: Props) {
     const { slug } = await params;
     const { userId } = await auth();
 
-    const project = await getProject(slug);
-    if (!project) return notFound();
-
-    const wiki = await getWiki(project.id);
+    const wiki = await getWiki(slug);
     if (!wiki) return notFound();
 
     const wikiMember = getWikiMember(userId, wiki);
