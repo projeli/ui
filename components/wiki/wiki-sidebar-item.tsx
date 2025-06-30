@@ -15,7 +15,7 @@ export function isActiveWikiSidebarItem(
     slug: string
 ): boolean {
     const splitPath = pathname.split("/");
-    if (splitPath.length < 5) return false;
+    if (splitPath.length < 5) return !slug;
     const currentSlug = splitPath[4];
     return currentSlug === slug;
 }

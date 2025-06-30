@@ -1,4 +1,3 @@
-import { Project } from "@/lib/types/project-types";
 import {
     Wiki,
     WikiMember,
@@ -9,15 +8,15 @@ import NotPublishedBanner from "../banner/not-published-banner";
 import WikiPublishDialog from "./wiki-publish-dialog";
 
 type WikiInfoBannerProps = {
-    project: Project;
     wiki: Wiki;
     wikiMember: WikiMember | undefined;
+    className?: string;
 };
 
 const WikiInfoBanner = ({
     wiki,
-    project,
     wikiMember,
+    className,
 }: WikiInfoBannerProps) => {
     if (!wiki || !wikiMember) return null;
 
@@ -33,9 +32,10 @@ const WikiInfoBanner = ({
                 title="This wiki is not published and can only be viewed by its members."
                 button={
                     hasPublishPermission ? (
-                        <WikiPublishDialog wiki={wiki} project={project} />
+                        <WikiPublishDialog wiki={wiki} />
                     ) : null
                 }
+                className={className}
             />
         );
     }
@@ -47,9 +47,10 @@ const WikiInfoBanner = ({
                 title="This wiki has been archived and is no longer visible to users."
                 button={
                     hasPublishPermission ? (
-                        <WikiPublishDialog wiki={wiki} project={project} />
+                        <WikiPublishDialog wiki={wiki} />
                     ) : null
                 }
+                className={className}
             />
         );
     }

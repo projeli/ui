@@ -20,10 +20,9 @@ import {
 
 type WikiPublishDialogProps = {
     wiki: Wiki;
-    project: Project;
 };
 
-const WikiPublishDialog = ({ wiki, project }: WikiPublishDialogProps) => {
+const WikiPublishDialog = ({ wiki }: WikiPublishDialogProps) => {
     const [formState, formAction, isLoading] = useActionState(
         updateWikiStatusAction,
         {}
@@ -52,7 +51,7 @@ const WikiPublishDialog = ({ wiki, project }: WikiPublishDialogProps) => {
                     <DialogTitle>Publish Wiki</DialogTitle>
                     <DialogDescription>
                         Are you sure you want to publish the wiki for the{" "}
-                        {project.name} project?
+                        {wiki.projectName} project?
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>

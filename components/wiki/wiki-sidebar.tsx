@@ -11,9 +11,10 @@ import WikiSidebarListItem from "./wiki-sidebar-list-item";
 type WikiSidebarProps = {
     wiki: Wiki;
     defaultOpen: boolean;
+    open?: boolean;
 };
 
-const WikiSidebar = async ({ wiki, defaultOpen }: WikiSidebarProps) => {
+const WikiSidebar = async ({ wiki, defaultOpen, open }: WikiSidebarProps) => {
     if (!wiki.config?.sidebar?.items) {
         wiki.config.sidebar.items = [];
     }
@@ -29,7 +30,7 @@ const WikiSidebar = async ({ wiki, defaultOpen }: WikiSidebarProps) => {
 
     return (
         <div className="bg-muted lg:bg-transparent flex-1 max-w-sm rounded-lg lg:rounded-none p-4 lg:p-0">
-            <Collapsible className="group" defaultOpen={defaultOpen}>
+            <Collapsible className="group" defaultOpen={defaultOpen} open={open}>
                 <CollapsibleTrigger asChild>
                     <div className="flex items-center justify-between group-data-[state=open]:mb-4">
                         <h2 className="lg:text-lg font-semibold">

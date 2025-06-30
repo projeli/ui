@@ -1,29 +1,16 @@
 import "@/app/markdown.css";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
-import Anchor from "@/components/navigation/anchor";
 import { Breadcrumbs, withWiki } from "@/components/navigation/breadcrumbs";
 import AvatarGroup from "@/components/ui/avatar-group";
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import WikiPageInfoBanner from "@/components/wiki/wiki-page-info-banner";
 import WikiSidebar from "@/components/wiki/wiki-sidebar";
+import { TableOfContents } from "@/components/wiki/wiki-table-of-contents";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
 import { wikiPageApi } from "@/lib/api/wiki/wiki-pages-api";
-import {
-    Wiki,
-    WikiMember,
-    WikiMemberPermissions,
-    WikiPage,
-} from "@/lib/types/wiki-types";
-import { getWikiMember, hasWikiPermission } from "@/lib/utils";
+import { getWikiMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { ChevronRight, Edit } from "lucide-react";
 import { Suspense } from "react";
-import { TOC } from "react-markdown-toc/server";
 
 export default async function Page({
     params,
@@ -63,7 +50,11 @@ export default async function Page({
                             <WikiSidebar wiki={wiki} defaultOpen={false} />
                         </div>
                         <div className="hidden lg:block">
-                            <WikiSidebar wiki={wiki} defaultOpen={true} />
+                            <WikiSidebar
+                                wiki={wiki}
+                                defaultOpen={true}
+                                open={true}
+                            />
                         </div>
                     </div>
                 </div>
@@ -114,6 +105,7 @@ export default async function Page({
                             page={page}
                             wiki={wiki}
                             defaultOpen={true}
+                            open={true}
                         />
                     </div>
                 </div>
@@ -121,60 +113,3 @@ export default async function Page({
         </PageContainer>
     );
 }
-
-type TableOfContentsProps = {
-    wikiMember?: WikiMember;
-    page: WikiPage;
-    wiki: Wiki;
-    defaultOpen: boolean;
-};
-
-const TableOfContents = ({
-    wikiMember,
-    page,
-    wiki,
-    defaultOpen,
-}: TableOfContentsProps) => {
-    return (
-        <div className="flex flex-col md:flex-row-reverse xl:flex-col justify-between gap-2 xl:gap-6 xl:ml-8">
-            <div className="flex xl:justify-end h-9">
-                {wikiMember &&
-                    hasWikiPermission(
-                        wikiMember,
-                        WikiMemberPermissions.EditWikiPages
-                    ) && (
-                        <Anchor
-                            href={`/dashboard/projects/${wiki.projectSlug}/wiki/pages/${page.slug}/description`}
-                            variant="outline"
-                            size="sm"
-                        >
-                            <Edit />
-                            Edit Page
-                        </Anchor>
-                    )}
-            </div>
-            <div className="markdown-toc bg-muted xl:bg-transparent flex-1 max-w-sm rounded-lg xl:rounded-none p-4 xl:p-0">
-                <Collapsible className="group" defaultOpen={defaultOpen}>
-                    <CollapsibleTrigger asChild>
-                        <div className="flex items-center justify-between group-data-[state=open]:mb-4">
-                            <h2 className="xl:text-lg font-semibold">
-                                On This Page
-                            </h2>
-                            <ChevronRight className="block xl:hidden group-data-[state=open]:rotate-90" />
-                        </div>
-                    </CollapsibleTrigger>
-                    <CollapsibleContent>
-                        <div className="overflow-y-auto overflow-x-hidden max-h-48 xl:max-h-[calc(100vh-13.5rem)]">
-                            <TOC
-                                markdown={page.content || ""}
-                                throttleTime={100}
-                                a="block break-words !py-[1px] border-l-2 border-border data-[active=true]:text-primary data-[active=true]:border-primary hover:text-secondary hover:border-l-2 hover:border-secondary"
-                                scrollAlign="start"
-                            />
-                        </div>
-                    </CollapsibleContent>
-                </Collapsible>
-            </div>
-        </div>
-    );
-};

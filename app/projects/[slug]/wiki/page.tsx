@@ -1,19 +1,16 @@
 import "@/app/markdown.css";
-import DashboardGrid from "@/components/dashboard/dashboard-grid";
 import PageContainer from "@/components/layout/page-container";
 import Markdown from "@/components/markdown/markdown";
 import { Breadcrumbs, withProject } from "@/components/navigation/breadcrumbs";
-import ProjectHeader from "@/components/project/project-header";
-import ProjectLinks from "@/components/project/project-links";
-import WikiDetails from "@/components/wiki/wiki-details";
+import ProjectImage from "@/components/project/project-image";
+import AvatarGroup from "@/components/ui/avatar-group";
 import WikiInfoBanner from "@/components/wiki/wiki-info-banner";
-import WikiMembers from "@/components/wiki/wiki-members";
 import WikiSidebar from "@/components/wiki/wiki-sidebar";
+import { TableOfContents } from "@/components/wiki/wiki-table-of-contents";
 import { projectApi } from "@/lib/api/project/project-api";
 import { wikiApi } from "@/lib/api/wiki/wiki-api";
-import { getProjectMember, getWikiMember } from "@/lib/utils";
+import { getWikiMember } from "@/lib/utils";
 import { auth } from "@clerk/nextjs/server";
-import { Cog } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { cache, Suspense } from "react";
@@ -65,48 +62,98 @@ export default async function Page({ params }: Props) {
     const wiki = await getWiki(project.id);
     if (!wiki) return notFound();
 
-    const projectMember = getProjectMember(userId, project);
     const wikiMember = getWikiMember(userId, wiki);
 
+    const updatedAt = new Date(wiki.updatedAt);
+    const publishedAt = new Date(wiki.publishedAt);
+
+    const shownDate = (() => {
+        const isValidDate = (date: Date) =>
+            !isNaN(date.getTime()) && date.getTime() !== 0;
+
+        if (!isValidDate(updatedAt) && !isValidDate(publishedAt)) {
+            return null;
+        }
+
+        return updatedAt > publishedAt ? updatedAt : publishedAt;
+    })();
+
     return (
-        <PageContainer>
-            <div className="grid mt-8 gap-6">
-                <Breadcrumbs
-                    links={withProject(project, [{ label: "Wiki" }])}
-                />
-                <WikiInfoBanner
-                    wiki={wiki}
-                    project={project}
-                    wikiMember={wikiMember}
-                />
-                <ProjectHeader
-                    project={project}
-                    projectMember={projectMember}
-                    button={{
-                        href: `/dashboard/projects/${project.slug}/wiki`,
-                        icon: <Cog />,
-                        label: "Open Dashboard",
-                    }}
-                    simple
-                />
-                <DashboardGrid reverse>
-                    <div>
-                        <Markdown content={wiki.content} />
+        <PageContainer size="extra-large">
+            <div className="grid lg:grid-cols-[18rem,1fr] xl:grid-cols-[18rem,1fr,18rem] mt-8 gap-y-6">
+                <div className="relative">
+                    <div className="sticky top-28">
+                        <div className="block lg:hidden">
+                            <WikiSidebar wiki={wiki} defaultOpen={false} />
+                        </div>
+                        <div className="hidden lg:block">
+                            <WikiSidebar wiki={wiki} defaultOpen={true} open={true} />
+                        </div>
                     </div>
-                    <div className="flex flex-col gap-6">
-                        <WikiSidebar wiki={wiki} />
-                        {project.links.length > 0 && (
-                            <ProjectLinks links={project.links} />
-                        )}
-                        <Suspense fallback={<div>Loading authors...</div>}>
-                            <WikiMembers
-                                wiki={wiki}
-                                memberIds={project.members.map((m) => m.userId)}
+                </div>
+                <div className="flex flex-col">
+                    <WikiInfoBanner
+                        wiki={wiki}
+                        wikiMember={wikiMember}
+                        className="mb-6"
+                    />
+                    <div className="mb-6">
+                        <Breadcrumbs
+                            links={withProject(
+                                { name: wiki.projectName, slug },
+                                [{ label: "Wiki" }]
+                            )}
+                        />
+                    </div>
+                    <div className="mb-6 flex gap-4">
+                        <div>
+                            <ProjectImage
+                                project={{
+                                    name: wiki.projectName,
+                                    slug: wiki.projectSlug,
+                                    imageUrl: wiki.projectImageUrl,
+                                }}
+                                size="md"
                             />
-                        </Suspense>
-                        <WikiDetails wiki={wiki} />
+                        </div>
+                        <div className="flex flex-col flex-1">
+                            <p className="text-4xl font-bold">
+                                {wiki.projectName}
+                            </p>
+                            <div className="text-sm text-muted-foreground flex justify-between items-center">
+                                <div>{shownDate?.toLocaleDateString()}</div>
+                                <div>
+                                    <Suspense>
+                                        <AvatarGroup
+                                            users={wiki.members}
+                                            title="Editors"
+                                        />
+                                    </Suspense>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </DashboardGrid>
+                    <div className="mb-6 xl:hidden">
+                        <TableOfContents
+                            wikiMember={wikiMember}
+                            wiki={wiki}
+                            defaultOpen={false}
+                        />
+                    </div>
+                    <div>
+                        <Markdown content={wiki.content || ""} />
+                    </div>
+                </div>
+                <div className="relative hidden xl:block">
+                    <div className="sticky top-28">
+                        <TableOfContents
+                            wikiMember={wikiMember}
+                            wiki={wiki}
+                            defaultOpen={true}
+                            open={true}
+                        />
+                    </div>
+                </div>
             </div>
         </PageContainer>
     );
