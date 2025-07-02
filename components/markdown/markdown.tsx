@@ -48,7 +48,6 @@ const Markdown = async ({ content }: { content: string }) => {
                                 alt={alt || ""}
                                 width={dimensions.width}
                                 height={dimensions.height}
-                                unoptimized
                             />
                         );
                     },
