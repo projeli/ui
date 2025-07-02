@@ -11,6 +11,7 @@ import ProjectImage from "@/components/project/project-image";
 import ProjectImageForm from "@/components/project/project-image-form";
 import ProjectInfoBanner from "@/components/project/project-info-banner";
 import ProjectUpdateDetailsForm from "@/components/project/project-update-details-form";
+import ProjectUpdateLinksForm from "@/components/project/project-update-links-form";
 import ProjectUpdateTagsForm from "@/components/project/project-update-tags-form";
 import { Card } from "@/components/ui/card";
 import { projectApi } from "@/lib/api/project/project-api";
@@ -48,6 +49,10 @@ export default async function Page({
         projectMember,
         ProjectMemberPermissions.ManageTags
     );
+    const hasManageLinksPermission = hasProjectPermission(
+        projectMember,
+        ProjectMemberPermissions.ManageLinks
+    );
     const hasArchiveProjectPermissions = hasProjectPermission(
         projectMember,
         ProjectMemberPermissions.ArchiveProject
@@ -60,6 +65,7 @@ export default async function Page({
     if (
         !hasEditDetailsPermission &&
         !hasManageTagsPermission &&
+        !hasManageLinksPermission &&
         !hasArchiveProjectPermissions &&
         !hasDeleteProjectPermission
     ) {
@@ -99,6 +105,9 @@ export default async function Page({
                             </p>
                             <ProjectUpdateDetailsForm project={project} />
                         </Card>
+                    )}
+                    {hasManageLinksPermission && (
+                        <ProjectUpdateLinksForm project={project} />
                     )}
                     {hasManageTagsPermission && (
                         <ProjectUpdateTagsForm project={project} />

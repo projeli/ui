@@ -1,5 +1,5 @@
 import { ApiResponse, PagedApiResponse } from "@/lib/types/api-response-types";
-import { Project, ProjectMember } from "@/lib/types/project-types";
+import { Project, ProjectLink, ProjectMember } from "@/lib/types/project-types";
 import { BaseApi } from "../base-api";
 
 export class ProjectApi extends BaseApi {
@@ -116,6 +116,18 @@ export class ProjectApi extends BaseApi {
         return this.fetchService(`/v1/projects/${id}/tags`, {
             method: "PUT",
             body: JSON.stringify({ tags }),
+        })
+            .then((res) => res.json())
+            .catch((error) => error.json());
+    }
+
+    async updateLinks(
+        id: string,
+        links: ProjectLink[]
+    ): Promise<ApiResponse<Project>> {
+        return this.fetchService(`/v1/projects/${id}/links`, {
+            method: "PUT",
+            body: JSON.stringify({ links }),
         })
             .then((res) => res.json())
             .catch((error) => error.json());

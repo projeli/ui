@@ -62,7 +62,7 @@ const ProjectUpdateTagsForm = ({ project }: ProjectTagsFormProps) => {
                             loading={isLoading}
                             icon={<Save />}
                         >
-                            Save Changes
+                            Save Tags
                         </Button>
                     </div>
                 </Card>

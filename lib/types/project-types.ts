@@ -29,7 +29,8 @@ export type ProjectLink = {
     projectId: string;
     name: string;
     url: string;
-    type: string;
+    type: ProjectLinkType;
+    order: number;
 };
 
 export type ProjectCategory = (typeof projectCategories)[number];

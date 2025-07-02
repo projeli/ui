@@ -1,7 +1,7 @@
 import { ProjectLink } from "@/lib/types/project-types";
-import { SquareArrowOutUpRight } from "lucide-react";
 import Anchor from "../navigation/anchor";
 import { Card } from "../ui/card";
+import ProjectLinkIcon from "./project-link-icon";
 
 const ProjectLinks = ({ links }: { links: ProjectLink[] }) => {
     return (
@@ -17,7 +17,7 @@ const ProjectLinks = ({ links }: { links: ProjectLink[] }) => {
                         variant="ghost"
                         className="flex gap-2 justify-start"
                     >
-                        <SquareArrowOutUpRight />
+                        <ProjectLinkIcon type={link.type} />
                         <p className="text-base font-semibold">{link.name}</p>
                     </Anchor>
                 ))}

@@ -53,6 +53,10 @@ const Navigation = ({
         projectMember,
         ProjectMemberPermissions.ManageTags
     );
+    const hasManageLinksPermission = hasProjectPermission(
+        projectMember,
+        ProjectMemberPermissions.ManageLinks
+    );
     const hasArchiveProjectPermissions = hasProjectPermission(
         projectMember,
         ProjectMemberPermissions.ArchiveProject
@@ -81,7 +85,8 @@ const Navigation = ({
                 {(hasEditDetailsPermission ||
                     hasManageTagsPermission ||
                     hasArchiveProjectPermissions ||
-                    hasDeleteProjectPermission) && (
+                    hasDeleteProjectPermission ||
+                    hasManageLinksPermission) && (
                     <Anchor
                         href={`/dashboard/projects/${project.slug}/details`}
                         className="justify-start"
