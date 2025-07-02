@@ -15,12 +15,12 @@ export const updateProjectLinksAction: ServerAction = async (
 
     const response = await projectApi.updateLinks(
         formData.get("id") as string,
-        links.map((link) => ({
+        links.map((link, index) => ({
             id: link.id ? link.id : undefined,
             name: link.name,
             url: link.url,
             type: link.type,
-            order: link.order,
+            order: index,
         } as any))
     );
 

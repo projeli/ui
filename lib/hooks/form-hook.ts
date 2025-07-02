@@ -22,6 +22,9 @@ export default function useFormActionState(
         startTransition(() => {
             const formData = new FormData();
             for (const key in values) {
+                if (Array.isArray(values[key])) {
+                    formData.append(key, JSON.stringify(values[key]));
+                }
                 formData.append(key, values[key]);
             }
             formAction(formData);
