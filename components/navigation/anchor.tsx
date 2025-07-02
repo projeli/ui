@@ -4,11 +4,12 @@ import { Button, ButtonProps } from "../ui/button";
 
 type AnchorProps = ButtonProps & {
     href: string;
+    target?: string;
 };
 
 const Anchor = React.forwardRef<HTMLButtonElement, AnchorProps>(
     (
-        { children, className, variant, size, asChild = false, href, ...props },
+        { children, className, variant, size, asChild = false, href, target, ...props },
         ref
     ) => {
         return (
@@ -20,7 +21,7 @@ const Anchor = React.forwardRef<HTMLButtonElement, AnchorProps>(
                 ref={ref}
                 {...props}
             >
-                <Link href={href}>{children}</Link>
+                <Link href={href} target={target}>{children}</Link>
             </Button>
         );
     }

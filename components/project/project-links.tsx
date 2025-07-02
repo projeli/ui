@@ -15,6 +15,7 @@ const ProjectLinks = ({ links }: { links: ProjectLink[] }) => {
                         key={link.id}
                         href={link.url}
                         variant="ghost"
+                        target="_blank"
                         className="flex gap-2 justify-start"
                     >
                         <ProjectLinkIcon type={link.type} />

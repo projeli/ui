@@ -1,7 +1,7 @@
 "use client";
 
 import { projectCategories } from "@/lib/types/project-types";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -32,7 +32,7 @@ const ProjectCategories = ({
         setIsOpen(!isOpen);
     };
 
-    const variants = {
+    const variants: Variants = {
         open: {
             opacity: 1,
             height: "auto",
