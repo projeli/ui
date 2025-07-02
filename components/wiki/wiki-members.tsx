@@ -48,7 +48,7 @@ export default async function WikiMembers({
                                     {wiki.members.find(
                                         (m) => m.userId === member.userId
                                     )?.isOwner && (
-                                        <Crown className="!size-3 text-orange-400" />
+                                        <Crown className="size-3! text-orange-400" />
                                     )}
                                 </span>
                             </h3>

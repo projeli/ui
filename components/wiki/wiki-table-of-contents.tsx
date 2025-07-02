@@ -86,7 +86,7 @@ export const TableOfContents = ({
                                         : wiki.content || ""
                                 }
                                 throttleTime={100}
-                                a="block break-words !py-[1px] border-l-2 border-border data-[active=true]:text-primary data-[active=true]:border-primary hover:text-secondary hover:border-l-2 hover:border-secondary"
+                                a="block break-words py-px! border-l-2 border-border data-[active=true]:text-primary data-[active=true]:border-primary hover:text-secondary hover:border-l-2 hover:border-secondary"
                                 scrollAlign="start"
                             />
                         </div>

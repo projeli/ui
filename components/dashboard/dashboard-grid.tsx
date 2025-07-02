@@ -15,8 +15,8 @@ const DashboardGrid = ({
         className={cn(
             "grid grid-cols-1  gap-6",
             reverse
-                ? "lg:grid-cols-[minmax(0,1fr),18rem]"
-                : "lg:grid-cols-[18rem,minmax(0,1fr)]",
+                ? "lg:grid-cols-[minmax(0,1fr)_18rem]"
+                : "lg:grid-cols-[18rem_minmax(0,1fr)]",
             className
         )}
     >

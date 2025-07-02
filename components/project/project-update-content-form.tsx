@@ -53,7 +53,7 @@ const ProjectUpdateDescriptionForm = ({ project }: ProjectContentFormProps) => {
         <div className="grid gap-4 h-full">
             <form
                 action={formAction}
-                className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
+                className="grid grid-rows-[minmax(0,1fr)_max-content] gap-4"
             >
                 <input type="hidden" name="id" value={project.id} />
                 <div className="border border-border rounded-lg overflow-hidden">

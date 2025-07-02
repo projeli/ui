@@ -122,7 +122,7 @@ export default async function Page({ params }: Props) {
                         </Anchor>
                     )}
                 </div>
-                <div className="grid lg:grid-cols-[1fr,18rem] gap-6">
+                <div className="grid lg:grid-cols-[1fr_18rem] gap-6">
                     <Markdown content={project.content} />
                     <div className="flex flex-col gap-6">
                         {project.links.length > 0 && (

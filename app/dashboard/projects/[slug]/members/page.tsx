@@ -58,7 +58,7 @@ export default async function Page({
                         projectMember={projectMember}
                     />
                 </div>
-                <div className="grid grid-rows-[max-content,1fr] gap-4">
+                <div className="grid grid-rows-[max-content_1fr] gap-4">
                     <ProjectInfoBanner
                         project={project}
                         projectMember={projectMember}

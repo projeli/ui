@@ -124,7 +124,7 @@ export async function Navbar() {
                                                             <Button
                                                                 key={j}
                                                                 variant="ghost"
-                                                                className="w-full justify-start border-l-[1px] border-l-accent pl-4 ml-4 !rounded-l-none"
+                                                                className="w-full justify-start border-l border-l-accent pl-4 ml-4 rounded-l-none!"
                                                                 asChild
                                                             >
                                                                 <Link
@@ -212,7 +212,7 @@ const ListItem = React.forwardRef<
                     href={href}
                     prefetch={href.startsWith("/")}
                     className={cn(
-                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                         className
                     )}
                     {...props}

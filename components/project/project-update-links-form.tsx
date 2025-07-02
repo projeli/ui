@@ -161,17 +161,14 @@ export default function ProjectUpdateLinksForm({ project }: Props) {
                             </div>
                         )}
 
-                        <div className="grid grid-cols-1 @md:grid-cols-2 @lg:grid-cols-3 gap-4">
+                        <div className="grid grid-cols-1 @xl:grid-cols-2 @3xl:grid-cols-3 gap-4">
                             <DndContext onDragEnd={handleDragEnd}>
                                 <SortableContext
                                     items={fields.map((f) => f.id)}
                                     strategy={rectSortingStrategy}
                                 >
                                     {fields.map((field, idx) => (
-                                        <div
-                                            key={field.id}
-                                            className="min-w-64 flex-1"
-                                        >
+                                        <div key={field.id}>
                                             <SortableItem id={field.id}>
                                                 {(listeners) => (
                                                     <Card className="p-4 flex flex-col gap-4">
@@ -325,10 +322,11 @@ export default function ProjectUpdateLinksForm({ project }: Props) {
                                     ))}
 
                                     {/* Add Link Button */}
-                                    <Card className="p-4 flex items-center justify-center min-w-64 flex-1">
-                                        <button
+                                    <Card>
+                                        <Button
+                                            variant="ghost"
                                             type="button"
-                                            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                                            className="p-4 w-full h-full cursor-pointer"
                                             onClick={() => {
                                                 if (fields.length >= 10) {
                                                     toast({
@@ -351,7 +349,7 @@ export default function ProjectUpdateLinksForm({ project }: Props) {
                                         >
                                             <LinkIcon className="size-4" /> Add
                                             Link
-                                        </button>
+                                        </Button>
                                     </Card>
                                 </SortableContext>
                             </DndContext>

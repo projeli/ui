@@ -34,7 +34,7 @@ const ProjectHeader = ({
                     className
                 )}
             >
-                <div className="grid grid-cols-[64px,minmax(0,1fr)] grid-rows-[max-content,max-content,1fr] gap-x-2 sm:gap-x-4">
+                <div className="grid grid-cols-[64px_minmax(0,1fr)] grid-rows-[max-content_max-content_1fr] gap-x-2 sm:gap-x-4">
                     <div className="row-span-1 sm:row-span-2">
                         <ProjectImage project={project} size="md" href={href} />
                     </div>
@@ -68,7 +68,7 @@ const ProjectHeader = ({
                 className
             )}
         >
-            <div className="grid grid-cols-[96px,minmax(0,1fr)] grid-rows-[max-content,max-content,1fr] gap-x-2 sm:gap-x-6">
+            <div className="grid grid-cols-[96px_minmax(0,1fr)] grid-rows-[max-content_max-content_1fr] gap-x-2 sm:gap-x-6">
                 <div className="row-span-1 sm:row-span-3">
                     <ProjectImage project={project} href={href} />
                 </div>

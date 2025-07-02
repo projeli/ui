@@ -52,7 +52,7 @@ const WikiPagesTableActions = ({
                         <DropdownMenuItem asChild>
                             <Link
                                 href={`/dashboard/projects/${projectSlug}/wiki/pages/${page.slug}`}
-                                className="text-destructive hover:!text-destructive"
+                                className="text-destructive hover:text-destructive!"
                             >
                                 <Trash />
                                 Delete Page

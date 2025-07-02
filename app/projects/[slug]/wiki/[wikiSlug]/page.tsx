@@ -51,7 +51,7 @@ export default async function Page({
 
     return (
         <PageContainer size="extra-large">
-            <div className="grid lg:grid-cols-[18rem,1fr] xl:grid-cols-[18rem,1fr,18rem] mt-8 gap-y-6">
+            <div className="grid lg:grid-cols-[18rem_1fr] xl:grid-cols-[18rem_1fr_18rem] mt-8 gap-y-6">
                 <div className="relative">
                     <div className="sticky top-28">
                         <div className="block lg:hidden">

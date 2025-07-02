@@ -64,7 +64,7 @@ export const InputBase = React.forwardRef<
                 className={cn(
                     "flex min-h-10 cursor-text items-center gap-2 rounded-md border border-input bg-transparent px-3 py-2 text-sm ring-offset-background",
                     disabled && "cursor-not-allowed opacity-50",
-                    focused && "outline-none ring-2 ring-ring ring-offset-2",
+                    focused && "outline-hidden ring-2 ring-ring ring-offset-2",
                     className
                 )}
                 {...props}
@@ -177,7 +177,7 @@ export const InputBaseInput = React.forwardRef<
     <Primitive.input
         ref={ref}
         className={cn(
-            "w-full flex-1 bg-transparent file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus:outline-none disabled:pointer-events-none",
+            "w-full flex-1 bg-transparent file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus:outline-hidden disabled:pointer-events-none",
             className
         )}
         {...props}

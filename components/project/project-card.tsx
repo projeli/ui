@@ -16,7 +16,7 @@ const ProjectCard = ({ project, layout, href }: ProjectCardProps) => {
         return (
             <Card className="flex flex-col overflow-hidden justify-between">
                 <div className="p-6 flex flex-col gap-2">
-                    <div className="grid grid-cols-[96px,minmax(0,1fr)] gap-2">
+                    <div className="grid grid-cols-[96px_minmax(0,1fr)] gap-2">
                         <ProjectImage project={project} href={href} />
                         <Link href={`${href}/${project.slug}`}>
                             <h3 className="text-xl font-semibold hover:underline break-words">
@@ -44,7 +44,7 @@ const ProjectCard = ({ project, layout, href }: ProjectCardProps) => {
         // Mini layout
         return (
             <Card className="flex flex-col overflow-hidden">
-                <div className="grid grid-cols-[64px,minmax(0,1fr)] gap-4 p-4">
+                <div className="grid grid-cols-[64px_minmax(0,1fr)] gap-4 p-4">
                     <ProjectImage project={project} href={href} size="md" />
                     <div>
                         <Link href={`${href}/${project.slug}`}>

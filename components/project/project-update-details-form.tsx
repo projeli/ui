@@ -66,7 +66,7 @@ const ProjectUpdateDetailsForm = ({
             submitButton={{
                 icon: <Save />,
                 label: "Save Details",
-                className: "!mt-6",
+                className: "mt-6!",
             }}
         />
     );

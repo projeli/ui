@@ -58,7 +58,7 @@ const WikiUpdatePageContentForm = ({
     return (
         <form
             action={formAction}
-            className="grid grid-rows-[minmax(0,1fr),max-content] gap-4"
+            className="grid grid-rows-[minmax(0,1fr)_max-content] gap-4"
         >
             <input type="hidden" name="pageSlug" value={pageSlug} />
             <input type="hidden" name="wikiId" value={wikiId} />

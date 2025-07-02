@@ -23,7 +23,7 @@ const HorizontalNavbar = ({ links }: HorizontalNavbarProps) => {
                         key={link.label}
                         href={link.href}
                         className="justify-center"
-                        variant={pathname === link.href ? "default" : "outline"}
+                        variant={pathname === link.href ? "default" : "outline-solid"}
                     >
                         {link.icon}
                         {link.label}

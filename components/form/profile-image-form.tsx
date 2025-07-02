@@ -31,7 +31,7 @@ const ProfileImageForm = ({
 
     return (
         <>
-            <div className="grid lg:grid-cols-[96px,1fr,max-content] items-center gap-4">
+            <div className="grid lg:grid-cols-[96px_1fr_max-content] items-center gap-4">
                 <div>{imageComponent}</div>
                 <div className="flex flex-col h-full justify-between">
                     <div>

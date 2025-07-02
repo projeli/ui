@@ -90,7 +90,7 @@ const Pagination = ({
                 </Button>
             )}
             {showPageNumbers && (
-                <div className="flex justify-center items-center sm:gap-1 flex-grow">
+                <div className="flex justify-center items-center sm:gap-1 grow">
                     <Button
                         onClick={() => handlePageClick(1)}
                         variant={currentPage === 1 ? "default" : "ghost"}

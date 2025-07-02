@@ -24,8 +24,8 @@ const LabeledTagsInput = ({
             className={cn(
                 "grid w-full gap-1.5",
                 errors && name && errors[name]
-                    ? "grid-rows-[min-content,1fr,auto]"
-                    : "grid-rows-[min-content,1fr]",
+                    ? "grid-rows-[min-content_1fr_auto]"
+                    : "grid-rows-[min-content_1fr]",
                 className
             )}
         >

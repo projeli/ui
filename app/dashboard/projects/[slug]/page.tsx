@@ -55,7 +55,7 @@ export default async function Page({
                             projectMember={projectMember}
                         />
                         <DashboardGrid
-                            className="grid-rows-[max-content,max-content,1fr] gap-4"
+                            className="grid-rows-[max-content_max-content_1fr] gap-4"
                             reverse
                         >
                             <Card className="p-6 h-max col-span-2">
